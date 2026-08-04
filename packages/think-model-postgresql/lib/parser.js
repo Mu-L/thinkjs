@@ -10,9 +10,14 @@ module.exports = class PostgreSQLParser extends Parser {
    * @param {String} key
    */
   parseKey(key) {
-    if (!/^\w+$/.test(key)) return key;
+    if (!/^[A-Za-z0-9_$]+$/.test(key)) return key;
     const keyUpperCase = key.toUpperCase();
-    if (keywords.indexOf(keyUpperCase) > -1) return `"${key}"`;
+    if (
+      !/^[A-Za-z_]/.test(key) ||
+      keywords.indexOf(keyUpperCase) > -1
+    ) {
+      return `"${key}"`;
+    }
     return key;
   }
   /**

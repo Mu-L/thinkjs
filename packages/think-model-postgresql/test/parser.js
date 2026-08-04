@@ -2,12 +2,16 @@ const { test } = require('ava');
 const Parser = require('../lib/parser');
 
 test('parserKey', t => {
-  t.plan(3);
+  t.plan(7);
 
   const parser = new Parser();
   t.is(parser.parseKey('aa bb'), 'aa bb');
   t.is(parser.parseKey('lizheming'), 'lizheming');
+  t.is(parser.parseKey('userName'), 'userName');
   t.is(parser.parseKey('where'), '"where"');
+  t.is(parser.parseKey('2fa'), '"2fa"');
+  t.is(parser.parseKey('2fa_secret'), '"2fa_secret"');
+  t.is(parser.parseKey('count(*)'), 'count(*)');
 });
 
 test('parseGroup', t => {
