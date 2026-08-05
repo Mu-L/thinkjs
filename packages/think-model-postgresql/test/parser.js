@@ -62,6 +62,12 @@ test('parseValue', t => {
   const data = [
     ['lizheming', "E'lizheming'"],
     ["I'm my wife's rock.", "E'I\\\'m my wife\\\'s rock.'"],
+    ['test $\\frac{1}{2}$', "E'test $\\\\frac{1}{2}$'"],
+    [
+      '\\b\\f\\n\\r\\t\\123\\x41\\u0041\\U00000041',
+      "E'\\\\b\\\\f\\\\n\\\\r\\\\t\\\\123\\\\x41\\\\u0041\\\\U00000041'"
+    ],
+    ["\\'", "E'\\\\\\\''"],
     [3, 3],
     [{ a: 1 }, { a: 1 }],
     [null, 'null'],
