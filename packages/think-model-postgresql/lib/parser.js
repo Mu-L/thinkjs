@@ -129,6 +129,6 @@ module.exports = class PostgreSQLParser extends Parser {
    * @param {String} str
    */
   escapeString(str) {
-    return str.replace(/'/g, "\\'");
+    return str.replace(/['\\]/g, char => `\\${char}`);
   }
 };
