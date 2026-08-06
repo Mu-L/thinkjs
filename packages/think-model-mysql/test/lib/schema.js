@@ -1,4 +1,4 @@
-const test = require('../../../../test/ava.cjs');
+const {default: test} = require('ava');
 const Query = require('../../lib/query');
 const Parser = require('../../lib/parser');
 const Schema = require('../../lib/schema');
@@ -65,7 +65,7 @@ test('parser is getter', t => {
   instance.query = new Query();
   instance.parser = new Parser();
   const parser = instance.parser;
-  t.true(parser instanceof Parser, true);
+  t.true(parser instanceof Parser);
 });
 
 test('parser is getter 2', t => {
@@ -74,8 +74,8 @@ test('parser is getter 2', t => {
   instance.parser = new Parser();
   const parser = instance.parser;
   const parser2 = instance.parser;
-  t.true(parser instanceof Parser, true);
-  t.true(parser === parser2, true);
+  t.true(parser instanceof Parser);
+  t.true(parser === parser2);
 });
 
 test('query is getter', t => {
@@ -83,7 +83,7 @@ test('query is getter', t => {
   instance.query = new Query();
   instance.parser = new Parser();
   const query = instance.query;
-  t.true(query instanceof Query, true);
+  t.true(query instanceof Query);
 });
 
 test('query is getter 2', t => {
@@ -92,8 +92,8 @@ test('query is getter 2', t => {
   instance.parser = new Parser();
   const query = instance.query;
   const query2 = instance.query;
-  t.true(query instanceof Query, true);
-  t.true(query === query2, true);
+  t.true(query instanceof Query);
+  t.true(query === query2);
 });
 
 test('schema get empty schema', async t => {

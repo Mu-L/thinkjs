@@ -1,5 +1,5 @@
 const fs = require('fs');
-const test = require('../../../test/ava.cjs');
+const {default: test} = require('ava');
 const Logger = require('../src');
 const Adapter = Logger.File;
 

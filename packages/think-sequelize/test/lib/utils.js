@@ -4,7 +4,7 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2017-12-20 10:55:32
 */
-const test = require('../../../../test/ava.cjs');
+const {default: test} = require('ava');
 const helper = require('think-helper');
 const {extendClassMethods} = require('../../lib/util.js');
 

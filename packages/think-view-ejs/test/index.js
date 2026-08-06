@@ -1,4 +1,4 @@
-const test = require('../../../test/ava.cjs');
+const {default: test} = require('ava');
 const ejs = require('ejs');
 
 
@@ -8,11 +8,12 @@ test.beforeEach(t => {
 
 
 function callEjsView(file, viewData, config) {
+  delete require.cache[require.resolve('../index')];
   const thinkViewEjs = require('../index');
   const instance = new thinkViewEjs(file, viewData, config);
   return Promise.resolve(instance.render());
 }
-test('ejs render with beforeRender', (t) => {
+test('ejs render with beforeRender', async t => {
   const filename = '/file/path/../x.ejs';
   const tpl = '<%= name %>';
   const result = 'huangxiaolu';
@@ -33,11 +34,10 @@ test('ejs render with beforeRender', (t) => {
   }
   
   mockRenderFile();
-  callEjsView(filename, viewData, config).then((str) => {
-    t.is(str, result)
-  });
+  const rendered = await callEjsView(filename, viewData, config);
+  t.is(rendered, result);
 });
-test('ejs render without beforeRender', (t) => {
+test('ejs render without beforeRender', async t => {
   const filename = '/file/path/../x.ejs';
   const tpl = '<%= name %>';
   const result = 'huangxiaolu';
@@ -54,11 +54,10 @@ test('ejs render without beforeRender', (t) => {
   }
   
   mockRenderFile();
-  callEjsView(filename, viewData, config).then((str) => {
-    t.is(str, result)
-  });
+  const rendered = await callEjsView(filename, viewData, config);
+  t.is(rendered, result);
 });
-test('ejs render error', (t) => {
+test('ejs render error', async t => {
   const filename = '/file/path/../x.ejs';
   const tpl = '<%= name %>';
   const result = 'huangxiaolu';
@@ -69,18 +68,14 @@ test('ejs render error', (t) => {
   const config = {};
   function mockRenderFile() {
     ejs.renderFile = function(filename, data, config, cb) {
-      const err = errmsg;
+      const err = new Error(errmsg);
       const str = result;
       cb(err, str);
     }
   }
   
   mockRenderFile();
-  callEjsView(filename, viewData, config).then(str => {
-   
-  }).catch(err => {
-    t.is(err, errmsg);
-  });
+  await t.throwsAsync(callEjsView(filename, viewData, config), {message: errmsg});
 });
 test.afterEach.always(t => {
   ejs.renderFile = ejs.___renderFile;

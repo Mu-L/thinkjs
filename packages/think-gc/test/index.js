@@ -4,7 +4,7 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2017-05-07 13:52:49
 */
-const test = require('../../../test/ava.cjs');
+const {default: test} = require('ava');
 const helper = require('think-helper');
 const gc = require('..');
 let relay = 20; // setInterval is not precise
@@ -31,23 +31,18 @@ test.serial.afterEach(t => {
   RESULT = [];
 });
 
-test.cb.serial('interval is function', t => {
+test.serial('interval is function', async t => {
   gc(instance('think-cache-file'), function() {return false}, 1000);
   gc(instance('think-session-file'), function() {return true}, 1000);
-  setTimeout(function() {
-    t.is(caclCount(RESULT, 'think-session-file'), 2);
-    t.end();
-  }, 2 * 1000 + relay);
+  await new Promise(resolve => setTimeout(resolve, 2 * 1000 + relay));
+  t.is(caclCount(RESULT, 'think-session-file'), 2);
 });
 
-test.cb.serial('interval is default',  t => {
+test.serial('interval is default', async t => {
   gc(instance('think-cache-file2'), 2 * 1000, 1000);
   gc(instance('think-cache-file2'));
-  setTimeout(function() {
-    let res1= caclCount(RESULT, 'think-cache-file2') == 2;
-    let res2 = caclCount(RESULT, 'think-session-file') == 4;
-    t.true(res1 && res2);
-    t.end();
-  }, 4 * 1000 + relay);
+  await new Promise(resolve => setTimeout(resolve, 4 * 1000 + relay));
+  let res1= caclCount(RESULT, 'think-cache-file2') == 2;
+  let res2 = caclCount(RESULT, 'think-session-file') == 4;
+  t.true(res1 && res2);
 });
-

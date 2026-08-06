@@ -1,4 +1,4 @@
-const test = require('../../../../test/ava.cjs');
+const {default: test} = require('ava');
 const mock = require('mock-require');
 const mockie = require('../lib/mockie');
 const utils = require('../lib/utils');

@@ -1,4 +1,4 @@
-const test = require('../../../test/ava.cjs');
+const {default: test} = require('ava');
 const http = require('http');
 const helper = require('think-helper');
 const exec = require('child_process').exec;

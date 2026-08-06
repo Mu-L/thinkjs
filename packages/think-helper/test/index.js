@@ -1,4 +1,4 @@
-const test = require('../../../test/ava.cjs');
+const {default: test} = require('ava');
 const {isInt, isFunction, isExist, isFile, isDirectory, extend, promisify, defer, md5, mkdir, rmdir, chmod, uuid, datetime, escapeHtml, isEmpty, isNumberString, camelCase, getdirFiles, isTrueEmpty, isIP, timeout, parseAdapterConfig, ms, snakeCase, isBuffer, omit} = require('../index.js');
 const fs = require('fs');
 const path = require('path');

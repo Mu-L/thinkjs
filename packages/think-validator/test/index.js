@@ -4,7 +4,7 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2018-08-25 20:54:01
 */
-const test = require('../../../test/ava.cjs');
+const {default: test} = require('ava');
 const helper = require('think-helper');
 const Validator = require('../src/index.js');
 const defaultCtx = require('./ctx.js');

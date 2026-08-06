@@ -1,4 +1,4 @@
-const test = require('../../../../../test/ava.cjs');
+const {default: test} = require('ava');
 const fs = require('fs');
 const helper = require('think-helper');
 const config = require('../../../lib/config/config');

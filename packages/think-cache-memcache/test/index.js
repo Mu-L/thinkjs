@@ -4,7 +4,7 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2017-09-13 12:00:00
 */
-const test = require('../../../test/ava.cjs');
+const {default: test} = require('ava');
 const MemcacheCache = require('../index');
 
 test.serial('set key -> get key -> del key', async t => {

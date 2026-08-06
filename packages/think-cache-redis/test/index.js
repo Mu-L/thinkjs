@@ -1,4 +1,4 @@
-const test = require('../../../test/ava.cjs');
+const {default: test} = require('ava');
 const mock = require('mock-require');
 
 mock('think-redis', './mock-think-redis.js');

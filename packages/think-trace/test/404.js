@@ -1,5 +1,5 @@
 const fs = require('fs');
-const test = require('../../../test/ava.cjs');
+const {default: test} = require('ava');
 const Trace = require('../lib');
 
 const filename = `${__dirname}/notfound.html`;
