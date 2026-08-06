@@ -395,3 +395,28 @@ test('getChangedFiles function -- watch file change', async(t) => {
   const tmp = path.resolve(__dirname, 'tmp1');
   rimraf.sync(tmp);
 });
+
+test('watch keeps the polling timer referenced', t => {
+  const Watcher = getWatcher();
+  const admin = path.resolve(__dirname, 'tmp', 'admin');
+  mkdirp.sync(admin);
+
+  const watcher = new Watcher({srcPath: admin, interval: 1000}, defaultCallback);
+  watcher.watch();
+
+  t.true(watcher.timer.hasRef());
+  watcher.close();
+});
+
+test('close called from the callback stops polling', t => {
+  const Watcher = getWatcher();
+  const admin = path.resolve(__dirname, 'tmp', 'admin');
+  createFile(admin, 'admin.js');
+
+  let watcher;
+  watcher = new Watcher({srcPath: admin}, () => watcher.close());
+  watcher.watch();
+
+  t.true(watcher.closed);
+  t.is(watcher.timer, null);
+});

@@ -43,6 +43,8 @@ class Watcher {
     this.options = options;
     this.cb = cb;
     this.lastMtime = {};
+    this.timer = null;
+    this.closed = false;
   }
   /**
    * build Options
@@ -151,7 +153,11 @@ class Watcher {
    * watch files change
    */
   watch() {
+    this.closed = false;
     const detectFiles = () => {
+      if (this.closed) {
+        return;
+      }
       const changedFiles = this.getChangedFiles();
       if (changedFiles.length) {
         changedFiles.forEach(item => {
@@ -159,8 +165,9 @@ class Watcher {
           this.cb(item);
         });
       }
-      this.timer = setTimeout(detectFiles, this.options.interval || 100);
-      this.timer.unref();
+      if (!this.closed) {
+        this.timer = setTimeout(detectFiles, this.options.interval || 100);
+      }
     };
     detectFiles();
   }
@@ -168,6 +175,7 @@ class Watcher {
    * stop watching files
    */
   close() {
+    this.closed = true;
     clearTimeout(this.timer);
     this.timer = null;
   }
