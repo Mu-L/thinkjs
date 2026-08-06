@@ -2240,8 +2240,8 @@ importers:
         specifier: ^1.1.3
         version: 1.1.5
       validator:
-        specifier: ^9.0.0
-        version: 9.4.1
+        specifier: ^13.15.35
+        version: 13.15.35
     devDependencies:
       ava:
         specifier: ~0.18.1
@@ -12442,8 +12442,8 @@ packages:
     resolution: {integrity: sha512-gDIH/At51sfOdcHwJARVg65ZsgaCyWcAZGYmyDdViXRCi7WJHVPybLD6PZ/nukb9D/yQseVgZbKuZymrutkejA==}
     engines: {node: '>= 0.10'}
 
-  validator@9.4.1:
-    resolution: {integrity: sha512-YV5KjzvRmSyJ1ee/Dm5UED0G+1L4GZnLN3w6/T+zZm8scVua4sOhYKWTUrKa0H/tMiJyO9QLHMPN+9mB/aMunA==}
+  validator@13.15.35:
+    resolution: {integrity: sha512-TQ5pAGhd5whStmqWvYF4OjQROlmv9SMFVt37qoCBdqRffuuklWYQlCNnEs2ZaIBD1kZRNnikiZOS1eqgkar0iw==}
     engines: {node: '>= 0.10'}
 
   vary@1.1.2:
@@ -26611,7 +26611,7 @@ snapshots:
   think-validator@1.6.7:
     dependencies:
       think-helper: 1.1.5
-      validator: 9.4.1
+      validator: 13.15.35
 
   think-view-nunjucks@1.0.11(chokidar@3.6.0):
     dependencies:
@@ -27201,7 +27201,7 @@ snapshots:
 
   validator@4.2.0: {}
 
-  validator@9.4.1: {}
+  validator@13.15.35: {}
 
   vary@1.1.2: {}
 
