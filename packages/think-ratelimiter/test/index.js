@@ -1,2 +1,2 @@
-const test = require('ava');
+const test = require('../../../test/ava.cjs');
 const mockery = require('mockery');

@@ -1,4 +1,4 @@
-const test = require('ava');
+const test = require('../../../test/ava.cjs');
 const plugin = require('..');
 
 function createApp(config) {

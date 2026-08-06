@@ -1,4 +1,4 @@
-const test = require('ava');
+const test = require('../../../test/ava.cjs');
 const mock = require('mock-require');
 const http = require('http');
 const IncomingMessage = http.IncomingMessage;
@@ -26,7 +26,7 @@ test('test case', t => {
   t.is(response instanceof ServerResponse,true);
 });
 
-test('test case', t => {
+test('test case #2', t => {
   let mockHttp = getMockHttp();
   let request = null , response = null;
   let app = {
@@ -44,7 +44,7 @@ test('test case', t => {
   t.is(response instanceof ServerResponse,true);
 });
 
-test('test case', t => {
+test('test case #3', t => {
   let mockHttp = getMockHttp();
   let request = null , response = null;
   let app = {
@@ -62,7 +62,7 @@ test('test case', t => {
   t.is(response instanceof ServerResponse,true);
 });
 
-test('test case', t => {
+test('test case #4', t => {
   let mockHttp = getMockHttp();
   let request = null , response = null;
   let app = {
@@ -80,7 +80,7 @@ test('test case', t => {
   t.is(response instanceof ServerResponse,true);
 });
 
-test('test case', t => {
+test('test case #5', t => {
   let mockHttp = getMockHttp();
   let {req,res} = mockHttp('./test');
   t.is(req instanceof IncomingMessage,true);

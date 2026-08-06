@@ -1,4 +1,4 @@
-import test from 'ava';
+const test = require('../../../../../test/ava.cjs');
 const helper = require('think-helper');
 const mock = require('mock-require');
 const mockie = require('../../lib/mockie');
@@ -191,7 +191,7 @@ test('expires method', async t => {
   t.deepEqual(controller.expires(20000), 20000);
 });
 
-test('get method', async t => {
+test('get method #2', async t => {
   t.deepEqual(controller.get('name'), 'thinkjs');
 });
 

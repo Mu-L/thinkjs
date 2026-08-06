@@ -1,5 +1,5 @@
-import test from "ava";
-import mock from 'mock-require';
+const test = require('../../../test/ava.cjs');
+const mock = require('mock-require');
 
 let redisData = {};
 const fileList = ['lalaland', 'Sing', 'Zootopia', 'Kung fu panda', 'Frozen', 'Ice Age'];
@@ -41,6 +41,7 @@ function mockIORedis() {
             this.expireTimeout = null;
             this.del(key);
           }, expire);
+          this.expireTimeout.unref();
         }
         resolve('OK');
       });
@@ -136,6 +137,7 @@ test.serial('2. set and get session data with short maxAge', t => {
 test.serial('3. set and get session data with fresh param', t => {
   const cookieName = fileList[2];
   return new Promise(async (resolve, reject) => {
+    let failureTimer;
     const RedisSession = mockRequire();
     const options = {
       cookie: cookieName,
@@ -147,6 +149,7 @@ test.serial('3. set and get session data with fresh param', t => {
         once: function(status, fn) {
           setTimeout(function() {
             fn();
+            clearTimeout(failureTimer);
             resolve();
           }, 10);
         }
@@ -159,7 +162,7 @@ test.serial('3. set and get session data with fresh param', t => {
       'abc': '123'
     });
 
-    setTimeout(() => {
+    failureTimer = setTimeout(() => {
       t.fail('new session value not set to redis');
       reject();
     }, 20);

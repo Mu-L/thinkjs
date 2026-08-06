@@ -1,4 +1,4 @@
-import test from 'ava';
+const test = require('../../../test/ava.cjs');
 const helper = require('think-helper');
 const mock = require('mock-require');
 mock('mysql', {
@@ -97,7 +97,7 @@ test('query function', async t => {
   t.is(books[0].name, 'thinkjs best practice');
 });
 
-test('query function', async t => {
+test('query function #2', async t => {
   const mysql = getMysql();
   const instance = mysql.getInstance(config);
 
@@ -112,7 +112,7 @@ test('query function', async t => {
   t.is(books[0].name, 'thinkjs best practice');
 });
 
-test('query function', async t => {
+test('query function #3', async t => {
   const conf = Object.assign({}, config);
   conf.logSql = false;
   const mysql = getMysql();
@@ -164,7 +164,7 @@ test('trans function', async t => {
   t.is(result[0].name, 'this is a trans test');
 });
 
-test('trans function', async t => {
+test('trans function #2', async t => {
   const mysql = getMysql();
   const instance = mysql.getInstance(config);
 
@@ -191,7 +191,7 @@ test('trans function', async t => {
   t.deepEqual([], result);
 });
 
-test('query function', async t => {
+test('query function #4', async t => {
   const mysql = getMysql();
   const instance = mysql.getInstance(config);
 
@@ -234,7 +234,7 @@ test('transaction function', async t => {
   t.is(result[0].name, 'this is a trans test');
 });
 
-test('transaction function', async t => {
+test('transaction function #2', async t => {
   const mysql = getMysql();
   const instance = mysql.getInstance(config);
   let result = null;
@@ -259,7 +259,7 @@ test('transaction function', async t => {
   t.is(result instanceof Error, true);
 });
 
-test('transaction function', async t => {
+test('transaction function #3', async t => {
   const mysql = getMysql();
   const instance = mysql.getInstance(config);
 
@@ -287,7 +287,7 @@ test('transaction function', async t => {
   t.is(result[0].name, 'this is a trans test');
 });
 
-test('transaction function', async t => {
+test('transaction function #4', async t => {
   const mysql = getMysql();
   const instance = mysql.getInstance(config);
   let result = null;
@@ -313,7 +313,7 @@ test('transaction function', async t => {
   t.is(result instanceof Error, true);
 });
 
-test('transaction function', async t => {
+test('transaction function #5', async t => {
   const mysql = getMysql();
   const instance = mysql.getInstance(config);
   let result = null;

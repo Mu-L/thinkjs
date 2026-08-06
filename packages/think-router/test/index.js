@@ -4,9 +4,9 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2017-09-14 14:27:49
 */
-import test from 'ava';
-import mockery from 'mockery';
-import helper from 'think-helper';
+const test = require('../../../test/ava.cjs');
+const mockery = require('mockery');
+const helper = require('think-helper');
 const next = () => Promise.resolve();
 
 let RESULT = {};
@@ -621,7 +621,7 @@ test.serial.cb('multiple modules', t => {
   });
 });
 
-test.serial.cb('multiple modules', t => {
+test.serial.cb('multiple modules #2', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx);
   const app = helper.extend({}, defaultApp, {

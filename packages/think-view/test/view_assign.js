@@ -1,4 +1,4 @@
-const test = require('ava');
+const test = require('../../../test/ava.cjs');
 const View = require('../lib/view');
 
 class TestView extends View {

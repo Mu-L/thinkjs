@@ -1,4 +1,4 @@
-const test = require('ava');
+const test = require('../../../test/ava.cjs');
 const mock = require('mock-require');
 const helper = require('think-helper');
 const path = require('path');
@@ -286,7 +286,7 @@ test('getChangedFiles function -- delete extra files in diffPath', t => {
   t.deepEqual(files, []);
 });
 
-test('getChangedFiles function -- delete extra files in diffPath', t => {
+test('getChangedFiles function -- delete extra files in diffPath #2', t => {
   const Watcher = getWatcher();
   let [admin, diff] = [
     path.resolve(__dirname, 'tmp','admin'),
@@ -306,7 +306,7 @@ test('getChangedFiles function -- delete extra files in diffPath', t => {
   t.deepEqual(files, []);
 });
 
-test('getChangedFiles function -- delete extra files in diffPath', t => {
+test('getChangedFiles function -- delete extra files in diffPath #3', t => {
   const Watcher = getWatcher();
   let [admin, home, diffAdmin, diffHome] = [
     path.resolve(__dirname, 'tmp', 'admin'),
@@ -390,6 +390,7 @@ test('getChangedFiles function -- watch file change', async(t) => {
   await sleep(1000);
 
   t.is(fileChange,true);
+  watcher.close();
 
   const tmp = path.resolve(__dirname, 'tmp1');
   rimraf.sync(tmp);

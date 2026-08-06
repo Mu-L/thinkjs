@@ -1,4 +1,4 @@
-import test from 'ava';
+const test = require('../../../../test/ava.cjs');
 const mock = require('mock-require');
 // const mockie = require('../lib/mockie');
 // const utils = require('../lib/utils');

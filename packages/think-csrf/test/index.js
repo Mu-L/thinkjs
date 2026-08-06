@@ -1,5 +1,5 @@
 const path = require('path');
-const test = require('ava');
+const test = require('../../../test/ava.cjs');
 const request = require('supertest');
 const helper = require('think-helper');
 const Koa = require('koa');

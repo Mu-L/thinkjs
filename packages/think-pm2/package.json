@@ -7,13 +7,9 @@
     "email": "welefen@gmail.com"
   },
   "scripts": {
-    "test": "eslint index.js && nyc ava test/",
-    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
-  },
-  "ava": {
-    "require": [
-      "babel-core/register"
-    ]
+    "lint": "eslint index.js",
+    "test": "pnpm run lint",
+    "coverage": "pnpm run test"
   },
   "contributors": [
     {
@@ -24,13 +20,12 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
-    "ava": "^0.18.0",
+    "ava": "^8.0.1",
     "babel-core": "^6.22.1",
-    "babel-eslint": "^7.1.1",
     "codecov": "^1.0.1",
     "coveralls": "^2.11.16",
-    "eslint": "2.8.0",
-    "nyc": "^7.1.0"
+    "eslint": "^10.8.0",
+    "nyc": "^18.0.0"
   },
   "keywords": [],
   "repository": {
@@ -39,10 +34,15 @@
     "directory": "packages/think-pm2"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=20.19.0"
   },
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/thinkjs/think-pm2/issues"
+  },
+  "ava": {
+    "failWithoutAssertions": false,
+    "serial": true,
+    "timeout": "60s"
   }
 }

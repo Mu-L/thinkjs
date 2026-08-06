@@ -1,5 +1,5 @@
 const fs = require('fs');
-const test = require('ava');
+const test = require('../../../test/ava.cjs');
 const Trace = require('../lib');
 
 const filename = `${__dirname}/test.html`;
@@ -15,7 +15,7 @@ test.before('500', () => {
   }
 });
 
-test('500', async t => {
+test('500 #2', async t => {
   t.plan(2);
 
   const ctx = {
@@ -62,7 +62,7 @@ test('500', async t => {
   t.is(ctx.body, '[]');
 });
 
-test.after('500', () => fs.unlinkSync(filename));
+test.after('500 #3', () => fs.unlinkSync(filename));
 
 test('500 not exist file', async t => {
   const ctx = {

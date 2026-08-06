@@ -7,14 +7,9 @@
     "email": "welefen@gmail.com"
   },
   "scripts": {
-    "lint": "eslint --fix index.js",
-    "test": "npm run lint && nyc ava test/",
-    "coverage": "npm test && nyc report --reporter=html"
-  },
-  "ava": {
-    "require": [
-      "babel-core/register"
-    ]
+    "lint": "eslint index.js",
+    "test": "pnpm run lint && nyc ava test/",
+    "coverage": "pnpm test && nyc report --reporter=html"
   },
   "contributors": [
     {
@@ -27,15 +22,13 @@
     "think-helper": "^1.0.0"
   },
   "devDependencies": {
-    "ava": "^0.18.2",
+    "ava": "^8.0.1",
     "babel-core": "^6.22.1",
-    "babel-eslint": "^7.1.1",
     "coveralls": "^2.12.0",
-    "eslint": "~4.2.0",
-    "eslint-config-think": "~1.0.1",
+    "eslint": "^10.8.0",
     "mkdirp": "^0.5.1",
     "mock-require": "^2.0.1",
-    "nyc": "^7.0.0",
+    "nyc": "^18.0.0",
     "rimraf": "^2.6.1"
   },
   "keywords": [],
@@ -45,10 +38,15 @@
     "directory": "packages/think-meta"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=20.19.0"
   },
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/thinkjs/think-meta/issues"
+  },
+  "ava": {
+    "failWithoutAssertions": false,
+    "serial": true,
+    "timeout": "60s"
   }
 }

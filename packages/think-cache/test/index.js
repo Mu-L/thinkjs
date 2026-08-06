@@ -4,11 +4,11 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2017-09-13 11:49:47
 */
-import test from 'ava';
-import helper from 'think-helper';
-import path from 'path';
-import fs from 'fs';
-import thinkCache from '../index.js';
+const test = require('../../../test/ava.cjs');
+const helper = require('think-helper');
+const path = require('path');
+const fs = require('fs');
+const thinkCache = require('../index.js');
 
 let cacheDB = thinkCache.think.cache;
 

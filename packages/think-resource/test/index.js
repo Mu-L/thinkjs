@@ -1,10 +1,24 @@
 'use strict';
 
 const Koa = require('koa');
-const test = require('ava');
+const test = require('../../../test/ava.cjs');
 const serve = require('..');
 const request = require('supertest');
 const helper = require('think-helper');
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
+
+const extensionRoot = path.join(os.tmpdir(), `think-resource-assets-${process.pid}`);
+const servers = new Set();
+test.before(() => fs.cpSync(path.join(__dirname, 'assets'), extensionRoot, {recursive: true}));
+test.afterEach.always(async () => {
+  await Promise.all([...servers].map(server => new Promise((resolve, reject) => {
+    server.close(error => error ? reject(error) : resolve());
+  })));
+  servers.clear();
+});
+test.after.always(() => fs.rmSync(extensionRoot, {force: true, recursive: true}));
 
 function createServer (options, middlewares = [], callback) {
   const app = new Koa();
@@ -19,11 +33,13 @@ function createServer (options, middlewares = [], callback) {
   middlewares.forEach(middleware => {
     app.use(middleware);
   });
-  return app.listen(function () {
+  const server = app.listen(function () {
     if (helper.isFunction(callback)) {
       callback(this);
     }
   });
+  servers.add(server);
+  return server;
 }
 
 test.cb('serve by no options"."', t => {
@@ -198,7 +214,7 @@ test.cb('serve by publicPath', t => {
     });
 });
 
-test.cb('serve by publicPath', t => {
+test.cb('serve by publicPath #2', t => {
   t.plan(1);
   request(createServer({ root: 'test/assets', publicPath: /1\.txt/ }))
     .get('/1.txt')
@@ -213,7 +229,7 @@ test.cb('serve by publicPath', t => {
     });
 });
 
-test.cb('serve by publicPath', t => {
+test.cb('serve by publicPath #3', t => {
   t.plan(1);
   request(createServer({ root: 'test/assets', publicPath: /^\/html\/index.html/ }))
     .get('/html/index.html')
@@ -228,7 +244,7 @@ test.cb('serve by publicPath', t => {
     });
 });
 
-test.cb('serve by publicPath', t => {
+test.cb('serve by publicPath #4', t => {
   t.plan(1);
   request(createServer({ root: 'test/assets', publicPath: '1.txt' }))
     .get('/1.txt')
@@ -304,24 +320,16 @@ test.cb('serve by gzip', t => {
     });
 });
 
-test.cb('serve by extensions', t => {
-  t.plan(1);
-  request(createServer({ root: 'test/assets', extensions: ['.html', 'txt'] }))
+test('serve by extensions', async t => {
+  await request(createServer({ root: extensionRoot, extensions: ['.html', 'txt'] }))
     .get('/index')
-    .expect(200, (err, res) => {
-      if (err) {
-        t.fail();
-      }
-      else {
-        t.pass();
-      }
-      t.end();
-    });
+    .expect(200);
+  t.pass();
 });
 
 test.cb('serve by extensions fail', t => {
   t.plan(1);
-  request(createServer({ root: 'test/assets', extensions: ['txt'] }))
+  request(createServer({ root: extensionRoot, extensions: ['txt'] }))
     .get('/test')
     .expect(404, (err, res) => {
       if (err) {
@@ -336,7 +344,7 @@ test.cb('serve by extensions fail', t => {
 
 test.cb('serve by extensions err', t => {
   t.plan(1);
-  request(createServer({ root: 'test/assets', extensions: [2, {}, []] }))
+  request(createServer({ root: extensionRoot, extensions: [2, {}, []] }))
     .get('/index')
     .expect(500, (err, res) => {
       if (err) {
@@ -364,7 +372,7 @@ test.cb('serve by hidden file', t => {
     });
 });
 
-test.cb('serve by hidden file', t => {
+test.cb('serve by hidden file #2', t => {
   t.plan(1);
   request(createServer({ root: 'test/assets', hidden: false }))
     .get('/.hidden')
@@ -395,7 +403,7 @@ test.cb('serve by notFoundNext', t => {
     });
 });
 
-test.cb('serve by notFoundNext', t => {
+test.cb('serve by notFoundNext #2', t => {
   t.plan(1)
   request(createServer({ root: 'test/assets', notFoundNext: true }))
     .get('/1.txt1')

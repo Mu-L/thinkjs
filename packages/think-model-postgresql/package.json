@@ -3,10 +3,10 @@
   "version": "1.1.10",
   "description": "PostgreSQL adapter for ThinkJS 3.x",
   "scripts": {
-    "test": "npm run eslint && npm run test-cov",
+    "test": "pnpm run eslint && pnpm run test-cov",
     "test-cov": "nyc ava test/ && nyc report --reporter=html",
     "eslint": "eslint ./lib",
-    "prepublish": "npm test"
+    "prepublish": "pnpm test"
   },
   "repository": {
     "type": "git",
@@ -34,17 +34,18 @@
     "think-model-abstract": "^1.0.0"
   },
   "devDependencies": {
-    "ava": "^0.19.1",
-    "eslint": "^4.2.0",
-    "eslint-config-think": "^1.0.1",
+    "ava": "^8.0.1",
+    "eslint": "^10.8.0",
     "mock-require": "^3.0.2",
     "muk": "^0.5.3",
-    "nyc": "^10.3.0"
+    "nyc": "^18.0.0"
+  },
+  "engines": {
+    "node": ">=20.19.0"
   },
   "ava": {
-    "require": [
-      "babel-register"
-    ],
-    "babel": "inherit"
+    "failWithoutAssertions": false,
+    "serial": true,
+    "timeout": "60s"
   }
 }

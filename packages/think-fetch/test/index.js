@@ -1,4 +1,4 @@
-const test = require('ava');
+const test = require('../../../test/ava.cjs');
 const startServer = require('./server.js');
 const fetch = require('../index.js').controller.fetch;
 let stopServer = null;

@@ -1,4 +1,4 @@
-const { test } = require('ava');
+const test = require('../../../../test/ava.cjs');
 const Query = require('../../lib/query');
 const Parser = require('../../lib/parser');
 const Schema = require('../../lib/schema');

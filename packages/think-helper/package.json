@@ -13,7 +13,9 @@
     "lint-fix": "eslint --fix index.js"
   },
   "ava": {
-    "failWithoutAssertions": false
+    "failWithoutAssertions": false,
+    "serial": true,
+    "timeout": "60s"
   },
   "contributors": [
     {
@@ -30,12 +32,10 @@
     "uuid": "^14.0.1"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
     "ava": "^8.0.1",
     "codecov": "^3.8.3",
     "coveralls": "^3.1.1",
     "eslint": "^10.8.0",
-    "globals": "^17.9.0",
     "nyc": "^18.0.0"
   },
   "keywords": [],

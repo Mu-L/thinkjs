@@ -1,5 +1,5 @@
 const fs = require('fs');
-const test = require('ava');
+const test = require('../../../test/ava.cjs');
 const Trace = require('../lib');
 
 const filename = `${__dirname}/notfound.html`;
@@ -15,7 +15,7 @@ test.before('404', () => {
   }
 });
 
-test('404', async t => {
+test('404 #2', async t => {
   t.plan(2);
   const ctx = {
     path: '/index',
@@ -60,4 +60,4 @@ test('404', async t => {
   t.is(ctx.body, '');
 });
 
-test.after('404', () => fs.unlinkSync(filename));
+test.after('404 #3', () => fs.unlinkSync(filename));

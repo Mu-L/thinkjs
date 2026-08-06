@@ -1,6 +1,6 @@
-import test from 'ava';
-import Inspector from '../index.js';
-import mock from 'mock-require';
+const test = require('../../../test/ava.cjs');
+const Inspector = require('../index.js');
+const mock = require('mock-require');
 
 const THINK_PATH = 'think_path';
 const APP_PATH = 'app_path';

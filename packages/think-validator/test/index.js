@@ -4,10 +4,10 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2018-08-25 20:54:01
 */
-import test from 'ava';
-import helper from 'think-helper';
-import Validator from '../src/index.js';
-import defaultCtx from './ctx.js';
+const test = require('../../../test/ava.cjs');
+const helper = require('think-helper');
+const Validator = require('../src/index.js');
+const defaultCtx = require('./ctx.js');
 const WITHOUT_ERR_MESSAGE = ' valid failed';
 
 test('rule-name-custom-message2', t => {
@@ -180,7 +180,7 @@ test('rule-requiredWith, if more than one in this.query then required = true 2',
   t.true(Object.keys(ret).length > 0);
 });
 
-test('rule-requiredWith, if more than one in this.query then required = true 2', t => {
+test('rule-requiredWith, if more than one in this.query then required = true 2 #2', t => {
   let rules = {
     username: {
       requiredWith: ['name', 'email']
@@ -714,7 +714,7 @@ test('rule-ascii failure', t => {
   t.true(Object.keys(ret).length > 0);
 });
 
-test('rule-ascii failure', t => {
+test('rule-ascii failure #2', t => {
   let rules = {
     arg: {
       ascii: true
@@ -2096,7 +2096,7 @@ test('rule-url success2', t => {
   t.true(Object.keys(ret).length === 0);
 });
 
-test('rule-url success2', t => {
+test('rule-url success2 #2', t => {
   let rules = {
     arg: {
       url: true
@@ -2818,7 +2818,7 @@ test('rule-array', t => {
   t.deepEqual(ctx.param().arg, ['123']);
 });
 
-test('rule-array', t => {
+test('rule-array #2', t => {
   let rules = {
     arg: {
       array: true

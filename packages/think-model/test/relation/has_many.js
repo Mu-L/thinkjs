@@ -1,4 +1,4 @@
-const {test} = require('ava');
+const test = require('../../../../test/ava.cjs');
 const Model = require('../../lib/model');
 const Relation = require('../../lib/relation/has_many');
 

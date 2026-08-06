@@ -1,6 +1,8 @@
-const test = require('ava');
+const test = require('../../../../test/ava.cjs');
 const mock = require('mock-require');
 const sleep = time => new Promise(resolve => setTimeout(resolve, time));
+
+process.send = process.send || (() => {});
 
 mockCluster(true);
 
@@ -15,6 +17,7 @@ class events {
   listenerCount(){
     return 1;
   }
+  removeAllListeners() {}
   emit() {}
 }
 
@@ -167,7 +170,7 @@ test('bindEvent case 3', async t => {
   t.is(cluster.receiveSignal, true);
 });
 
-test('bindEvent case 3', async t => {
+test('bindEvent case 3 #2', async t => {
   mockCluster(true);
   const cluster = require('cluster');
   const Messenger = getMessenger();

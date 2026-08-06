@@ -1,4 +1,4 @@
-const ava = require('ava');
+const ava = {test: require('../../../../test/ava.cjs')};
 const helper = require('think-helper');
 const Parser = require('../../lib/parser');
 
@@ -84,7 +84,7 @@ ava.test('parseValue, array, exp', t => {
   t.is(key, 'lizheming');
 });
 
-ava.test('parseValue, array, exp', t => {
+ava.test('parseValue, array, exp #2', t => {
   const instance = getParserInstance();
   const key = instance.parseValue(['exp', 'lizhemi()ng']);
   t.is(key, 'lizhemi()ng');
@@ -166,7 +166,7 @@ ava.test('parseField, multi field', t => {
   t.deepEqual(key, '`name`,`title`');
 });
 
-ava.test('parseField, multi field', t => {
+ava.test('parseField, multi field #2', t => {
   const instance = getParserInstance();
   const key = instance.parseField('name, title');
   t.deepEqual(key, '`name`,`title`');
@@ -325,7 +325,7 @@ ava.test('parseGroup, name', t => {
   t.is(data, ' GROUP BY `name`');
 });
 
-ava.test('parseGroup, name', t => {
+ava.test('parseGroup, name #2', t => {
   const instance = getParserInstance();
   const data = instance.parseGroup("date_format(create_time,'%Y-%m-%d')");
   t.is(data, " GROUP BY date_format(create_time,'%Y-%m-%d')");
@@ -435,7 +435,7 @@ ava.test('parseJoin, array', t => {
   t.is(data, ' INNER JOIN `cate` AS `c` ON `user`.`cate_id` = `c`.`id`');
 });
 
-ava.test('parseJoin, array', t => {
+ava.test('parseJoin, array #2', t => {
   const instance = getParserInstance();
   const data = instance.parseJoin([{
     table: 'cate',
@@ -809,7 +809,7 @@ ava.test('parseWhere, object 1', t => {
   t.is(data, ' WHERE ( (`id` = 1) AND (`id` = 10) AND (`id` = \'string\') )');
 });
 
-ava.test('parseWhere, IN number string', t => {
+ava.test('parseWhere, IN number string #2', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ id: ['1', '2', '3'] });
   t.is(data, ' WHERE ( `id` IN ( 1, 2, 3 ) )');
@@ -821,7 +821,7 @@ ava.test('parseWhere, object IN number string', t => {
   t.is(data, ' WHERE ( `id` IN (\'1\', \'2\', \'3\') )');
 });
 
-ava.test('parseWhere, object 1', t => {
+ava.test('parseWhere, object 1 #2', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ id: ['!=', 10] });
   t.is(data, ' WHERE ( `id` != 10 )');
@@ -886,7 +886,7 @@ ava.test('parseWhere, key has |, multi', t => {
   t.is(data, ' WHERE ( (`title` LIKE \'%title%\') OR (`content` = \'%content%\') )');
 });
 
-ava.test('parseWhere, key has |, multi', t => {
+ava.test('parseWhere, key has |, multi #2', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({
     'title|content': [
@@ -981,13 +981,13 @@ ava.test('parseWhere, BETWEEN', t => {
   t.is(data, ' WHERE (  (`id` BETWEEN 1 AND 2) )');
 });
 
-ava.test('parseWhere, BETWEEN', t => {
+ava.test('parseWhere, BETWEEN #2', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ id: ['BETWEEN', '2017-04-13 00:00:00', '2017-04-19 00:00:00'] });
   t.is(data, ' WHERE (  (`id` BETWEEN \'2017-04-13 00:00:00\' AND \'2017-04-19 00:00:00\') )');
 });
 
-ava.test('parseWhere, BETWEEN', t => {
+ava.test('parseWhere, BETWEEN #3', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ id: ['between', '1,2'] });
   t.is(data, ' WHERE (  (`id` BETWEEN \'1\' AND \'2\') )');
@@ -1145,7 +1145,7 @@ ava.test('parseWhere, array, multi， or', t => {
   t.is(data, ' WHERE ( (`title` = \'lizheming\') OR (`title` = \'suredy\') )');
 });
 
-ava.test('parseWhere, array, multi， or', t => {
+ava.test('parseWhere, array, multi， or #2', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({
     title: [
@@ -1157,7 +1157,7 @@ ava.test('parseWhere, array, multi， or', t => {
   t.is(data, ' WHERE ( (`title` = \'lizheming\') OR (`title` != \'suredy\') )');
 });
 
-ava.test('parseWhere, array, multi， or', t => {
+ava.test('parseWhere, array, multi， or #3', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({
     title: [
@@ -1216,7 +1216,7 @@ ava.test('parseUnion, object', t => {
   t.is(data, ' UNION (SELECT * FROM `meinv_pic2`)');
 });
 
-ava.test('parseUnion, object', t => {
+ava.test('parseUnion, object #2', t => {
   const instance = new Parser({ prefix: 'think_' });
   const data = instance.parseUnion({ table: 'meinv_pic2' });
   t.is(data, ' UNION (SELECT * FROM meinv_pic2)');
@@ -1231,7 +1231,7 @@ ava.test('parseUnion, array', t => {
   t.is(data, ' UNION ALL (SELECT * FROM `meinv_pic2`)');
 });
 
-ava.test('parseUnion, array', t => {
+ava.test('parseUnion, array #2', t => {
   const instance = getParserInstance({ prefix: 'think_' });
   const data = instance.parseUnion([{
     union: 'SELECT * FROM meinv_pic2'

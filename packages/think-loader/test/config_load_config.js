@@ -1,4 +1,4 @@
-const { default: test } = require('ava');
+const test = require('../../../test/ava.cjs');
 
 function getInstance() {
   const Config = require('../loader/config');

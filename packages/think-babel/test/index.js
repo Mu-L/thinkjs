@@ -4,11 +4,11 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2017-02-26 14:13:48
 */
-import test from 'ava';
-import helper from 'think-helper';
-import thinkBabel from '../index';
-import path from 'path';
-import fs from 'fs';
+const test = require('../../../test/ava.cjs');
+const helper = require('think-helper');
+const thinkBabel = require('../index');
+const path = require('path');
+const fs = require('fs');
 
 test.serial.cb.beforeEach(t => {
   let outPath = path.join(__dirname, 'out');

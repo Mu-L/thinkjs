@@ -1,4 +1,4 @@
-const { default: test } = require('ava');
+const test = require('../../../test/ava.cjs');
 const path = require('path');
 
 test('config_load_adapter will load adapter and build cache', t => {

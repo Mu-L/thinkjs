@@ -1,4 +1,4 @@
-const test = require('ava')
+const test = require('../../../../../test/ava.cjs');
 const inquirer = require('inquirer');
 const confirmOverwrite = require('../../../lib/generate/confirm-overwrite.js');
 

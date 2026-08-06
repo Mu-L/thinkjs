@@ -1,4 +1,4 @@
-const { default: test } = require('ava');
+const test = require('../../../test/ava.cjs');
 const util = require('../loader/util.js');
 const mock = require('mock-require');
 

@@ -4,11 +4,11 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2017-03-24 15:55:58
 */
-import test from 'ava';
-import helper from 'think-helper';
-import path from 'path';
-import fs from 'fs';
-import FileCache from '../index';
+const test = require('../../../test/ava.cjs');
+const helper = require('think-helper');
+const path = require('path');
+const fs = require('fs');
+const FileCache = require('../index');
 
 let myConfig = {
   timeout: 3600 * 1000,
@@ -21,10 +21,10 @@ function getCacheFilePath(key, config) {
   return path.join(__dirname, 'cache', cacheFileDir, helper.md5(key));
 }
 
-test.serial.cb.afterEach(t => {
+test.afterEach.always(async () => {
   let cachePath = path.join(__dirname, 'cache');
-  helper.rmdir(cachePath, false).then(() => {
-    t.end();
+  await helper.rmdir(cachePath, false).catch(error => {
+    if (error.code !== 'ENOENT') throw error;
   });
 });
 

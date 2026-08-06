@@ -1,4 +1,4 @@
-const test = require('ava');
+const test = require('../../../test/ava.cjs');
 const Meta = require('../');
 const helper = require('think-helper');
 function getApp() {

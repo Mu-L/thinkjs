@@ -1,4 +1,4 @@
-const ava = require('ava');
+const ava = {test: require('../../../../test/ava.cjs')};
 const helper = require('think-helper');
 const Base = require('../../lib/query');
 const Parser = require('../../lib/parser');
@@ -132,7 +132,7 @@ ava.test('execute, empty return', async t => {
 //   t.is(flag, true);
 // });
 
-// ava.test('close', t => {
+// ava.test('close #2', t => {
 //   const instance = new Base({buffer_tostring: true});
 //   const flag = false;
 //   instance.close();

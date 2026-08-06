@@ -5,11 +5,11 @@
   "scripts": {
     "watch": "babel ./src --out-dir ./lib --watch",
     "compile": "babel ./src --out-dir ./lib",
-    "test": "npm run lint && npm run test-cov",
+    "test": "pnpm run lint && pnpm run test-cov",
     "test-cov": "nyc ava test/ && nyc report --reporter=html",
     "lint": "eslint ./src",
     "lint-fix": "eslint --fix ./src",
-    "prepublish": "npm test && npm run compile",
+    "prepublish": "pnpm test && pnpm run compile",
     "coverage": "nyc report --reporter=html"
   },
   "repository": {
@@ -37,25 +37,25 @@
     "think-instance": "^1.0.2"
   },
   "devDependencies": {
-    "ava": "^0.19.1",
+    "ava": "^8.0.1",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
-    "babel-eslint": "^7.2.3",
     "babel-preset-think-node": "^1.0.2",
-    "eslint": "^4.2.0",
-    "eslint-config-think": "^1.0.1",
+    "eslint": "^10.8.0",
     "muk": "^0.5.3",
-    "nyc": "^10.3.0"
-  },
-  "ava": {
-    "require": [
-      "babel-register"
-    ],
-    "babel": "inherit"
+    "nyc": "^18.0.0"
   },
   "babel": {
     "presets": [
       "think-node"
     ]
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "ava": {
+    "failWithoutAssertions": false,
+    "serial": true,
+    "timeout": "60s"
   }
 }

@@ -1,4 +1,4 @@
-const ava = require('ava');
+const ava = {test: require('../../../../test/ava.cjs')};
 const helper = require('think-helper');
 const Base = require('../../lib/parser');
 

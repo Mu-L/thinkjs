@@ -1,5 +1,5 @@
 const fs = require('fs');
-const test = require('ava');
+const test = require('../../../test/ava.cjs');
 const Logger = require('../src');
 const Adapter = Logger.File;
 
@@ -17,7 +17,7 @@ test.before('file logger', () => {
   }
 });
 
-test('file logger', async t => {
+test('file logger #2', async t => {
   const logger = new Logger({
     handle: Adapter,
     filename

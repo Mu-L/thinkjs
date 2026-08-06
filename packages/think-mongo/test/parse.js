@@ -1,4 +1,4 @@
-const test = require('ava');
+const test = require('../../../test/ava.cjs');
 const Parser = require('../src/parser');
 const {ObjectID} = require('mongodb');
 const parser = new Parser();
@@ -23,7 +23,7 @@ test.serial('parseOrder with array', async t => {
   t.deepEqual(ret, [1, 1]);
 });
 
-test.serial('parseOrder with array', async t => {
+test.serial('parseOrder with array #2', async t => {
   const ret = parser.parseOrder('id DESC,name');
   t.deepEqual(ret, {id: -1, name: 1});
 });

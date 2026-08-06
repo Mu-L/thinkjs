@@ -1,4 +1,4 @@
-const { default: test } = require('ava');
+const test = require('../../../../test/ava.cjs');
 const path = require('path');
 function mockHelper(t, dir) {
   var helper = require('think-helper');

@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "istanbul cover ./node_modules/mocha/bin/_mocha -- -t 2000 --recursive  -R spec test/",
-    "prepublish": "npm run lint",
+    "prepublish": "pnpm run lint",
     "lint": "eslint index.js"
   },
   "contributors": [
@@ -25,8 +25,7 @@
     "mocha": "1.20.1",
     "muk": "0.3.1",
     "istanbul": "0.4.0",
-    "eslint": "^4.3.0",
-    "eslint-config-think": "^1.0.1"
+    "eslint": "^10.8.0"
   },
   "keywords": [
     "thinkjs",
@@ -38,7 +37,7 @@
     "directory": "packages/think-pagination"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=20.19.0"
   },
   "license": "MIT",
   "readmeFilename": "README.md",

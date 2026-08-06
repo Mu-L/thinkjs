@@ -1,5 +1,5 @@
-import test from 'ava';
-import ejs from 'ejs';
+const test = require('../../../test/ava.cjs');
+const ejs = require('ejs');
 
 
 test.beforeEach(t => {

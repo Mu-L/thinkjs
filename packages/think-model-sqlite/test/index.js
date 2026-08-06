@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const test = require('../../../test/ava.cjs');
 const Model = require('think-model/lib/model');
 const SQLite = require('../');
 

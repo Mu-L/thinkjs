@@ -1,4 +1,4 @@
-const test = require('ava');
+const test = require('../../../test/ava.cjs');
 const proxy = require('..');
 
 test('requires non-empty options', t => {

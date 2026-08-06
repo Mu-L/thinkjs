@@ -4,9 +4,9 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2017-05-07 13:52:49
 */
-import test from 'ava';
-import helper from 'think-helper';
-import gc from '..';
+const test = require('../../../test/ava.cjs');
+const helper = require('think-helper');
+const gc = require('..');
 let relay = 20; // setInterval is not precise
 let RESULT = [];
 

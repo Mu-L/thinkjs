@@ -1,6 +1,6 @@
-import test from 'ava';
-import Debounce from '../index.js';
-import fs from 'fs';
+const test = require('../../../test/ava.cjs');
+const Debounce = require('../index.js');
+const fs = require('fs');
 
 const instance = new Debounce();
 test('await', t => {

@@ -1,4 +1,4 @@
-const test = require('ava');
+const test = require('../../../test/ava.cjs');
 const index = require('../index.js');
 const helper = require('think-helper');
 

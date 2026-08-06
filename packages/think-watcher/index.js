@@ -159,9 +159,17 @@ class Watcher {
           this.cb(item);
         });
       }
-      setTimeout(detectFiles, this.options.interval || 100);
+      this.timer = setTimeout(detectFiles, this.options.interval || 100);
+      this.timer.unref();
     };
     detectFiles();
+  }
+  /**
+   * stop watching files
+   */
+  close() {
+    clearTimeout(this.timer);
+    this.timer = null;
   }
 }
 

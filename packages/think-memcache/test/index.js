@@ -4,11 +4,11 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2017-04-01 16:33:19
 */
-import test from 'ava';
-import helper from 'think-helper';
-import path from 'path';
-import fs from 'fs';
-import Memcache from '../index';
+const test = require('../../../test/ava.cjs');
+const helper = require('think-helper');
+const path = require('path');
+const fs = require('fs');
+const Memcache = require('../index');
 
 test.serial('set key & get key & del key', async t => {
   let key1 = 'name1', value1 = 'thinkjs';

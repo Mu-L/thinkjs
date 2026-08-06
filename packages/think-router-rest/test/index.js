@@ -1,4 +1,4 @@
-const {test} = require('ava');
+const test = require('../../../test/ava.cjs');
 const routerREST = require('../index.js');
 
 test('rest true', t => {

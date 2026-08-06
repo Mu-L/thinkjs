@@ -10,10 +10,10 @@
     "test"
   ],
   "scripts": {
-    "test": "npm run lint && npm run test-cov",
+    "test": "pnpm run lint && pnpm run test-cov",
     "test-cov": "nyc ava test/ && nyc report --reporter=html",
     "lint": "eslint index.js",
-    "prepublish": "npm test"
+    "prepublish": "pnpm test"
   },
   "contributors": [
     {
@@ -26,10 +26,9 @@
     "qs": "^6.5.1"
   },
   "devDependencies": {
-    "ava": "^0.18.0",
-    "eslint": "^4.2.0",
-    "eslint-config-think": "^1.0.2",
-    "nyc": "^7.0.0",
+    "ava": "^8.0.1",
+    "eslint": "^10.8.0",
+    "nyc": "^18.0.0",
     "pre-commit": "^1.2.2"
   },
   "keywords": [
@@ -41,11 +40,16 @@
     "directory": "packages/think-qs"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=20.19.0"
   },
   "license": "MIT",
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/thinkjs/think-qs/issues"
+  },
+  "ava": {
+    "failWithoutAssertions": false,
+    "serial": true,
+    "timeout": "60s"
   }
 }

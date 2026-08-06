@@ -1,5 +1,5 @@
 const sessionMysql = require('../index');
-import test from "ava";
+const test = require('../../../test/ava.cjs');
 
 test('init', t => {
   t.is(1, 1)

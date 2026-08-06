@@ -5,12 +5,12 @@
 * @Last Modified time: 2017-03-27 16:58:34
 */
 
-import test from 'ava';
-import helper from 'think-helper';
-import path from 'path';
-import fs from 'fs';
-import pugOrigin from 'pug';
-import Pug from '../index.js';
+const test = require('../../../test/ava.cjs');
+const helper = require('think-helper');
+const path = require('path');
+const fs = require('fs');
+const pugOrigin = require('pug');
+const Pug = require('../index.js');
 
 let defaultOptions = {
   cache: false,

@@ -1,6 +1,6 @@
-import test from 'ava';
-import thinkInstance from '../index.js';
-import helper from 'think-helper';
+const test = require('../../../test/ava.cjs');
+const thinkInstance = require('../index.js');
+const helper = require('think-helper');
 
 test('.getInstance is function', t => {
   let cls = class {
@@ -49,7 +49,7 @@ test('get different instance 2', t => {
   t.is(instance2 === instance3, true);
 });
 
-test('get different instance 2', t => {
+test('get different instance 2 #2', t => {
   let cls = class {
     constructor(){
       this.name = 1;

@@ -1,4 +1,4 @@
-const { default: test } = require('ava');
+const test = require('../../../../test/ava.cjs');
 const path = require('path');
 var callGetMidFilesParams;
 function mockGetFiles(instance) {

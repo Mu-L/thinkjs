@@ -10,11 +10,6 @@
     "test": "eslint index.js && nyc ava test/index.js ",
     "coverage": "nyc report --reporter=html"
   },
-  "ava": {
-    "require": [
-      "babel-core/register"
-    ]
-  },
   "contributors": [
     {
       "name": "welefen",
@@ -26,10 +21,9 @@
     "think-helper": "^1.1.3"
   },
   "devDependencies": {
-    "ava": "^0.18.2",
-    "babel-eslint": "^7.1.1",
-    "eslint": "2.8.0",
-    "nyc": "^7.0.0"
+    "ava": "^8.0.1",
+    "eslint": "^10.8.0",
+    "nyc": "^18.0.0"
   },
   "keywords": [],
   "repository": {
@@ -38,10 +32,15 @@
     "directory": "packages/think-instance"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=20.19.0"
   },
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/thinkjs/think-instance/issues"
+  },
+  "ava": {
+    "failWithoutAssertions": false,
+    "serial": true,
+    "timeout": "60s"
   }
 }

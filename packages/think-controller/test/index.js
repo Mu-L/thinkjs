@@ -1,6 +1,6 @@
-import test from 'ava';
-import helper from 'think-helper';
-import invokeController from '../index.js';
+const test = require('../../../test/ava.cjs');
+const helper = require('think-helper');
+const invokeController = require('../index.js');
 
 test('ctx.module required in multi module', t => {
   const fn = invokeController(undefined, {

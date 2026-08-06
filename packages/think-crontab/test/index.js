@@ -1,8 +1,13 @@
-const test = require('ava');
+const test = require('../../../test/ava.cjs');
 const mock = require('mock-require');
 const helper = require('think-helper');
+const schedule = require('node-schedule');
 
 const sleep = time => new Promise(resolve => setTimeout(resolve, time));
+
+test.after.always(() => {
+  Object.keys(schedule.scheduledJobs).forEach(name => schedule.cancelJob(name));
+});
 
 function getCrontab() {
   return mock.reRequire('../index');
@@ -16,7 +21,7 @@ test('test case', t => {
   t.is(cron.options[0].type, 'one');
 });
 
-test('test case', t => {
+test('test case #2', t => {
   let Crontab = getCrontab();
   let option = {
     handle: 'crontab/test',
@@ -27,7 +32,7 @@ test('test case', t => {
   t.is(cron.options[0].type, 'one');
 });
 
-test('test case', t => {
+test('test case #3', t => {
   let Crontab = getCrontab();
   let option = {
     handle(){
@@ -41,7 +46,7 @@ test('test case', t => {
   t.is(cron.options[0].type, 'one');
 });
 
-test('test case', t => {
+test('test case #4', t => {
   let Crontab = getCrontab();
   let option = {
     handle(){
@@ -53,7 +58,7 @@ test('test case', t => {
   t.deepEqual(cron.options, []);
 });
 
-test('test case', async t => {
+test('test case #5', async t => {
   let Crontab = getCrontab();
   let app = {
     on: (evtName, cb) => {
@@ -80,7 +85,7 @@ test('test case', async t => {
   t.is(app.executedTime, 4);
 });
 
-test('test case', async t => {
+test('test case #6', async t => {
   let Crontab = getCrontab();
   let url = '';
   let app = {
@@ -107,7 +112,7 @@ test('test case', async t => {
   t.is(url, './task');
 });
 
-test('test case', async t => {
+test('test case #7', async t => {
   let Crontab = getCrontab();
   let option = {
     handle: () => {
@@ -124,7 +129,7 @@ test('test case', async t => {
   t.is(err instanceof Error, true);
 });
 
-test('test case', async t => {
+test('test case #8', async t => {
   mock('think-cluster',{
     messenger:{
       runInOne:(fn)=>{
@@ -165,9 +170,6 @@ test('test case', async t => {
   cron.runTask();
   t.is(app.isExecuted, true);
 });
-
-
-
 
 
 

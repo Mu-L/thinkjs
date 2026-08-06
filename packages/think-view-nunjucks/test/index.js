@@ -4,12 +4,12 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2017-03-27 17:16:32
 */
-import test from 'ava';
-import helper from 'think-helper';
-import path from 'path';
-import assert from 'assert';
-import njk from 'nunjucks';
-import Nunjucks from '../index.js';
+const test = require('../../../test/ava.cjs');
+const helper = require('think-helper');
+const path = require('path');
+const assert = require('assert');
+const njk = require('nunjucks');
+const Nunjucks = require('../index.js');
 
 const defaultOptions = {
   autoescape: true,

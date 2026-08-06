@@ -1,4 +1,4 @@
-const {test} = require('ava');
+const test = require('../../../../test/ava.cjs');
 const Relation = require('../../lib/relation/relation');
 test('relation instance', t => {
   t.plan(4);

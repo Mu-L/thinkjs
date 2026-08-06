@@ -1,4 +1,4 @@
-const test = require('ava')
+const test = require('../../../../test/ava.cjs');
 const path = require('path')
 const inquirer = require('inquirer')
 const helper = require('think-helper')

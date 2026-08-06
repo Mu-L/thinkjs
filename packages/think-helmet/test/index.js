@@ -1,4 +1,4 @@
-const test = require('ava');
+const test = require('../../../test/ava.cjs');
 const helmet = require('../index.js');
 
 test('helmet', t => {

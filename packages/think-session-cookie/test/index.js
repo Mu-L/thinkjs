@@ -1,4 +1,4 @@
-const test = require('ava');
+const test = require('../../../test/ava.cjs');
 const mock = require('mock-require');
 
 function mockAssert(assertCallParams = []) {
@@ -93,7 +93,7 @@ test('initSessionData function -- get empty session data', t => {
   t.deepEqual(sc.data, {});
 });
 
-test('initSessionData function -- get empty session data', t => {
+test('initSessionData function -- get empty session data #2', t => {
   const options = {
     name: 'test'
   };
@@ -230,7 +230,7 @@ test('delete function', async t => {
   t.deepEqual(val, undefined);
 });
 
-test('delete function', async t => {
+test('delete function #2', async t => {
   const options = {
     name: 'test',
   };

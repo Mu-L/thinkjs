@@ -1,4 +1,4 @@
-const test = require('ava')
+const test = require('../../../../test/ava.cjs');
 const utils = require('../../lib/utils.js');
 
 test('The correct prefix should be returned', t => {
