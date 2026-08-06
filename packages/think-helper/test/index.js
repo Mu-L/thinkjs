@@ -30,6 +30,10 @@ import {
 } from '../index.js';
 import fs from 'fs';
 import path from 'path';
+import {fileURLToPath} from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 test('isInt', t => {
   t.is(isInt(42), true);
@@ -504,7 +508,7 @@ test('parseAdapterConfig 3', t => {
   t.deepEqual(parseAdapterConfig(value, extConfig2).type, 'ejs');
 });
 
-test('parseAdapterConfig 3', t => {
+test('parseAdapterConfig empty config', t => {
   const value = parseAdapterConfig({});
   t.deepEqual(parseAdapterConfig(value).type, '_');
 });
@@ -540,7 +544,7 @@ test('parseAdapterConfig 6', t => {
   t.deepEqual(value.timeout, 20);
 });
 
-test('omit 1', t => {
+test('omit existing key', t => {
   const value = omit({
     a: 1,
     b: 2
