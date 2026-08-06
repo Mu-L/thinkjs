@@ -1,4 +1,4 @@
-import test from 'ava';
+const {default: test} = require('ava');
 const mock = require('mock-require');
 const mockie = require('../../lib/mockie');
 mockie.mockThinkValidator();
@@ -41,7 +41,7 @@ test.serial('validate pass', async t => {
 });
 
 
-test.serial('validate pass', async t => {
+test.serial('validate pass #2', async t => {
   let rules = {
     mockResult:false,
     username: {
@@ -87,7 +87,7 @@ test.serial('_after', async t => {
   t.is(ret,undefined);
 });
 
-test.serial('_after', async t => {
+test.serial('_after #2', async t => {
   logic.allowMethods = ['POST','GET'];
   logic.config = ()=>{};
   logic.fail = ()=>{};
@@ -95,7 +95,7 @@ test.serial('_after', async t => {
   t.is(ret,false);
 });
 
-test.serial('_after', async t => {
+test.serial('_after #3', async t => {
   logic.allowMethods = 'POST,GET';
   logic.method = 'GET';
   logic.config = ()=>{};
@@ -104,7 +104,7 @@ test.serial('_after', async t => {
   t.is(ret,undefined);
 });
 
-test.serial('_after', async t => {
+test.serial('_after #4', async t => {
   logic.rules = {
     mockResult:false,
     username: {
@@ -122,7 +122,7 @@ test.serial('_after', async t => {
   t.is(ret,undefined);
 });
 
-test.serial('_after', async t => {
+test.serial('_after #5', async t => {
   logic = mock.reRequire('../../../lib/extend/logic');
   logic.scope = {
     id: {
@@ -148,7 +148,7 @@ test.serial('_after', async t => {
   t.is(ret,false);
 });
 
-test.serial('_after', async t => {
+test.serial('_after #6', async t => {
   logic = mock.reRequire('../../../lib/extend/logic');
   logic.rules = {
     mockResult:false,

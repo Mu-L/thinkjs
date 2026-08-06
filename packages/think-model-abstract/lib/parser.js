@@ -152,7 +152,6 @@ module.exports = class AbstractParser {
     const multi = where._multi;
     delete where._multi;
 
-    // eslint-disable-next-line one-var
     let key, val, result = [], str = '';
 
     const fn = (item, i) => {

@@ -2,7 +2,6 @@ const Base = require('./base');
 
 module.exports = class FileLogger extends Base {
   formatConfig(config) {
-    // eslint-disable-next-line prefer-const
     let {level, filename, maxLogSize, backups, absolute, layout, mode} = config;
     level = level ? level.toUpperCase() : 'ALL';
 

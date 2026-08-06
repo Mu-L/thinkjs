@@ -1,5 +1,5 @@
-import test from 'ava';
-import {Config, getConfigFn} from '../index.js';
+const {default: test} = require('ava');
+const {Config, getConfigFn} = require('../index.js');
 
 test('config init', t => {
   const config = new Config({name: 1});

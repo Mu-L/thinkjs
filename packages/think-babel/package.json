@@ -4,14 +4,17 @@
   "description": "Use Babel transpile ES6+ file to ES5",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint --fix index.js",
-    "test": "npm run lint && nyc ava test/index.js",
-    "coverage": "npm test && nyc report --reporter=html"
+    "lint": "eslint index.js",
+    "test": "pnpm run lint && nyc ava test/index.js",
+    "coverage": "pnpm test && nyc report --reporter=html"
   },
   "ava": {
     "files": [
       "test/*.js"
-    ]
+    ],
+    "failWithoutAssertions": false,
+    "serial": true,
+    "timeout": "60s"
   },
   "repository": {
     "type": "git",
@@ -38,15 +41,16 @@
   "homepage": "https://github.com/thinkjs/think-babel#readme",
   "devDependencies": {
     "@babel/preset-env": "^7.4.3",
-    "ava": "~0.18.1",
-    "babel-eslint": "~7.1.1",
+    "ava": "^8.0.1",
     "coveralls": "~2.11.16",
-    "eslint": "~4.2.0",
-    "eslint-config-think": "~1.0.1",
-    "nyc": "~10.1.2"
+    "eslint": "^10.8.0",
+    "nyc": "^18.0.0"
   },
   "dependencies": {
     "@babel/core": "^7.4.3",
     "think-helper": "^1.1.3"
+  },
+  "engines": {
+    "node": ">=20.19.0"
   }
 }

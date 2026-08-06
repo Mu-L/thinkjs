@@ -4,11 +4,11 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2017-04-07 10:58:26
 */
-import test from 'ava';
-import helper from 'think-helper';
-import path from 'path';
-import fs from 'fs';
-import ThinkCaptcha from '..';
+const {default: test} = require('ava');
+const helper = require('think-helper');
+const path = require('path');
+const fs = require('fs');
+const ThinkCaptcha = require('..');
 
 const defaultOptions = {
   size: 4, // size of random string

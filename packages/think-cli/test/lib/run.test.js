@@ -1,4 +1,4 @@
-const test = require('ava')
+const {default: test} = require('ava');
 const path = require('path')
 const inquirer = require('inquirer')
 const helper = require('think-helper')
@@ -26,27 +26,32 @@ test.before(() => {
   }
 })
 
-test.cb('should generate project ', t => {
-  const run = new Run({
-    template: 'think-template/standard',
-    targetPath: appPath,
-    options: {
-      name: targetName,
-      command: 'new',
-      maps: 'new.default',
-      context: {
-        actionPrefix: './',
-        ROOT_PATH: appPath,
-        APP_NAME: targetName
+test('should generate project ', async t => {
+  await new Promise((resolve, reject) => {
+    const run = new Run({
+      template: 'think-template/standard',
+      targetPath: appPath,
+      options: {
+        name: targetName,
+        command: 'new',
+        maps: 'new.default',
+        context: {
+          actionPrefix: './',
+          ROOT_PATH: appPath,
+          APP_NAME: targetName
+        }
+      },
+      done(error, files, options) {
+        if (error) {
+          reject(error);
+          return;
+        }
+        t.true(validateFiles(Object.keys(files), options.maps));
+        resolve();
       }
-    },
-    done(err, files, options) {
-      if (err) return console.error(err);
-      t.truthy(validateFiles(Object.keys(files), options.maps))
-      t.end()
-    }
-  })
-  run.start()
+    });
+    run.start();
+  });
 })
 
 test.after(t => {

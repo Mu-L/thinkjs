@@ -1,9 +1,9 @@
-const ava = require('ava');
+const {default: test} = require('ava');
 const helper = require('think-helper');
 const Base = require('../../lib/query');
 const Parser = require('../../lib/parser');
 
-ava.test('select jsonFormat false', t => {
+test('select jsonFormat false', t => {
   t.plan(2);
 
   const instance = new Base();
@@ -14,7 +14,7 @@ ava.test('select jsonFormat false', t => {
   instance.select(1, 2);
 })
 
-ava.test('select jsonFormat true', async t => {
+test('select jsonFormat true', async t => {
   t.plan(2);
   
   const instance = new Base({jsonFormat: true});
@@ -47,28 +47,28 @@ ava.test('select jsonFormat true', async t => {
   t.deepEqual(data2, [{title: 'hello', content: 'world', json: [1,2,3,4]}]);
 });
 
-ava.test('socket is function', t => {
+test('socket is function', t => {
   const instance = new Base();
   t.true(helper.isFunction(instance.socket));
 });
 
-ava.test('parser is getter', t => {
+test('parser is getter', t => {
   const instance = new Base();
   instance.parser = new Parser();
   const parser = instance.parser;
-  t.true(parser instanceof Parser, true);
+  t.true(parser instanceof Parser);
 });
 
-ava.test('parser is getter 2', t => {
+test('parser is getter 2', t => {
   const instance = new Base();
   instance.parser = new Parser();
   const parser = instance.parser;
   const parser2 = instance.parser;
-  t.true(parser instanceof Parser, true);
-  t.true(parser === parser2, true);
+  t.true(parser instanceof Parser);
+  t.true(parser === parser2);
 });
 
-ava.test('query', async t => {
+test('query', async t => {
   t.plan(2);
 
   const instance = new Base();
@@ -84,7 +84,7 @@ ava.test('query', async t => {
   t.is(instance.lastSql, 'SELECT * FROM think_user');
 });
 
-ava.test('execute', async t => {
+test('execute', async t => {
   t.plan(2);
 
   const instance = new Base();
@@ -103,7 +103,7 @@ ava.test('execute', async t => {
   t.is(instance.lastInsertId, 1000);
 });
 
-ava.test('execute, empty return', async t => {
+test('execute, empty return', async t => {
   t.plan(2);
 
   const instance = new Base();
@@ -120,7 +120,7 @@ ava.test('execute, empty return', async t => {
   t.is(instance.lastInsertId, 0);
 });
 
-// ava.test('close', t => {
+// test('close', t => {
 //   const instance = new Base({buffer_tostring: true});
 //   let flag = false;
 //   instance._socket = {
@@ -132,14 +132,14 @@ ava.test('execute, empty return', async t => {
 //   t.is(flag, true);
 // });
 
-// ava.test('close', t => {
+// test('close #2', t => {
 //   const instance = new Base({buffer_tostring: true});
 //   const flag = false;
 //   instance.close();
 //   t.is(flag, false);
 // });
 
-// ava.test('startTrans', async t => {
+// test('startTrans', async t => {
 //   const instance = new Base();
 //   let flag = false;
 //   instance.execute = function(sql) {
@@ -148,11 +148,11 @@ ava.test('execute, empty return', async t => {
 //     return Promise.resolve();
 //   };
 //   const data = await instance.startTrans();
-//   t.true(flag, true);
+//   t.true(flag);
 //   instance.transTimes = 1;
 // });
 
-// ava.test('startTrans, is started', async t => {
+// test('startTrans, is started', async t => {
 //   const instance = new Base();
 //   instance.transTimes = 1;
 //   let flag = false;
@@ -166,7 +166,7 @@ ava.test('execute, empty return', async t => {
 //   instance.transTimes = 1;
 // });
 
-// ava.test('commit, not start', async t => {
+// test('commit, not start', async t => {
 //   const instance = new Base();
 //   let flag = false;
 //   instance.execute = function(sql) {
@@ -179,7 +179,7 @@ ava.test('execute, empty return', async t => {
 //   instance.transTimes = 0;
 // });
 
-// ava.test('commit', async t => {
+// test('commit', async t => {
 //   const instance = new Base();
 //   instance.transTimes = 1;
 //   let flag = false;
@@ -193,7 +193,7 @@ ava.test('execute, empty return', async t => {
 //   instance.transTimes = 0;
 // });
 
-// ava.test('rollback, not start', async t => {
+// test('rollback, not start', async t => {
 //   const instance = new Base();
 //   let flag = false;
 //   instance.execute = function(sql) {
@@ -206,7 +206,7 @@ ava.test('execute, empty return', async t => {
 //   instance.transTimes = 0;
 // });
 
-// ava.test('rollback', async t => {
+// test('rollback', async t => {
 //   const instance = new Base();
 //   instance.transTimes = 1;
 //   let flag = false;

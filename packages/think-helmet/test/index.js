@@ -1,4 +1,4 @@
-const test = require('ava');
+const {default: test} = require('ava');
 const helmet = require('../index.js');
 
 test('helmet', t => {

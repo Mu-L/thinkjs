@@ -1,5 +1,5 @@
 const fs = require('fs');
-const test = require('ava');
+const {default: test} = require('ava');
 const Trace = require('../lib');
 
 test('200', async t => {

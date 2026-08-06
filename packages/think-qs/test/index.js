@@ -1,4 +1,4 @@
-const test = require('ava');
+const {default: test} = require('ava');
 const qs = require('../index.js');
 
 const next = () => {
@@ -102,7 +102,7 @@ test('post 2, not enable', async t => {
   await fn(ctx, next);
   t.deepEqual(ctx.request.body.post, {'www[]': 'sss'});
 });
-test('post 2, not enable', async t => {
+test('post 2, not enable #2', async t => {
   const fn = qs({});
   const ctx = {
     request: {

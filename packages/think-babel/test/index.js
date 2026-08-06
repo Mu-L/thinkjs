@@ -4,17 +4,15 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2017-02-26 14:13:48
 */
-import test from 'ava';
-import helper from 'think-helper';
-import thinkBabel from '../index';
-import path from 'path';
-import fs from 'fs';
+const {default: test} = require('ava');
+const helper = require('think-helper');
+const thinkBabel = require('../index');
+const path = require('path');
+const fs = require('fs');
 
-test.serial.cb.beforeEach(t => {
+test.serial.beforeEach(() => {
   let outPath = path.join(__dirname, 'out');
-  helper.rmdir(outPath, false).then(() => {
-    t.end();
-  });
+  return helper.rmdir(outPath, false);
 });
 
 test.serial('thinkBabel-orginal', t => {

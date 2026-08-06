@@ -1,4 +1,4 @@
-const test = require('ava');
+const {default: test} = require('ava');
 const mock = require('mock-require');
 const helper = require('think-helper');
 
@@ -74,7 +74,7 @@ test('render function -- empty config', t => {
   const file = 'index.html';
   t.throws(() => {
     view.render(file);
-  }, Error);
+  }, {instanceOf: Error});
   t.deepEqual(
     assertCallParams,
     [

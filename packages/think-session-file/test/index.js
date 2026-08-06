@@ -1,6 +1,6 @@
-import test from "ava";
-import path from 'path';
-import mock from 'mock-require';
+const {default: test} = require('ava');
+const path = require('path');
+const mock = require('mock-require');
 
 let fileStoreData = {};
 const sessionPath = '/session/absolute/path';

@@ -10,10 +10,10 @@
     "test"
   ],
   "scripts": {
-    "test": "npm run lint && npm run test-cov",
+    "test": "pnpm run lint && pnpm run test-cov",
     "test-cov": "nyc ava test/case/ && nyc report --reporter=html",
-    "lint": "eslint ./lib/ index.js",
-    "prepublish": "npm test"
+    "lint": "eslint ./lib/",
+    "prepublish": "pnpm test"
   },
   "contributors": [
     {
@@ -63,12 +63,11 @@
     "think-validator": "workspace:*"
   },
   "devDependencies": {
-    "ava": "^0.18.0",
-    "eslint": "^4.2.0",
-    "eslint-config-think": "^1.0.2",
+    "ava": "^8.0.1",
+    "eslint": "^10.8.0",
     "mkdirp": "^0.5.1",
     "mock-require": "^2.0.1",
-    "nyc": "^7.0.0",
+    "nyc": "^18.0.0",
     "pre-commit": "^1.2.2"
   },
   "keywords": [
@@ -94,11 +93,16 @@
     "directory": "packages/thinkjs"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.19.0"
   },
   "license": "MIT",
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/thinkjs/thinkjs/issues"
+  },
+  "ava": {
+    "failWithoutAssertions": false,
+    "serial": true,
+    "timeout": "60s"
   }
 }

@@ -1,14 +1,14 @@
-const ava = require('ava');
+const {default: test} = require('ava');
 const helper = require('think-helper');
 const Base = require('../../lib/query');
 const Parser = require('../../lib/parser');
 
-ava.test('get instance', t => {
+test('get instance', t => {
   const instance = new Base();
   t.is(instance.lastInsertId, 0);
 });
 
-ava.test('add data', async t => {
+test('add data', async t => {
   const instance = new Base();
   Object.defineProperty(instance, 'parser', {
     value: new Parser()
@@ -30,7 +30,7 @@ ava.test('add data', async t => {
   t.is(instance.lastSql, "INSERT INTO think_user (name,title,key,admin) VALUES ('lizheming','suredy',1111,1)");
 });
 
-ava.test('add with update boolean', async t => {
+test('add with update boolean', async t => {
   t.plan(2);
 
   const instance = new Base();
@@ -58,7 +58,7 @@ ava.test('add with update boolean', async t => {
   t.is(instance.lastSql, "INSERT INTO think_user (name,title,key) VALUES ('lizheming','suredy',1111)");
 });
 
-ava.test('add with update array', async t => {
+test('add with update array', async t => {
   t.plan(2);
 
   const instance = new Base();
@@ -86,7 +86,7 @@ ava.test('add with update array', async t => {
   t.is(instance.lastSql, "INSERT INTO think_user (name,title,key) VALUES ('lizheming','suredy',1111)");
 });
 
-ava.test('add with update object', async t => {
+test('add with update object', async t => {
   t.plan(2);
 
   const instance = new Base();
@@ -121,7 +121,7 @@ ava.test('add with update object', async t => {
   t.is(instance.lastSql, "INSERT INTO think_user (name,title,key) VALUES ('lizheming','suredy',1111)");
 });
 
-ava.test('add many', async t => {
+test('add many', async t => {
   t.plan(2);
 
   const instance = new Base();
@@ -151,7 +151,7 @@ ava.test('add many', async t => {
   t.is(instance.lastSql, "INSERT INTO think_user (name,title,key,admin,hello) VALUES ('lizheming','suredy',1111,1),('lizheming2','suredy2',222,0)");
 });
 
-ava.test('add many with lastInsertId', async t => {
+test('add many with lastInsertId', async t => {
   t.plan(2);
 
   const instance = new Base();
@@ -182,7 +182,7 @@ ava.test('add many with lastInsertId', async t => {
   t.is(instance.lastSql, "INSERT INTO think_user (name,title,key,admin,hello) VALUES ('lizheming','suredy',1111,1),('lizheming2','suredy2',222,0)");
 });
 
-ava.test('add many with update boolean', async t => {
+test('add many with update boolean', async t => {
   t.plan(2);
 
   const instance = new Base();
@@ -214,7 +214,7 @@ ava.test('add many with update boolean', async t => {
   t.is(instance.lastSql, "INSERT INTO think_user (name,title,key) VALUES ('lizheming','suredy',1111),('lizheming2','suredy2',222)");
 });
 
-ava.test('add many with update array', async t => {
+test('add many with update array', async t => {
   t.plan(2);
 
   const instance = new Base();
@@ -246,7 +246,7 @@ ava.test('add many with update array', async t => {
   t.is(instance.lastSql, "INSERT INTO think_user (name,title,key) VALUES ('lizheming','suredy',1111),('lizheming2','suredy2',222)");
 });
 
-ava.test('add many with update object', async t => {
+test('add many with update object', async t => {
   t.plan(2);
 
   const instance = new Base();
@@ -283,7 +283,7 @@ ava.test('add many with update object', async t => {
   t.is(instance.lastSql, "INSERT INTO think_user (name,title,key) VALUES ('lizheming','suredy',1111),('lizheming2','suredy2',222)");
 });
 
-ava.test('select add', async t => {
+test('select add', async t => {
   const instance = new Base();
   Object.defineProperty(instance, 'parser', {
     value: new Parser()
@@ -299,7 +299,7 @@ ava.test('select add', async t => {
   t.is(data, "INSERT INTO suredy (name,title) SELECT * FROM think_other WHERE ( name = 'lizheming' ) LIMIT 30");
 });
 
-ava.test('select add, fields is array', async t => {
+test('select add, fields is array', async t => {
   const instance = new Base();
   Object.defineProperty(instance, 'parser', {
     value: new Parser()
@@ -315,7 +315,7 @@ ava.test('select add, fields is array', async t => {
   t.is(data, "INSERT INTO suredy (name,title) SELECT * FROM think_other WHERE ( name = 'lizheming' ) LIMIT 30");
 });
 
-ava.test('select add, options is empty', async t => {
+test('select add, options is empty', async t => {
   const instance = new Base();
   Object.defineProperty(instance, 'parser', {
     value: new Parser()
@@ -327,7 +327,7 @@ ava.test('select add, options is empty', async t => {
   t.is(data, 'INSERT INTO suredy (name,title) SELECT * FROM ');
 });
 
-ava.test('delete', async t => {
+test('delete', async t => {
   const instance = new Base();
   Object.defineProperty(instance, 'parser', {
     value: new Parser()
@@ -343,7 +343,7 @@ ava.test('delete', async t => {
   t.is(data, "DELETE FROM think_user WHERE ( name = 'lizheming' ) /*lizheming*/");
 });
 
-ava.test('update', async t => {
+test('update', async t => {
   const instance = new Base();
   Object.defineProperty(instance, 'parser', {
     value: new Parser()
@@ -362,7 +362,7 @@ ava.test('update', async t => {
   t.is(data, "UPDATE think_user SET name='lizheming',title='title' WHERE ( name = 'lizheming' ) /*lizheming*/");
 });
 
-ava.test('select', async t => {
+test('select', async t => {
   const instance = new Base();
   Object.defineProperty(instance, 'parser', {
     value: new Parser()
@@ -378,7 +378,7 @@ ava.test('select', async t => {
   t.is(data, "SELECT * FROM think_user WHERE ( name = 'lizheming' ) /*lizheming*/");
 });
 
-ava.test('select with sql', async t => {
+test('select with sql', async t => {
   const instance = new Base();
   Object.defineProperty(instance, 'parser', {
     value: new Parser()
@@ -395,7 +395,7 @@ ava.test('select with sql', async t => {
   t.is(data, 'hello world');
 });
 
-ava.test('select, cache with key', async t => {
+test('select, cache with key', async t => {
   t.plan(2);
 
   const instance = new Base();
@@ -419,7 +419,7 @@ ava.test('select, cache with key', async t => {
   t.is(data, 'hello data');
 });
 
-ava.test('select, no cache with key', async t => {
+test('select, no cache with key', async t => {
   t.plan(4);
 
   const instance = new Base();
@@ -451,7 +451,7 @@ ava.test('select, no cache with key', async t => {
   t.is(data, "SELECT * FROM think_user WHERE ( name = 'lizheming' ) /*lizheming*/");
 });
 
-ava.test('select, cache', async t => {
+test('select, cache', async t => {
   t.plan(2);
   const instance = new Base();
   Object.defineProperty(instance, 'parser', {
@@ -476,7 +476,7 @@ ava.test('select, cache', async t => {
   t.is(data, 'md5 data');
 });
 
-ava.test('select, string', async t => {
+test('select, string', async t => {
   const instance = new Base();
   instance.query = function(sql) {
     return Promise.resolve(sql);
@@ -485,12 +485,12 @@ ava.test('select, string', async t => {
   t.is(data, "SELECT * FROM think_user WHERE ( name = 'lizheming' ) /*lizheming*/");
 });
 
-ava.test('query is function', async t => {
+test('query is function', async t => {
   const instance = new Base();
   t.is(helper.isFunction(instance.query), true);
 });
 
-ava.test('query 1', async t => {
+test('query 1', async t => {
   const instance = new Base();
   let flag = false;
   instance.socket = sql => {
@@ -506,7 +506,7 @@ ava.test('query 1', async t => {
   t.is(flag, true);
 });
 
-ava.test('query 2', async t => {
+test('query 2', async t => {
   const instance = new Base();
   let flag = false;
   instance.socket = sql => {
@@ -523,7 +523,7 @@ ava.test('query 2', async t => {
   t.is(flag, true);
 });
 
-ava.test('execute 1', async t => {
+test('execute 1', async t => {
   const instance = new Base();
   let flag = false;
   instance.socket = sql => {
@@ -539,7 +539,7 @@ ava.test('execute 1', async t => {
   t.is(flag, true);
 });
 
-ava.test('execute 2', async t => {
+test('execute 2', async t => {
   const instance = new Base();
   let flag = false;
   instance.socket = sql => {
@@ -556,7 +556,7 @@ ava.test('execute 2', async t => {
   t.is(flag, true);
 });
 
-ava.test('socket 1', async t => {
+test('socket 1', async t => {
   const instance = new Base();
   const result = instance.socket('SQL', {
     getInstance: function() {
@@ -566,7 +566,7 @@ ava.test('socket 1', async t => {
   t.is(result, 1);
 });
 
-ava.test('socket 2', async t => {
+test('socket 2', async t => {
   const instance = new Base({
     c: 2,
     parser: function(sql) {
@@ -584,7 +584,7 @@ ava.test('socket 2', async t => {
   t.is(result, 2);
 });
 
-ava.test('socket 3', async t => {
+test('socket 3', async t => {
   const instance = new Base({
     c: 2
   });
@@ -600,7 +600,7 @@ ava.test('socket 3', async t => {
   t.is(result2, 2);
 });
 
-ava.test('startTrans', async t => {
+test('startTrans', async t => {
   const instance = new Base({});
   let flag = false;
   instance.socket = () => {
@@ -617,7 +617,7 @@ ava.test('startTrans', async t => {
   });
 });
 
-ava.test('commit 1', async t => {
+test('commit 1', async t => {
   const instance = new Base({});
   let flag = false;
   instance.socket = () => {
@@ -634,7 +634,7 @@ ava.test('commit 1', async t => {
   });
 });
 
-ava.test('commit 2', async t => {
+test('commit 2', async t => {
   const instance = new Base({});
   let flag = false;
   instance.socket = () => {
@@ -652,7 +652,7 @@ ava.test('commit 2', async t => {
   });
 });
 
-ava.test('rollback 1', async t => {
+test('rollback 1', async t => {
   const instance = new Base({});
   let flag = false;
   instance.socket = () => {
@@ -669,7 +669,7 @@ ava.test('rollback 1', async t => {
   });
 });
 
-ava.test('rollback 2', async t => {
+test('rollback 2', async t => {
   const instance = new Base({});
   let flag = false;
   instance.socket = () => {
@@ -687,7 +687,7 @@ ava.test('rollback 2', async t => {
   });
 });
 
-ava.test('transaction 1', async t => {
+test('transaction 1', async t => {
   const instance = new Base({});
   let flag = false;
   instance.socket = () => {

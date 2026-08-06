@@ -4,18 +4,16 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2017-02-26 14:08:52
 */
-import test from 'ava';
-import helper from 'think-helper';
-import thinkTypescript from '../index';
-import path from 'path';
-import fs from 'fs';
-import ts from 'typescript';
+const {default: test} = require('ava');
+const helper = require('think-helper');
+const thinkTypescript = require('../index');
+const path = require('path');
+const fs = require('fs');
+const ts = require('typescript');
 
-test.serial.cb.beforeEach(t => {
+test.serial.beforeEach(() => {
   let outPath = path.join(__dirname, 'out');
-  helper.rmdir(outPath, false).then(() => {
-    t.end();
-  });
+  return helper.rmdir(outPath, false);
 });
 
 test.serial('thinkTypescript-original', t => {

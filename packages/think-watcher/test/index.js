@@ -1,4 +1,4 @@
-const test = require('ava');
+const {default: test} = require('ava');
 const mock = require('mock-require');
 const helper = require('think-helper');
 const path = require('path');
@@ -286,7 +286,7 @@ test('getChangedFiles function -- delete extra files in diffPath', t => {
   t.deepEqual(files, []);
 });
 
-test('getChangedFiles function -- delete extra files in diffPath', t => {
+test('getChangedFiles function -- delete extra files in diffPath #2', t => {
   const Watcher = getWatcher();
   let [admin, diff] = [
     path.resolve(__dirname, 'tmp','admin'),
@@ -306,7 +306,7 @@ test('getChangedFiles function -- delete extra files in diffPath', t => {
   t.deepEqual(files, []);
 });
 
-test('getChangedFiles function -- delete extra files in diffPath', t => {
+test('getChangedFiles function -- delete extra files in diffPath #3', t => {
   const Watcher = getWatcher();
   let [admin, home, diffAdmin, diffHome] = [
     path.resolve(__dirname, 'tmp', 'admin'),
@@ -390,7 +390,33 @@ test('getChangedFiles function -- watch file change', async(t) => {
   await sleep(1000);
 
   t.is(fileChange,true);
+  watcher.close();
 
   const tmp = path.resolve(__dirname, 'tmp1');
   rimraf.sync(tmp);
+});
+
+test('watch keeps the polling timer referenced', t => {
+  const Watcher = getWatcher();
+  const admin = path.resolve(__dirname, 'tmp', 'admin');
+  mkdirp.sync(admin);
+
+  const watcher = new Watcher({srcPath: admin, interval: 1000}, defaultCallback);
+  watcher.watch();
+
+  t.true(watcher.timer.hasRef());
+  watcher.close();
+});
+
+test('close called from the callback stops polling', t => {
+  const Watcher = getWatcher();
+  const admin = path.resolve(__dirname, 'tmp', 'admin');
+  createFile(admin, 'admin.js');
+
+  let watcher;
+  watcher = new Watcher({srcPath: admin}, () => watcher.close());
+  watcher.watch();
+
+  t.true(watcher.closed);
+  t.is(watcher.timer, null);
 });

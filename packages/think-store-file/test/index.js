@@ -4,18 +4,16 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2017-03-21 11:30:32
 */
-import test from 'ava';
-import helper from 'think-helper';
-import path from 'path';
-import fs from 'fs';
-import FileStore from '../index';
+const {default: test} = require('ava');
+const helper = require('think-helper');
+const path = require('path');
+const fs = require('fs');
+const FileStore = require('../index');
 
 // del data dir after every test case
-test.cb.afterEach(t => {
+test.afterEach(() => {
   let cachePath = path.join(__dirname, 'data');
-  helper.rmdir(cachePath, false).then(() => {
-    t.end();
-  });
+  return helper.rmdir(cachePath, false);
 });
 
 test.serial('set file & get file & del file', async t => {

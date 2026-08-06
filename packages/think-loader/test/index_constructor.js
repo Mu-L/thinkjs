@@ -1,4 +1,4 @@
-const { default: test } = require('ava');
+const {default: test} = require('ava');
 const Loader = require('../index.js');
 
 test.beforeEach(t => {

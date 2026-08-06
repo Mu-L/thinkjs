@@ -1,6 +1,6 @@
-import test from 'ava';
-import mock from 'mock-require';
-import jwt from 'jsonwebtoken';
+const {default: test} = require('ava');
+const mock = require('mock-require');
+const jwt = require('jsonwebtoken');
 
 const cookieName = [
   'red_skull',

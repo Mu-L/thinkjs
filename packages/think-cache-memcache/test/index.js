@@ -4,8 +4,8 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2017-09-13 12:00:00
 */
-import test from 'ava';
-import MemcacheCache from '../index';
+const {default: test} = require('ava');
+const MemcacheCache = require('../index');
 
 test.serial('set key -> get key -> del key', async t => {
   let cachehInst = new MemcacheCache();

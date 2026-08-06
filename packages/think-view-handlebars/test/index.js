@@ -4,12 +4,12 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2017-07-19 12:25:57
 */
-import test from 'ava';
-import helper from 'think-helper';
-import path from 'path';
-import fs from 'fs';
-import handlebarsOrigin from 'handlebars';
-import Handlebars from '../index.js';
+const {default: test} = require('ava');
+const helper = require('think-helper');
+const path = require('path');
+const fs = require('fs');
+const handlebarsOrigin = require('handlebars');
+const Handlebars = require('../index.js');
 
 let viewBasePath = path.join(__dirname, 'views');
 let defaultOptions = {

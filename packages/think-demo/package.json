@@ -8,13 +8,14 @@
   },
   "scripts": {
     "start": "node development.js",
-    "test": "eslint index.js && nyc ava test/",
-    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
+    "lint": "eslint development.js production.js",
+    "test": "pnpm run lint",
+    "coverage": "pnpm run test"
   },
   "ava": {
-    "require": [
-      "babel-core/register"
-    ]
+    "failWithoutAssertions": false,
+    "serial": true,
+    "timeout": "60s"
   },
   "contributors": [],
   "main": "index.js",
@@ -36,8 +37,14 @@
     "thinkjs": "^3.0.0"
   },
   "devDependencies": {
+    "ava": "^8.0.1",
+    "eslint": "^10.8.0",
+    "nyc": "^18.0.0",
     "think-inspect": "0.0.2",
     "think-babel": "^1.0.3"
+  },
+  "engines": {
+    "node": ">=20.19.0"
   },
   "keywords": [],
   "repository": {

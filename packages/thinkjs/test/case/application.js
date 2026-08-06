@@ -1,4 +1,4 @@
-import test from 'ava';
+const {default: test} = require('ava');
 const mock = require('mock-require');
 const mockie = require('../lib/mockie');
 const utils = require('../lib/utils');
@@ -57,7 +57,10 @@ test.serial('runInWorker', async t => {
   let app = new App(defaultOption);
   app.parseArgv = ()=>{return {}};
   //think.isCli = false
+  const nodeEnv = process.env.NODE_ENV;
+  delete process.env.NODE_ENV;
   app.run();
+  process.env.NODE_ENV = nodeEnv;
   await utils.sleep(1000)
   // console.log(think.Controller.toString());
   t.is(require('think-cluster').capturedEvents,true)
@@ -70,7 +73,10 @@ test.serial('runInWorker with createServerFn ', async t => {
   const option = Object.assign({},defaultOption,{APP_PATH: path.resolve(__dirname,'../runtime')});
   let app = new App(option);
   app.parseArgv = ()=>{return {}};
+  const nodeEnv = process.env.NODE_ENV;
+  delete process.env.NODE_ENV;
   app.run();
+  process.env.NODE_ENV = nodeEnv;
   await utils.sleep(1000)
   t.is(require('think-cluster').capturedEvents,true)
 })
@@ -81,7 +87,10 @@ test.serial('runInWorker with non-first worker', async t => {
   const App = getApplication();
   let app = new App(defaultOption);
   app.parseArgv = ()=>{return {port:8361}};
+  const nodeEnv = process.env.NODE_ENV;
+  delete process.env.NODE_ENV;
   app.run();
+  process.env.NODE_ENV = nodeEnv;
   await utils.sleep(1000)
   t.is(require('think-cluster').capturedEvents,true)
 })

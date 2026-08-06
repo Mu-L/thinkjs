@@ -1,4 +1,4 @@
-const {test} = require('ava');
+const {default: test} = require('ava');
 const Model = require('../lib/model');
 const handle = require('think-model-abstract');
 
@@ -645,7 +645,7 @@ test('model get field no data 3', async t => {
   t.deepEqual(result, []);
 });
 
-test('model get field no data 3', async t => {
+test('model get field no data 3 #2', async t => {
   t.plan(1);
 
   const model = new Model('post', {handle: class {

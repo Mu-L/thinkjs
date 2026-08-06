@@ -19,7 +19,7 @@
   ],
   "author": "xiamingxing",
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=20.19.0"
   },
   "license": "MIT",
   "bugs": {
@@ -32,27 +32,24 @@
     "think-helper": "latest"
   },
   "devDependencies": {
-    "ava": "^0.19.1",
-    "babel-eslint": "^7.2.1",
+    "ava": "^8.0.1",
     "babel-preset-think-node": "^1.0.1",
     "coveralls": "^2.13.0",
-    "eslint": "^3.19.0",
-    "eslint-config-think": "^1.0.1",
+    "eslint": "^10.8.0",
     "koa": "^2.2.0",
-    "nyc": "^10.2.0",
+    "nyc": "^18.0.0",
     "supertest": "^3.0.0",
     "think-helper": "latest"
   },
   "readmeFilename": "README.md",
-  "ava": {
-    "require": [
-      "babel-core/register"
-    ],
-    "babel": "inherit"
-  },
   "babel": {
     "presets": [
       "think-node"
     ]
+  },
+  "ava": {
+    "failWithoutAssertions": false,
+    "serial": true,
+    "timeout": "60s"
   }
 }

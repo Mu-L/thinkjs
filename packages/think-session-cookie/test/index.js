@@ -1,4 +1,4 @@
-const test = require('ava');
+const {default: test} = require('ava');
 const mock = require('mock-require');
 
 function mockAssert(assertCallParams = []) {
@@ -51,7 +51,7 @@ test('constructor function -- option.encrypt with empty keys', t => {
 
   t.throws(() => {
     new SessionCookie({}, defaultCtx, options);
-  }, Error);
+  }, {instanceOf: Error});
 
   t.deepEqual(assertCallParams,
     [
@@ -72,7 +72,7 @@ test('constructor function -- option.encrypt with not array keys', t => {
 
   t.throws(() => {
     new SessionCookie({}, defaultCtx, options);
-  }, Error);
+  }, {instanceOf: Error});
 
   t.deepEqual(assertCallParams,
     [
@@ -93,7 +93,7 @@ test('initSessionData function -- get empty session data', t => {
   t.deepEqual(sc.data, {});
 });
 
-test('initSessionData function -- get empty session data', t => {
+test('initSessionData function -- get empty session data #2', t => {
   const options = {
     name: 'test'
   };
@@ -230,7 +230,7 @@ test('delete function', async t => {
   t.deepEqual(val, undefined);
 });
 
-test('delete function', async t => {
+test('delete function #2', async t => {
   const options = {
     name: 'test',
   };

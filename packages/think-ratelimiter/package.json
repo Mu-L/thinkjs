@@ -12,8 +12,9 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "test": "nyc ava test/index.js",
-    "pretest": "eslint index.js"
+    "lint": "eslint index.js",
+    "test": "pnpm run lint",
+    "coverage": "pnpm run test"
   },
   "dependencies": {
     "debug": "^3.1.0",
@@ -21,12 +22,19 @@
     "ratelimiter": "^3.0.3"
   },
   "devDependencies": {
-    "ava": "^0.24.0",
+    "ava": "^8.0.1",
     "coveralls": "^3.0.0",
-    "eslint": "^4.15.0",
-    "eslint-config-think": "^1.0.2",
+    "eslint": "^10.8.0",
     "mockery": "^2.1.0",
-    "nyc": "^11.4.1",
+    "nyc": "^18.0.0",
     "supertest": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "ava": {
+    "failWithoutAssertions": false,
+    "serial": true,
+    "timeout": "60s"
   }
 }

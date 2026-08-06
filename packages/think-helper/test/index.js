@@ -1,39 +1,7 @@
-import test from 'ava';
-import {
-  isInt,
-  isFunction,
-  isExist,
-  isFile,
-  isDirectory,
-  extend,
-  promisify,
-  defer,
-  md5,
-  mkdir,
-  rmdir,
-  chmod,
-  uuid,
-  datetime,
-  escapeHtml,
-  isEmpty,
-  isNumberString,
-  camelCase,
-  getdirFiles,
-  isTrueEmpty,
-  isIP,
-  timeout,
-  parseAdapterConfig,
-  ms,
-  snakeCase,
-  isBuffer,
-  omit
-} from '../index.js';
-import fs from 'fs';
-import path from 'path';
-import {fileURLToPath} from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const {default: test} = require('ava');
+const {isInt, isFunction, isExist, isFile, isDirectory, extend, promisify, defer, md5, mkdir, rmdir, chmod, uuid, datetime, escapeHtml, isEmpty, isNumberString, camelCase, getdirFiles, isTrueEmpty, isIP, timeout, parseAdapterConfig, ms, snakeCase, isBuffer, omit} = require('../index.js');
+const fs = require('fs');
+const path = require('path');
 
 test('isInt', t => {
   t.is(isInt(42), true);

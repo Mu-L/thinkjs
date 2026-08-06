@@ -1,4 +1,4 @@
-const {test} = require('ava');
+const {default: test} = require('ava');
 const Model = require('../../lib/model');
 const Relation = require('../../lib/relation/has_one');
 

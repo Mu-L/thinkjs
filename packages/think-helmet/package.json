@@ -7,7 +7,7 @@
     "email": "welefen@gmail.com"
   },
   "scripts": {
-    "test": "npm run lint && npm run test-cov",
+    "test": "pnpm run lint && pnpm run test-cov",
     "test-cov": "nyc ava test/ && nyc report --reporter=html",
     "lint": "eslint index.js"
   },
@@ -21,10 +21,9 @@
     "koa-helmet": "^4.1.0"
   },
   "devDependencies": {
-    "ava": "^0.23.0",
-    "eslint": "^4.10.0",
-    "eslint-config-think": "^1.0.2",
-    "nyc": "^11.3.0"
+    "ava": "^8.0.1",
+    "eslint": "^10.8.0",
+    "nyc": "^18.0.0"
   },
   "keywords": [
     "helmet"
@@ -35,11 +34,16 @@
     "directory": "packages/think-helmet"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=20.19.0"
   },
   "license": "MIT",
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/thinkjs/think-helmet/issues"
+  },
+  "ava": {
+    "failWithoutAssertions": false,
+    "serial": true,
+    "timeout": "60s"
   }
 }

@@ -1,4 +1,4 @@
-const { default: test } = require('ava');
+const {default: test} = require('ava');
 
 test('extend.allowExtends', t => {
   var allowExtends = require('../loader/extend').allowExtends;

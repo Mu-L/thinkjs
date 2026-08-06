@@ -1,4 +1,4 @@
-const test = require('ava');
+const {default: test} = require('ava');
 const mock = require('mock-require');
 const cluster = require('cluster');
 const http = require('http');

@@ -1,4 +1,4 @@
-const test = require('ava');
+const {default: test} = require('ava');
 const model = require('../src/model');
 
 const defaultTable = 'test';
@@ -163,7 +163,7 @@ test.serial('order', async t => {
   t.is(ret[0].version, '1.0');
 });
 
-test.serial('order', async t => {
+test.serial('order #2', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   const ret = await m.group('name').select();
@@ -232,7 +232,7 @@ test.serial('countSelect with limit', async t => {
   t.is(!!ret.currentPage, true);
 });
 
-test.serial('countSelect with limit', async t => {
+test.serial('countSelect with limit #2', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   let ret = await m.countSelect({limit: [10, 2]}, true);
@@ -241,7 +241,7 @@ test.serial('countSelect with limit', async t => {
   t.is(!!ret.currentPage, true);
 });
 
-test.serial('countSelect with limit', async t => {
+test.serial('countSelect with limit #3', async t => {
   const m = new model(defaultTable, defaultOptions);
   const ret = await m.countSelect();
   t.deepEqual(ret.data, []);
@@ -296,7 +296,7 @@ test.serial('group sum', async t => {
   t.deepEqual(thinkSum, sum);
 });
 
-test.serial('group sum', async t => {
+test.serial('group sum #2', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   const ret = await m.where({name: 'thinkjs'}).order('version ASC').group('name,version').sum('age');
@@ -326,7 +326,7 @@ test.serial('distinct', async t => {
   t.is(n, 1);
 });
 
-test.serial('transaction', async t => {
+test.serial('transaction #2', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.transaction(async session => {
     await m.add({name: 'thinkjs'});
@@ -335,7 +335,7 @@ test.serial('transaction', async t => {
   t.is(ret.length, 1);
 });
 
-test.serial('transaction', async t => {
+test.serial('transaction #3', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.transaction(async session => {
     await m.add({name: 'thinkjs'});

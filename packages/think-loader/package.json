@@ -7,9 +7,9 @@
     "email": "welefen@gmail.com"
   },
   "scripts": {
-    "test": "npm run lint && nyc ava test/",
+    "test": "pnpm run lint && nyc ava test/",
     "lint": "eslint index.js loader/ test/",
-    "lint-fix": "npm run lint -- --fix",
+    "lint-fix": "pnpm run lint -- --fix",
     "coverage": "nyc ava test/ && nyc report --reporter=html"
   },
   "contributors": [
@@ -30,10 +30,9 @@
     "thinkjs": "^4.0.0"
   },
   "devDependencies": {
-    "ava": "^8.0.0",
+    "ava": "^8.0.1",
     "coveralls": "~2.11.16",
-    "eslint": "^4.19.1",
-    "eslint-config-think": "^1.0.3",
+    "eslint": "^10.8.0",
     "mock-require": "^2.0.1",
     "nyc": "^18.0.0"
   },
@@ -44,10 +43,15 @@
     "directory": "packages/think-loader"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=20.19.0"
   },
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/thinkjs/think-loader/issue"
+  },
+  "ava": {
+    "failWithoutAssertions": false,
+    "serial": true,
+    "timeout": "60s"
   }
 }

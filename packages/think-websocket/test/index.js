@@ -1,6 +1,6 @@
-import test from 'ava';
-import helper from 'think-helper';
-import websocket from '../index.js';
+const {default: test} = require('ava');
+const helper = require('think-helper');
+const websocket = require('../index.js');
 
 let defaultCtx = {
   req: {

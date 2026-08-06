@@ -1,4 +1,4 @@
-const test = require('ava');
+const {default: test} = require('ava');
 const Logger = require('../src');
 const process = require('process');
 const Adapter = Logger.Console;
@@ -11,7 +11,7 @@ test.before('console logger', () => {
   })(process.stdout.write);
 });
 
-test('console logger', t => {
+test('console logger #2', t => {
   const funcNames = ['trace', 'debug', 'info', 'warn', 'error'];
   const logger = new Logger({handle: Adapter});
 

@@ -4,7 +4,7 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2017-12-20 10:55:32
 */
-const test = require('ava');
+const {default: test} = require('ava');
 const helper = require('think-helper');
 const {extendClassMethods} = require('../../lib/util.js');
 
@@ -40,7 +40,7 @@ test('extendClassMethods with getter, setter', t => {
   t.is(target.xxx, 3);
 });
 
-test('extendClassMethods with getter, setter', t => {
+test('extendClassMethods with getter, setter #2', t => {
   const target = {};
   const source = {schema: 1};
   extendClassMethods(target, source);

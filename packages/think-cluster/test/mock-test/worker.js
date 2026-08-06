@@ -1,4 +1,4 @@
-const test = require('ava');
+const {default: test} = require('ava');
 const mock = require('mock-require');
 const path = require('path');
 const helper = require('think-helper');
@@ -132,10 +132,6 @@ test.serial('normal case 7', async t => {
   const Worker = getWorker();
   const instance = new Worker(config);
   instance.captureEvents();
-
-  const loudRejection = require('loud-rejection');
-
-  loudRejection();
 
   let myp;
 
@@ -301,7 +297,7 @@ test.serial('onUncaughtException case', async t => {
   t.is(process['isuncaughtException'], true);
 });
 
-test.serial('onUncaughtException case', async t => {
+test.serial('onUncaughtException case #2', async t => {
   mockCluster();
   mockProcess();
   const config = {

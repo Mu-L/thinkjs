@@ -1,5 +1,5 @@
-import test from 'ava';
-import '../../lib/think';
+const {default: test} = require('ava');
+require('../../lib/think');
 
 
 test.serial('service method', t => {

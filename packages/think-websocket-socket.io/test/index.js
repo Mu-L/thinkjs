@@ -1,4 +1,4 @@
-const test = require('ava');
+const {default: test} = require('ava');
 const http = require('http');
 const helper = require('think-helper');
 const exec = require('child_process').exec;
@@ -76,7 +76,7 @@ test('socketio', t => {
 });
 
 
-test('socketio', t => {
+test('socketio #2', t => {
   let socketioInst = new SocketIO(server, {
     path: '/',
     allowOrigin: true,
@@ -95,7 +95,7 @@ test('socketio', t => {
 });
 
 
-// test('socketio', t => {
+// test('socketio #3', t => {
 //   let socketioInst = new SocketIO(server, {
 //     path: '/',
 //     allowOrigin: true,
@@ -108,7 +108,7 @@ test('socketio', t => {
 //   t.true(true);
 // });
 
-test('socketio', t => {
+test('socketio #4', t => {
   let socketioInst = new SocketIO(server, {
     path: '',
     allowOrigin: null,

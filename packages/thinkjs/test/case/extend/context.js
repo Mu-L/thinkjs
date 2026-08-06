@@ -1,4 +1,4 @@
-import test from 'ava';
+const {default: test} = require('ava');
 const fs = require('fs');
 const helper = require('think-helper');
 const config = require('../../../lib/config/config');
@@ -102,7 +102,7 @@ test.serial('isMethod', async t => {
   t.is(context.isMethod('POST'), false);
 });
 
-test.serial('isMethod', async t => {
+test.serial('isMethod #2', async t => {
   t.is(context.isMethod('GET'), true);
   t.is(context.isMethod('POST'), false);
 });
@@ -128,7 +128,7 @@ test.serial('jsonp', async t => {
   t.is(context.body,'test({"name":"thinkjs"})');
 });
 
-test.serial('jsonp', async t => {
+test.serial('jsonp #2', async t => {
   context.param('_callback','test')
   context.jsonp({name:'thinkjs'})
   t.is(context.body,'test({"name":"thinkjs"})');
@@ -149,7 +149,7 @@ test.serial('success', async t => {
   t.deepEqual(context.body,{errno:0,errmsg:'success',data:[]});
 });
 
-test.serial('success', async t => {
+test.serial('success #2', async t => {
   let errObj = {errno:404,errmsg:'fail',data:[]};
   context.fail(errObj);
   t.deepEqual(context.body,errObj);

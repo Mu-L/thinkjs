@@ -1,10 +1,24 @@
 'use strict';
 
 const Koa = require('koa');
-const test = require('ava');
+const {default: test} = require('ava');
 const serve = require('..');
 const request = require('supertest');
 const helper = require('think-helper');
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
+
+const extensionRoot = path.join(os.tmpdir(), `think-resource-assets-${process.pid}`);
+const servers = new Set();
+test.before(() => fs.cpSync(path.join(__dirname, 'assets'), extensionRoot, {recursive: true}));
+test.afterEach.always(async () => {
+  await Promise.all([...servers].map(server => new Promise((resolve, reject) => {
+    server.close(error => error ? reject(error) : resolve());
+  })));
+  servers.clear();
+});
+test.after.always(() => fs.rmSync(extensionRoot, {force: true, recursive: true}));
 
 function createServer (options, middlewares = [], callback) {
   const app = new Koa();
@@ -19,14 +33,16 @@ function createServer (options, middlewares = [], callback) {
   middlewares.forEach(middleware => {
     app.use(middleware);
   });
-  return app.listen(function () {
+  const server = app.listen(function () {
     if (helper.isFunction(callback)) {
       callback(this);
     }
   });
+  servers.add(server);
+  return server;
 }
 
-test.cb('serve by no options"."', t => {
+test('serve by no options"."', async t => {
   t.plan(1);
   try {
     createServer();
@@ -35,377 +51,207 @@ test.cb('serve by no options"."', t => {
   catch (e) {
     t.pass();
   }
-  t.end();
 });
 
-test.cb('serve by root:"."', t => {
+test('serve by root:"."', async t => {
   t.plan(1);
-  request(createServer({ root: '.' }))
+  await request(createServer({ root: '.' }))
     .get('/package.json')
-    .expect(200, (err, res) => {
-      if (err) {
-        t.fail();
-      }
-      else {
-        t.pass();
-      }
-      t.end();
-    });
+    .expect(200);
+  t.pass();
 });
 
-test.cb('serve by path:"not a file"', t => {
+test('serve by path:"not a file"', async t => {
   t.plan(1);
-  request(createServer({ root: 'test/assets' }))
+  await request(createServer({ root: 'test/assets' }))
     .get('/errpath.txt')
-    .expect(404, (err, res) => {
-      if (err) {
-        t.fail();
-      }
-      else {
-        t.pass();
-      }
-      t.end();
-    });
+    .expect(404);
+  t.pass();
 });
 
-test.cb('serve by invalid path', t => {
+test('serve by invalid path', async t => {
   t.plan(1)
-  request(createServer({ root: 'test/assets' }))
+  await request(createServer({ root: 'test/assets' }))
     .get('/%fdsa')
-    .expect(400, (err, res) => {
-      if (err) {
-        t.fail();
-      }
-      else {
-        t.pass();
-      }
-      t.end();
-    });
+    .expect(400);
+  t.pass();
 });
 
-test.cb('serve by valid path', t => {
+test('serve by valid path', async t => {
   t.plan(1)
-  request(createServer({ root: 'test/assets' }))
+  await request(createServer({ root: 'test/assets' }))
     .get('/1.txt')
     .expect(200)
-    .expect('txt hello', (err, res) => {
-      if (err) {
-        t.fail();
-      }
-      else {
-        t.pass();
-      }
-      t.end();
-    });
+    .expect('txt hello');
+  t.pass();
 });
 
-test.cb('serve by upstream middleware responds', t => {
+test('serve by upstream middleware responds', async t => {
   t.plan(1);
-  request(createServer({ root: 'test/assets' }, [ (ctx, next) => {
+  await request(createServer({ root: 'test/assets' }, [ (ctx, next) => {
     return next().then(() => {
       ctx.body = 'hi';
     });
   } ]))
     .get('/1.txt')
     .expect(200)
-    .expect('txt hello', (err, res) => {
-      if (err) {
-        t.fail();
-      }
-      else {
-        t.pass();
-      }
-      t.end();
-    });
+    .expect('txt hello');
+  t.pass();
 });
 
-test.cb('serve by index', t => {
+test('serve by index', async t => {
   t.plan(1);
-  request(createServer({ root: 'test/assets', index: 'index.txt' }))
+  await request(createServer({ root: 'test/assets', index: 'index.txt' }))
     .get('/')
     .expect(200)
     .expect('Content-Type', 'text/plain; charset=utf-8')
-    .expect('index', (err, res) => {
-      if (err) {
-        t.fail();
-      }
-      else {
-        t.pass();
-      }
-      t.end();
-    });
+    .expect('index');
+  t.pass();
 });
 
-test.cb('serve by index html', t => {
+test('serve by index html', async t => {
   t.plan(1);
-  request(createServer({ root: 'test/assets' }))
+  await request(createServer({ root: 'test/assets' }))
     .get('/html/')
     .expect(200)
     .expect('Content-Type', 'text/html; charset=utf-8')
-    .expect('index html world', (err, res) => {
-      if (err) {
-        t.fail();
-      }
-      else {
-        t.pass();
-      }
-      t.end();
-    });
+    .expect('index html world');
+  t.pass();
 });
 
-test.cb('serve by disabled index', t => {
+test('serve by disabled index', async t => {
   t.plan(1);
-  request(createServer({ root: 'test/assets', index: false }))
+  await request(createServer({ root: 'test/assets', index: false }))
     .get('/html/')
-    .expect(404, (err, res) => {
-      if (err) {
-        t.fail();
-      }
-      else {
-        t.pass();
-      }
-      t.end();
-    });
+    .expect(404);
+  t.pass();
 });
 
-test.cb('serve by POST method', t => {
+test('serve by POST method', async t => {
   t.plan(1);
-  request(createServer({ root: 'test/assets' }))
+  await request(createServer({ root: 'test/assets' }))
     .post('/1.txt')
-    .expect(404, (err, res) => {
-      if (err) {
-        t.fail();
-      }
-      else {
-        t.pass();
-      }
-      t.end();
-    });
+    .expect(404);
+  t.pass();
 });
 
-test.cb('serve by publicPath', t => {
+test('serve by publicPath', async t => {
   t.plan(1);
-  request(createServer({ root: 'test/assets', publicPath: '/1.txt' }))
+  await request(createServer({ root: 'test/assets', publicPath: '/1.txt' }))
     .get('/1.txt')
-    .expect(200, (err, res) => {
-      if (err) {
-        t.fail();
-      }
-      else {
-        t.pass();
-      }
-      t.end();
-    });
+    .expect(200);
+  t.pass();
 });
 
-test.cb('serve by publicPath', t => {
+test('serve by publicPath #2', async t => {
   t.plan(1);
-  request(createServer({ root: 'test/assets', publicPath: /1\.txt/ }))
+  await request(createServer({ root: 'test/assets', publicPath: /1\.txt/ }))
     .get('/1.txt')
-    .expect(200, (err, res) => {
-      if (err) {
-        t.fail();
-      }
-      else {
-        t.pass();
-      }
-      t.end();
-    });
+    .expect(200);
+  t.pass();
 });
 
-test.cb('serve by publicPath', t => {
+test('serve by publicPath #3', async t => {
   t.plan(1);
-  request(createServer({ root: 'test/assets', publicPath: /^\/html\/index.html/ }))
+  await request(createServer({ root: 'test/assets', publicPath: /^\/html\/index.html/ }))
     .get('/html/index.html')
-    .expect(200, (err, res) => {
-      if (err) {
-        t.fail();
-      }
-      else {
-        t.pass();
-      }
-      t.end();
-    });
+    .expect(200);
+  t.pass();
 });
 
-test.cb('serve by publicPath', t => {
+test('serve by publicPath #4', async t => {
   t.plan(1);
-  request(createServer({ root: 'test/assets', publicPath: '1.txt' }))
+  await request(createServer({ root: 'test/assets', publicPath: '1.txt' }))
     .get('/1.txt')
-    .expect(200, (err, res) => {
-      if (err) {
-        t.fail();
-      }
-      else {
-        t.pass();
-      }
-      t.end();
-    });
+    .expect(200);
+  t.pass();
 });
 
-test.cb('serve by format:"true"', t => {
+test('serve by format:"true"', async t => {
   t.plan(1);
-  request(createServer({ root: 'test/assets', format: true }))
+  await request(createServer({ root: 'test/assets', format: true }))
     .get('/html')
-    .expect(200, (err, res) => {
-      if (err) {
-        t.fail();
-      }
-      else {
-        t.pass();
-      }
-      t.end();
-    });
+    .expect(200);
+  t.pass();
 });
 
 
-test.cb('serve by format:"false"', t => {
+test('serve by format:"false"', async t => {
   t.plan(1);
-  request(createServer({ root: 'test/assets', format: false }))
+  await request(createServer({ root: 'test/assets', format: false }))
     .get('/html')
-    .expect(404, (err, res) => {
-      if (err) {
-        t.fail();
-      }
-      else {
-        t.pass();
-      }
-      t.end();
-    });
+    .expect(404);
+  t.pass();
 });
 
-test.cb('serve by setHeaders:"true"', t => {
+test('serve by setHeaders:"true"', async t => {
   t.plan(1);
-  request(createServer({ root: 'test/assets', setHeaders: true }))
+  await request(createServer({ root: 'test/assets', setHeaders: true }))
     .get('/html')
-    .expect(500, (err, res) => {
-      if (err) {
-        t.fail();
-      }
-      else {
-        t.pass();
-      }
-      t.end();
-    });
+    .expect(500);
+  t.pass();
 });
 
-test.cb('serve by gzip', t => {
+test('serve by gzip', async t => {
   t.plan(1);
-  request(createServer({ root: 'test/assets', gzip: true }))
+  await request(createServer({ root: 'test/assets', gzip: true }))
     .get('/gzip.json')
-    .expect(200, (err, res) => {
-      if (err) {
-        t.fail();
-      }
-      else {
-        t.pass();
-      }
-      t.end();
-    });
+    .expect(200);
+  t.pass();
 });
 
-test.cb('serve by extensions', t => {
-  t.plan(1);
-  request(createServer({ root: 'test/assets', extensions: ['.html', 'txt'] }))
+test('serve by extensions', async t => {
+  await request(createServer({ root: extensionRoot, extensions: ['.html', 'txt'] }))
     .get('/index')
-    .expect(200, (err, res) => {
-      if (err) {
-        t.fail();
-      }
-      else {
-        t.pass();
-      }
-      t.end();
-    });
+    .expect(200);
+  t.pass();
 });
 
-test.cb('serve by extensions fail', t => {
+test('serve by extensions fail', async t => {
   t.plan(1);
-  request(createServer({ root: 'test/assets', extensions: ['txt'] }))
+  await request(createServer({ root: extensionRoot, extensions: ['txt'] }))
     .get('/test')
-    .expect(404, (err, res) => {
-      if (err) {
-        t.fail();
-      }
-      else {
-        t.pass();
-      }
-      t.end();
-    });
+    .expect(404);
+  t.pass();
 });
 
-test.cb('serve by extensions err', t => {
+test('serve by extensions err', async t => {
   t.plan(1);
-  request(createServer({ root: 'test/assets', extensions: [2, {}, []] }))
+  await request(createServer({ root: extensionRoot, extensions: [2, {}, []] }))
     .get('/index')
-    .expect(500, (err, res) => {
-      if (err) {
-        t.fail();
-      }
-      else {
-        t.pass();
-      }
-      t.end();
-    });
+    .expect(500);
+  t.pass();
 });
 
-test.cb('serve by hidden file', t => {
+test('serve by hidden file', async t => {
   t.plan(1);
-  request(createServer({ root: 'test/assets', hidden: true }))
+  await request(createServer({ root: 'test/assets', hidden: true }))
     .get('/.hidden')
-    .expect(200, (err, res) => {
-      if (err) {
-        t.fail();
-      }
-      else {
-        t.pass();
-      }
-      t.end();
-    });
+    .expect(200);
+  t.pass();
 });
 
-test.cb('serve by hidden file', t => {
+test('serve by hidden file #2', async t => {
   t.plan(1);
-  request(createServer({ root: 'test/assets', hidden: false }))
+  await request(createServer({ root: 'test/assets', hidden: false }))
     .get('/.hidden')
-    .expect(404, (err, res) => {
-      if (err) {
-        t.fail();
-      }
-      else {
-        t.pass();
-      }
-      t.end();
-    });
+    .expect(404);
+  t.pass();
 });
 
-test.cb('serve by notFoundNext', t => {
+test('serve by notFoundNext', async t => {
   t.plan(1)
-  request(createServer({ root: 'test/assets', notFoundNext: true }))
+  await request(createServer({ root: 'test/assets', notFoundNext: true }))
     .get('/1.txt')
     .expect(200)
-    .expect('txt hello', (err, res) => {
-      if (err) {
-        t.fail();
-      }
-      else {
-        t.pass();
-      }
-      t.end();
-    });
+    .expect('txt hello');
+  t.pass();
 });
 
-test.cb('serve by notFoundNext', t => {
+test('serve by notFoundNext #2', async t => {
   t.plan(1)
-  request(createServer({ root: 'test/assets', notFoundNext: true }))
+  await request(createServer({ root: 'test/assets', notFoundNext: true }))
     .get('/1.txt1')
-    .expect(404, (err, res) => {
-      if (err) {
-        t.fail();
-      }
-      else {
-        t.pass();
-      }
-      t.end();
-    });
+    .expect(404);
+  t.pass();
 });

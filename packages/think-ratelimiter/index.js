@@ -1,4 +1,3 @@
-/* eslint-disable no-return-await */
 const debug = require('debug')('think-ratelimiter');
 const Limiter = require('ratelimiter');
 const ms = require('ms');

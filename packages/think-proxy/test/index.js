@@ -1,4 +1,4 @@
-const test = require('ava');
+const {default: test} = require('ava');
 const proxy = require('..');
 
 test('requires non-empty options', t => {

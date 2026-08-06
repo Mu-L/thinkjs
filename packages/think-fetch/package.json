@@ -8,22 +8,15 @@
     "node-fetch": "^1.6.3"
   },
   "devDependencies": {
-    "ava": "^0.18.2",
-    "babel-eslint": "^7.2.1",
+    "ava": "^8.0.1",
     "coveralls": "^2.13.0",
-    "eslint": "^6.8.0",
-    "eslint-config-think": "^1.0.1",
-    "nyc": "^10.2.0"
+    "eslint": "^10.8.0",
+    "nyc": "^18.0.0"
   },
   "scripts": {
     "test": "eslint index.js && nyc ava test/index.js",
     "lint": "eslint index.js",
     "lint-fix": "eslint --fix index.js"
-  },
-  "ava": {
-    "require": [
-      "babel-core/register"
-    ]
   },
   "repository": {
     "type": "git",
@@ -40,5 +33,13 @@
   "bugs": {
     "url": "https://github.com/thinkjs/think-fetch/issues"
   },
-  "homepage": "https://github.com/thinkjs/think-fetch#readme"
+  "homepage": "https://github.com/thinkjs/think-fetch#readme",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "ava": {
+    "failWithoutAssertions": false,
+    "serial": true,
+    "timeout": "60s"
+  }
 }

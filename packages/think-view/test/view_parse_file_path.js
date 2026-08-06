@@ -1,4 +1,4 @@
-const test = require('ava');
+const {default: test} = require('ava');
 const mock = require('mock-require');
 
 const ctx = {
@@ -63,7 +63,7 @@ test('parseFilePath function -- ctx.module undefined', t => {
   let file = undefined;
   t.throws(() => {
     file = view.parseFilePath(file, config);
-  }, Error);
+  }, {instanceOf: Error});
   t.deepEqual(
     assertCallParams,
     [
@@ -141,7 +141,7 @@ test('parseFilePath function -- empty config ', t => {
   let file = undefined;
   t.throws(() => {
     file = view.parseFilePath(file);
-  }, Error);
+  }, {instanceOf: Error});
   t.deepEqual(
     assertCallParams,
     [
