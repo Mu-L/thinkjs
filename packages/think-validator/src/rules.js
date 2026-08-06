@@ -5,7 +5,9 @@
 * @Last Modified time: 2018-04-19 14:11:40
 */
 const helper = require('think-helper');
-const validator = require('validator');
+const validator = Object.assign({}, require('validator'), {
+  toString: require('validator/lib/util/toString')
+});
 const assert = require('assert');
 const METHOD_MAP = require('./method.js');
 const Rules = {};
@@ -498,7 +500,7 @@ Rules.halfWidth = value => {
  */
 Rules.hexColor = value => {
   value = validator.toString(value);
-  return validator.isHexColor(value);
+  return validator.isHexColor(value) && /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.test(value);
 };
 
 /**
@@ -825,7 +827,7 @@ Rules.issn = (value, { validValue }) => {
  */
 Rules.uuid = value => {
   value = validator.toString(value);
-  return validator.isUUID(value, 3) || validator.isUUID(value, 4) || validator.isUUID(value, 5);
+  return validator.isUUID(value, 'loose') && /^[0-9a-f]{8}-[0-9a-f]{4}-[345]/i.test(value);
 };
 
 /**
