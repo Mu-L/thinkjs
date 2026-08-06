@@ -1,5 +1,5 @@
 const path = require('path');
-const test = require('../../../test/ava.cjs');
+const {default: test} = require('ava');
 const request = require('supertest');
 const payload = require('../index.js');
 const Koa = require('koa');

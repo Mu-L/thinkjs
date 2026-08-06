@@ -1,4 +1,4 @@
-const test = require('../../../test/ava.cjs');
+const {default: test} = require('ava');
 const path = require('path');
 const mock = require('mock-require');
 const helper = require('think-helper');
@@ -163,7 +163,7 @@ test('when getLocale by unknown 5', t=>{
 
   var err = t.throws(()=>{
     extend.controller.getLocale.bind(mockController)();
-  }, Error);
+  }, {instanceOf: Error});
   t.is(err.message, 'getLocale.by must be value of "header", "query" or  "cookie".');
 });
 
@@ -174,7 +174,7 @@ test('i18n will use param if provide', t=>{
   var extend = instance.extend({});
   var err = t.throws(()=>{
     extend.controller.getI18n({});
-  }, Error);
+  }, {instanceOf: Error});
   t.is(err.message, 'controller.getI18n(locale), locale must be string or undefined');
 });
 
@@ -184,7 +184,7 @@ test('i18n will use debugLocale if provide and param not provided', t=>{
   var extend = instance.extend({debugLocale: {}});
   var err = t.throws(()=>{
     extend.controller.getI18n();
-  }, Error);
+  }, {instanceOf: Error});
   t.is(err.message, 'controller.getI18n(locale), locale must be string or undefined');
 });
 
@@ -199,7 +199,7 @@ test('i18n will use getLocale if not provide param and debugLocale', t=>{
   controller.getLocale = function(){callTimes++; return 'getLocale';}
   var err = t.throws(()=>{
     controller.getI18n();
-  }, Error);
+  }, {instanceOf: Error});
   t.is(callTimes, 1);
   t.is(expectParam, 'getLocale');
   t.is(err.message, 'controller.getI18n(locale), locale must be string or undefined');
@@ -212,7 +212,7 @@ test('i18n will throw if no matched localeConfig is found', t=>{
   var controller = extend.controller;
   var err = t.throws(()=>{
     controller.getI18n('someLocale');
-  }, Error);
+  }, {instanceOf: Error});
   t.is(err.message, 'locale config someLocale not found');
 });
 

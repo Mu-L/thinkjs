@@ -1,4 +1,4 @@
-const test = require('../../../test/ava.cjs');
+const {default: test} = require('ava');
 const {Config, getConfigFn} = require('../index.js');
 
 test('config init', t => {

@@ -1,39 +1,45 @@
-const test = require('../../../../../test/ava.cjs');
+const {default: test} = require('ava');
 const inquirer = require('inquirer');
 const confirmOverwrite = require('../../../lib/generate/confirm-overwrite.js');
 
-test.cb('file already exists. Continue? yes', t => {
+test('file already exists. Continue? yes', async t => {
   inquirer.prompt = generatePrompt({ok: true})
   const run = confirmOverwrite('test');
-  run({
+  await runCommand(run, {
     [__filename]: {}
-  }, null, err => {
-    t.is(err, null);
-    t.end();
-  })
+  });
+  t.pass();
 });
 
-test.cb('file already exists. Continue? no', t => {
+test('file already exists. Continue? no', async t => {
   inquirer.prompt = generatePrompt({ok: false})
   const run = confirmOverwrite('test');
+  let callbackCalled = false;
   run({
     [__filename]: {}
-  }, null, _ => {})
+  }, null, () => {
+    callbackCalled = true;
+  })
 
   console.log(' Here should print "Abort the operation": ');
-  t.end();
+  await new Promise(resolve => setImmediate(resolve));
+  t.false(callbackCalled);
 });
 
-test.cb('The new command should be skipped', t => {
+test('The new command should be skipped', async t => {
   const run = confirmOverwrite('new');
 
-  run({
+  await runCommand(run, {
     [__filename]: {}
-  }, null, err => {
-    t.is(err, null);
-    t.end();
-  })
+  });
+  t.pass();
 });
+
+function runCommand(run, files) {
+  return new Promise((resolve, reject) => {
+    run(files, null, error => error ? reject(error) : resolve());
+  });
+}
 
 function generatePrompt(answers) {
   return (questions) => {

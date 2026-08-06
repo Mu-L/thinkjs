@@ -1,4 +1,4 @@
-const test = require('../../../test/ava.cjs');
+const {default: test} = require('ava');
 const helper = require('think-helper');
 const websocket = require('../index.js');
 

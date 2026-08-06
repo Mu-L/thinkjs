@@ -1,5 +1,5 @@
 const path = require('path');
-const test = require('../../../test/ava.cjs');
+const {default: test} = require('ava');
 const request = require('supertest');
 const helper = require('think-helper');
 const Koa = require('koa');
@@ -61,27 +61,20 @@ test.before(t => {
   });
 });
 
-test.cb('should return token', t => {
-  request(app.callback())
-  .get('/')
-  .set('Content-Type', 'text/plain')
-  .expect(200)
-  .end((err, res) => {
-    t.is(typeof res.text, 'string');
-    t.end();
-  });
+test('should return token', async t => {
+  const response = await request(app.callback())
+    .get('/')
+    .set('Content-Type', 'text/plain')
+    .expect(200);
+  t.is(typeof response.text, 'string');
 });
 
-test.cb('should intercept request', t => {
-  request(app.callback())
-  .post('/')
-  .set('Content-Type', 'text/plain')
-  .expect(200)
-  .end((err, res) => {
-    t.is(res.status, 403)
-    t.is(res.text, 'invalid csrf token');
-    t.end();
-  });
+test('should intercept request', async t => {
+  const response = await request(app.callback())
+    .post('/')
+    .set('Content-Type', 'text/plain')
+    .expect(403);
+  t.is(response.text, 'invalid csrf token');
 });
 
 test('should not being intercepted 1', async t => {

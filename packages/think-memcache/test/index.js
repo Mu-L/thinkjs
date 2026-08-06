@@ -4,7 +4,7 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2017-04-01 16:33:19
 */
-const test = require('../../../test/ava.cjs');
+const {default: test} = require('ava');
 const helper = require('think-helper');
 const path = require('path');
 const fs = require('fs');

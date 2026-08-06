@@ -1,4 +1,4 @@
-const test = require('../../../test/ava.cjs');
+const {default: test} = require('ava');
 const model = require('../src/model');
 
 const defaultTable = 'test';

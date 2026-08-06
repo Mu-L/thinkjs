@@ -1,4 +1,4 @@
-const test = require('../../../test/ava.cjs');
+const {default: test} = require('ava');
 const Parser = require('../src/parser');
 const {ObjectID} = require('mongodb');
 const parser = new Parser();

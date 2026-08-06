@@ -1,61 +1,61 @@
-const ava = {test: require('../../../../test/ava.cjs')};
+const {default: test} = require('ava');
 const helper = require('think-helper');
 const Base = require('../../lib/parser');
 
-ava.test('escapeString is function', t => {
+test('escapeString is function', t => {
   const instance = new Base();
   t.true(helper.isFunction(instance.escapeString));
 });
 
-ava.test('escapeString, empty', t => {
+test('escapeString, empty', t => {
   const instance = new Base();
   const data = instance.escapeString();
   t.is(data, '');
 });
 
-ava.test('escapeString, \\n', t => {
+test('escapeString, \\n', t => {
   const instance = new Base();
   const data = instance.escapeString('\n');
   t.is(data, '\\n');
 });
 
-ava.test('escapeString, \\0', t => {
+test('escapeString, \\0', t => {
   const instance = new Base();
   const data = instance.escapeString('\0');
   t.is(data, '\\0');
 });
 
-ava.test('escapeString, \\r', t => {
+test('escapeString, \\r', t => {
   const instance = new Base();
   const data = instance.escapeString('\r');
   t.is(data, '\\r');
 });
 
-ava.test('escapeString, \\b', t => {
+test('escapeString, \\b', t => {
   const instance = new Base();
   const data = instance.escapeString('\b');
   t.is(data, '\\b');
 });
 
-ava.test('escapeString, \\t', t => {
+test('escapeString, \\t', t => {
   const instance = new Base();
   const data = instance.escapeString('\t');
   t.is(data, '\\t');
 });
 
-ava.test('escapeString, \\Z', t => {
+test('escapeString, \\Z', t => {
   const instance = new Base();
   const data = instance.escapeString('\u001a');
   t.is(data, '\\Z');
 });
 
-ava.test('escapeString, \\"', t => {
+test('escapeString, \\"', t => {
   const instance = new Base();
   const data = instance.escapeString('"');
   t.is(data, '\\"');
 });
 
-ava.test('parseKey is function', t => {
+test('parseKey is function', t => {
   const cases = [
     ['key', '`key`'],
     ['    ', ''],
@@ -76,7 +76,7 @@ ava.test('parseKey is function', t => {
   cases.forEach(([param, expect]) => t.is(instance.parseKey(param), expect));
 });
 
-ava.test('buildInsertSql with super', t => {
+test('buildInsertSql with super', t => {
   const instance = new Base();
   instance.__proto__.__proto__.buildInsertSql = function() {
     t.pass();
@@ -94,7 +94,7 @@ ava.test('buildInsertSql with super', t => {
   );
 });
 
-ava.test('buildInsertSql with array update', t => {
+test('buildInsertSql with array update', t => {
   const instance = new Base();
   const options = {
     table: 'user',
@@ -130,7 +130,7 @@ ava.test('buildInsertSql with array update', t => {
   );
 });
 
-ava.test('buildInsertSql with object update', t => {
+test('buildInsertSql with object update', t => {
   const instance = new Base();
   const options = {
     table: 'user',
@@ -179,7 +179,7 @@ ava.test('buildInsertSql with object update', t => {
   );
 });
 
-ava.test('buildInsertSql with empty update', t => {
+test('buildInsertSql with empty update', t => {
   const instance = new Base();
   const options = {
     table: 'user',

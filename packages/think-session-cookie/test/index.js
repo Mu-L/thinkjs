@@ -1,4 +1,4 @@
-const test = require('../../../test/ava.cjs');
+const {default: test} = require('ava');
 const mock = require('mock-require');
 
 function mockAssert(assertCallParams = []) {
@@ -51,7 +51,7 @@ test('constructor function -- option.encrypt with empty keys', t => {
 
   t.throws(() => {
     new SessionCookie({}, defaultCtx, options);
-  }, Error);
+  }, {instanceOf: Error});
 
   t.deepEqual(assertCallParams,
     [
@@ -72,7 +72,7 @@ test('constructor function -- option.encrypt with not array keys', t => {
 
   t.throws(() => {
     new SessionCookie({}, defaultCtx, options);
-  }, Error);
+  }, {instanceOf: Error});
 
   t.deepEqual(assertCallParams,
     [
