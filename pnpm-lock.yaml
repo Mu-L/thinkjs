@@ -53,7 +53,7 @@ importers:
         version: 7.29.0(supports-color@7.2.0)
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       '@babel/preset-env':
         specifier: ^7.4.3
@@ -75,10 +75,10 @@ importers:
     dependencies:
       think-debounce:
         specifier: ^1.0.4
-        version: 1.0.4
+        version: link:../think-debounce
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -100,16 +100,16 @@ importers:
     dependencies:
       think-debounce:
         specifier: ^1.0.4
-        version: 1.0.4
+        version: link:../think-debounce
       think-gc:
         specifier: ^1.0.3
-        version: 1.0.3
+        version: link:../think-gc
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
       think-store-file:
         specifier: ^1.0.12
-        version: 1.1.1
+        version: link:../think-store-file
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -128,10 +128,10 @@ importers:
     dependencies:
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
       think-memcache:
         specifier: ^1.1.2
-        version: 1.1.2(supports-color@7.2.0)
+        version: link:../think-memcache
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -150,7 +150,7 @@ importers:
     dependencies:
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
       think-redis:
         specifier: ^1.1.4
         version: 1.1.4(supports-color@7.2.0)
@@ -205,7 +205,7 @@ importers:
         version: 1.4.0
       think-helper:
         specifier: ^1.0.21
-        version: 1.1.5
+        version: link:../think-helper
       urllib:
         specifier: ^2.22.0
         version: 2.44.1
@@ -233,7 +233,7 @@ importers:
         version: 1.1.3
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -252,7 +252,7 @@ importers:
     dependencies:
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -274,7 +274,7 @@ importers:
     dependencies:
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -311,13 +311,13 @@ importers:
         version: 1.3.3
       think-cluster:
         specifier: ^1.0.0
-        version: 1.5.8(supports-color@7.2.0)
+        version: link:../think-cluster
       think-helper:
         specifier: ^1.0.0
-        version: 1.1.5
+        version: link:../think-helper
       think-mock-http:
         specifier: ^1.0.0
-        version: 1.0.6(supports-color@7.2.0)
+        version: link:../think-mock-http
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -351,7 +351,7 @@ importers:
     dependencies:
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -373,13 +373,13 @@ importers:
         version: 3.4.2(supports-color@7.2.0)
       think-payload:
         specifier: ^1.0.1
-        version: 1.4.1
+        version: link:../think-payload
       think-session:
         specifier: ^1.0.1
-        version: 1.1.6
+        version: link:../think-session
       think-session-file:
         specifier: ^1.0.5
-        version: 1.1.4(supports-color@7.2.0)
+        version: link:../think-session-file
 
   packages/think-debounce:
     devDependencies:
@@ -409,37 +409,37 @@ importers:
         version: 1.0.10
       think-fetch:
         specifier: ^1.0.0
-        version: 1.1.2
+        version: link:../think-fetch
       think-i18n:
         specifier: ^1.2.3
-        version: 1.3.2
+        version: link:../think-i18n
       think-model:
         specifier: '*'
-        version: 1.5.4(supports-color@7.2.0)
+        version: link:../think-model
       think-mongoose:
         specifier: ^1.0.1
-        version: 1.1.3(supports-color@7.2.0)
+        version: link:../think-mongoose
       think-session-cookie:
         specifier: ^1.0.0
-        version: 1.1.4(supports-color@7.2.0)(think-session@1.1.6)
+        version: link:../think-session-cookie
       think-session-file:
         specifier: ^1.0.0
-        version: 1.1.4(supports-color@7.2.0)
+        version: link:../think-session-file
       think-view:
         specifier: ^1.0.0
-        version: 1.0.13(supports-color@7.2.0)
+        version: link:../think-view
       think-view-nunjucks:
         specifier: ^1.0.1
-        version: 1.0.11(chokidar@3.6.0)
+        version: link:../think-view-nunjucks
       think-watcher:
         specifier: ^3.0.0
-        version: 3.0.4(supports-color@7.2.0)
+        version: link:../think-watcher
       think-websocket:
         specifier: ^1.0.0
-        version: 1.0.8(supports-color@7.2.0)
+        version: link:../think-websocket
       think-websocket-socket.io:
         specifier: ^1.0.0
-        version: 1.0.13(supports-color@7.2.0)
+        version: link:../think-websocket-socket.io
       thinkjs:
         specifier: ^3.0.0
         version: 3.2.15(supports-color@7.2.0)
@@ -458,7 +458,7 @@ importers:
         version: 1.1.0(supports-color@7.2.0)
       think-inspect:
         specifier: 0.0.2
-        version: 0.0.2
+        version: link:../think-inspect
 
   packages/think-email:
     dependencies:
@@ -467,7 +467,7 @@ importers:
         version: 4.0.1
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -505,7 +505,7 @@ importers:
     dependencies:
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
       think-ms:
         specifier: ^1.0.1
         version: 1.0.3
@@ -589,7 +589,7 @@ importers:
         version: 2.0.6
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -614,7 +614,7 @@ importers:
     dependencies:
       think-helper:
         specifier: ^1.0.0
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -636,7 +636,7 @@ importers:
     dependencies:
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -658,7 +658,7 @@ importers:
         version: 0.19.5(supports-color@7.2.0)
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -683,10 +683,10 @@ importers:
         version: 1.9.0
       think-helper:
         specifier: ^1.0.0
-        version: 1.1.5
+        version: link:../think-helper
       thinkjs:
         specifier: ^4.0.0
-        version: 4.0.0(supports-color@7.2.0)
+        version: link:../thinkjs
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -746,7 +746,7 @@ importers:
     dependencies:
       think-helper:
         specifier: ^1.0.0
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -780,10 +780,10 @@ importers:
         version: 0.2.24(supports-color@7.2.0)
       think-debounce:
         specifier: ^1.0.4
-        version: 1.0.4
+        version: link:../think-debounce
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -802,7 +802,7 @@ importers:
     dependencies:
       think-helper:
         specifier: ^1.0.0
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -839,7 +839,7 @@ importers:
         version: 7.29.0(@babel/core@7.29.0(supports-color@7.2.0))(supports-color@7.2.0)
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -861,7 +861,7 @@ importers:
         version: 2.6.9(supports-color@7.2.0)
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -889,16 +889,16 @@ importers:
     dependencies:
       think-cache:
         specifier: ^1.0.7
-        version: 1.1.2
+        version: link:../think-cache
       think-debounce:
         specifier: ^1.0.3
-        version: 1.0.4
+        version: link:../think-debounce
       think-helper:
         specifier: ^1.0.22
-        version: 1.1.5
+        version: link:../think-helper
       think-model-abstract:
         specifier: ^1.2.0
-        version: 1.6.5(supports-color@7.2.0)
+        version: link:../think-model-abstract
     devDependencies:
       '@semantic-release/github':
         specifier: ^5.4.3
@@ -938,7 +938,7 @@ importers:
         version: 3.2.7(supports-color@7.2.0)
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -960,16 +960,16 @@ importers:
     dependencies:
       think-debounce:
         specifier: ^1.0.4
-        version: 1.0.4
+        version: link:../think-debounce
       think-helper:
         specifier: ^1.1.2
-        version: 1.1.5
+        version: link:../think-helper
       think-model-abstract:
         specifier: ^1.2.2
-        version: 1.6.5(supports-color@7.2.0)
+        version: link:../think-model-abstract
       think-mysql:
         specifier: ^1.2.4
-        version: 1.4.4(supports-color@7.2.0)
+        version: link:../think-mysql
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -988,16 +988,16 @@ importers:
     dependencies:
       think-debounce:
         specifier: ^1.0.4
-        version: 1.0.4
+        version: link:../think-debounce
       think-helper:
         specifier: ^1.1.2
-        version: 1.1.5
+        version: link:../think-helper
       think-model-abstract:
         specifier: ^1.2.2
-        version: 1.6.5(supports-color@7.2.0)
+        version: link:../think-model-abstract
       think-mysql:
         specifier: npm:think-mysql2@^2.0.0
-        version: think-mysql2@2.0.0(@types/node@25.8.0)(supports-color@7.2.0)
+        version: link:../think-mysql2
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -1019,16 +1019,16 @@ importers:
         version: 8.20.0
       think-debounce:
         specifier: ^1.0.3
-        version: 1.0.4
+        version: link:../think-debounce
       think-helper:
         specifier: ^1.0.5
-        version: 1.1.5
+        version: link:../think-helper
       think-instance:
         specifier: ^1.0.1
-        version: 1.0.2
+        version: link:../think-instance
       think-model-abstract:
         specifier: ^1.0.0
-        version: 1.6.5(supports-color@7.2.0)
+        version: link:../think-model-abstract
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -1056,16 +1056,16 @@ importers:
         version: 3.9.0
       think-debounce:
         specifier: ^1.0.3
-        version: 1.0.4
+        version: link:../think-debounce
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
       think-instance:
         specifier: ^1.0.2
-        version: 1.0.2
+        version: link:../think-instance
       think-model-abstract:
         specifier: ^1.6.5
-        version: 1.6.5(supports-color@7.2.0)
+        version: link:../think-model-abstract
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -1081,7 +1081,7 @@ importers:
         version: 18.0.0(supports-color@7.2.0)
       think-model:
         specifier: ^1.5.4
-        version: 1.5.4(supports-color@7.2.0)
+        version: link:../think-model
 
   packages/think-mongo:
     dependencies:
@@ -1093,10 +1093,10 @@ importers:
         version: 3.7.4(aws4@1.13.2)
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
       think-instance:
         specifier: ^1.0.2
-        version: 1.0.2
+        version: link:../think-instance
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -1130,10 +1130,10 @@ importers:
         version: 5.13.23(aws4@1.13.2)(supports-color@7.2.0)
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
       think-instance:
         specifier: ^1.0.2
-        version: 1.0.2
+        version: link:../think-instance
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -1164,13 +1164,13 @@ importers:
         version: 2.18.1
       think-debounce:
         specifier: ^1.0.3
-        version: 1.0.4
+        version: link:../think-debounce
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
       think-instance:
         specifier: ^1.0.2
-        version: 1.0.2
+        version: link:../think-instance
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -1207,13 +1207,13 @@ importers:
         version: mysql2@3.22.3(@types/node@25.8.0)
       think-debounce:
         specifier: ^1.0.3
-        version: 1.0.4
+        version: link:../think-debounce
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
       think-instance:
         specifier: ^1.0.2
-        version: 1.0.2
+        version: link:../think-instance
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -1244,7 +1244,7 @@ importers:
     dependencies:
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       eslint:
         specifier: ^10.8.0
@@ -1275,7 +1275,7 @@ importers:
         version: 2.5.3
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
       xml2js:
         specifier: ^0.6.2
         version: 0.6.2
@@ -1330,7 +1330,7 @@ importers:
         version: 2.88.2
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       '@types/node':
         specifier: ^8.0.55
@@ -1405,10 +1405,10 @@ importers:
         version: 2.5.0(supports-color@7.2.0)
       think-debounce:
         specifier: ^1.0.3
-        version: 1.0.4
+        version: link:../think-debounce
       think-helper:
         specifier: ^1.0.4
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -1435,8 +1435,8 @@ importers:
         specifier: 3.3.0
         version: 3.3.0(supports-color@7.2.0)
       think-helper:
-        specifier: latest
-        version: 1.1.5
+        specifier: ^1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -1470,7 +1470,7 @@ importers:
         version: 1.9.0
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -1517,10 +1517,10 @@ importers:
         version: 4.44.4(supports-color@7.2.0)
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
       think-instance:
         specifier: ^1.0.2
-        version: 1.0.2
+        version: link:../think-instance
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -1542,7 +1542,7 @@ importers:
     dependencies:
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -1573,10 +1573,10 @@ importers:
         version: 2.6.9(supports-color@7.2.0)
       think-helper:
         specifier: ^1.0.2
-        version: 1.1.5
+        version: link:../think-helper
       think-session:
         specifier: ^1.1.4
-        version: 1.1.6
+        version: link:../think-session
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -1613,16 +1613,16 @@ importers:
         version: 2.6.9(supports-color@7.2.0)
       think-debounce:
         specifier: ^1.0.4
-        version: 1.0.4
+        version: link:../think-debounce
       think-gc:
         specifier: ^1.0.3
-        version: 1.0.3
+        version: link:../think-gc
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
       think-store-file:
         specifier: ^1.0.12
-        version: 1.1.1
+        version: link:../think-store-file
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -1659,7 +1659,7 @@ importers:
         version: 2.1.3
       think-helper:
         specifier: ^1.0.20
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -1687,10 +1687,10 @@ importers:
         version: 2.6.9(supports-color@7.2.0)
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
       think-mysql:
         specifier: ^1.4.4
-        version: 1.4.4(supports-color@7.2.0)
+        version: link:../think-mysql
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -1724,10 +1724,10 @@ importers:
         version: 2.6.9(supports-color@7.2.0)
       think-helper:
         specifier: ^1.0.0
-        version: 1.1.5
+        version: link:../think-helper
       think-redis:
         specifier: ^1.0.5
-        version: 1.1.4(supports-color@7.2.0)
+        version: link:../think-redis
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -1752,10 +1752,10 @@ importers:
     dependencies:
       think-debounce:
         specifier: ^1.0.3
-        version: 1.0.4
+        version: link:../think-debounce
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -1777,7 +1777,7 @@ importers:
         version: 1.3.12
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -1833,7 +1833,7 @@ importers:
         version: 1.5.0
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -1953,7 +1953,7 @@ importers:
     dependencies:
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
       validator:
         specifier: ^13.15.35
         version: 13.15.35
@@ -1981,7 +1981,7 @@ importers:
         version: 1.1.2
       think-helper:
         specifier: ^1.0.0
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -2012,7 +2012,7 @@ importers:
         version: 2.7.4
       think-helper:
         specifier: ^1.0.0
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -2037,7 +2037,7 @@ importers:
         version: 4.5.3
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -2062,7 +2062,7 @@ importers:
         version: 3.2.4(chokidar@3.6.0)
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -2084,7 +2084,7 @@ importers:
         version: 2.0.4
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -2106,7 +2106,7 @@ importers:
         version: 2.6.9(supports-color@7.2.0)
       think-helper:
         specifier: ^1.0.0
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -2146,7 +2146,7 @@ importers:
         version: 1.1.2
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -2177,10 +2177,10 @@ importers:
         version: 4.8.3(supports-color@7.2.0)
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
       think-mock-http:
         specifier: ^1.0.6
-        version: 1.0.6(supports-color@7.2.0)
+        version: link:../think-mock-http
     devDependencies:
       ava:
         specifier: ^8.0.1
@@ -2211,10 +2211,10 @@ importers:
         version: 2.6.9(supports-color@7.2.0)
       think-helper:
         specifier: ^1.1.3
-        version: 1.1.5
+        version: link:../think-helper
       think-mock-http:
         specifier: ^1.0.6
-        version: 1.0.6(supports-color@7.2.0)
+        version: link:../think-mock-http
       ws:
         specifier: ~3.2.0
         version: 3.2.0
@@ -2259,52 +2259,52 @@ importers:
         specifier: ^2.3.0
         version: 2.4.1
       think-cluster:
-        specifier: workspace:*
+        specifier: ^1.5.8
         version: link:../think-cluster
       think-config:
-        specifier: workspace:*
+        specifier: ^1.1.3
         version: link:../think-config
       think-controller:
-        specifier: workspace:*
+        specifier: ^1.0.5
         version: link:../think-controller
       think-crontab:
-        specifier: workspace:*
+        specifier: ^1.0.4
         version: link:../think-crontab
       think-helper:
-        specifier: workspace:*
+        specifier: ^1.2.0
         version: link:../think-helper
       think-loader:
-        specifier: workspace:*
+        specifier: ^1.2.3
         version: link:../think-loader
       think-logger3:
-        specifier: workspace:*
+        specifier: ^1.4.0
         version: link:../think-logger3
       think-logic:
-        specifier: workspace:*
+        specifier: ^1.2.2
         version: link:../think-logic
       think-meta:
-        specifier: workspace:*
+        specifier: ^1.0.6
         version: link:../think-meta
       think-mock-http:
-        specifier: workspace:*
+        specifier: ^1.0.6
         version: link:../think-mock-http
       think-payload:
-        specifier: workspace:*
+        specifier: ^1.4.1
         version: link:../think-payload
       think-pm2:
-        specifier: workspace:*
+        specifier: ^1.0.0
         version: link:../think-pm2
       think-resource:
-        specifier: workspace:*
+        specifier: ^1.0.3
         version: link:../think-resource
       think-router:
-        specifier: workspace:*
+        specifier: ^1.3.5
         version: link:../think-router
       think-trace:
-        specifier: workspace:*
+        specifier: ^1.0.18
         version: link:../think-trace
       think-validator:
-        specifier: workspace:*
+        specifier: ^1.7.0
         version: link:../think-validator
     devDependencies:
       ava:
@@ -9071,10 +9071,6 @@ packages:
   think-cache-file@1.0.10:
     resolution: {integrity: sha512-srPxlf3F4nN7vvsmE8lwvsCBNg3Zzif/ZtaigWrt/KjXH4RgVhG506PVQ4W2bjpxaAT02707XKujWeP60hlmcw==}
 
-  think-cache@1.1.2:
-    resolution: {integrity: sha512-Xgp0vr4IbgN3YacTct1gWNtenxnpgh6vI/0Em5S6z3iQpWLEI1CTV9L5d78/1ZMNELO0GVk0+MdqEUSbaa19wQ==}
-    engines: {node: '>=6.0.0'}
-
   think-cluster@1.5.8:
     resolution: {integrity: sha512-SkkXO5an9fMcK4IX+6FaIwFrZMR3D6lW16Rjz782X8INUdCYf8bsZNO4ZbCBhwRHIi6B9FzmsIWnGI1Zkdxufg==}
     engines: {node: '>=6.0.0'}
@@ -9095,9 +9091,6 @@ packages:
     resolution: {integrity: sha512-DWRFd3dQEGKK1Mh5kENsVA0+O12NxJbFRKk6X3cxpK0aplPQDFbdrfyS+C2Z2jomt1RbPniXUt0mGh1YrNGbAQ==}
     engines: {node: '>=6.0.0'}
 
-  think-fetch@1.1.2:
-    resolution: {integrity: sha512-z0GElHfuqnbs8SjjIu9vcTxbLdVi0fuP3uOKQ4FlJ8nZ8Rpm52h5dvJGmyyx4+b2ZKl5hvvUW6bQscFP7Cw4kg==}
-
   think-gc@1.0.3:
     resolution: {integrity: sha512-7mSJbGHROylk2+vO7DyZOfg4niQRwE/9r4SCIPuJCyZxwuBItb5yZkDZc5LvN0ojOO7OMQX9S074bpGBCLKGTQ==}
     engines: {node: '>=6.0.0'}
@@ -9108,20 +9101,6 @@ packages:
 
   think-helper@1.1.5:
     resolution: {integrity: sha512-xsNcHWvEC6L0X9tXhIBsP+LcHvuB8pGxcjwy7mtE+KSgZcPWc0A36oUbxZXJgO6w6CpeSZWdkaRTbIpEvV05Hg==}
-    engines: {node: '>=6.0.0'}
-
-  think-i18n@1.3.2:
-    resolution: {integrity: sha512-KPcErKyS1rn3IIhbHcaHHwB1YWMcCqBwtcOCv//X4h9PRBR6bTLUWE3dhXvtq7hyWIxMXuiWWLrmn+3sGbZroQ==}
-    bundledDependencies:
-      - numeral
-      - moment
-
-  think-inspect@0.0.2:
-    resolution: {integrity: sha512-/qCzRnhmZ2fVdxqZtDgEZZ8dxBHwpkFIRcZFTeEi0yV2vrJlzMFc8plrqlCQsHrodLz3IbeAyK+h2FAj4y7biw==}
-    engines: {node: '>=6.0.0'}
-
-  think-instance@1.0.2:
-    resolution: {integrity: sha512-vLSgu8fBV0Kg+4pS8lyn0Jkeb0GcZZ8hmRYjKKwyOCNVt9wIPeKfrYx1SvKTbTUxJwNjgf5AloW0fJdTCXHLmg==}
     engines: {node: '>=6.0.0'}
 
   think-loader@1.2.3:
@@ -9135,9 +9114,6 @@ packages:
     resolution: {integrity: sha512-nzWubVr51XZYZ2L0c4TxFw+xOZu829s43n5R5+eW2kBzdjppmf2HgcxHttxGy+cafjFMCohHpQF6KP0aSgRIoA==}
     engines: {node: '>=6.0.0'}
 
-  think-memcache@1.1.2:
-    resolution: {integrity: sha512-sAq/aj2R8kSbVMmRetdv23FF6Ux6DthVBgRZX/g0FTjTAsPR1RVG1xUBzY/CAHcY3Qd18INNnc/WdtrA7UELfg==}
-
   think-meta@1.0.6:
     resolution: {integrity: sha512-dSQPcjFFrI/2eYEFTXqFMjZXMIDn1aE3vrGhPHCLHTsglMJ/5CxHIoCO+2mvnu+BGnbDdv3WTurJX+VAz2bv7Q==}
     engines: {node: '>=6.0.0'}
@@ -9146,26 +9122,8 @@ packages:
     resolution: {integrity: sha512-z/oxSO+LZShKNVkL8KAb7vqyhFkpL4cT1WRy0kIEWQVVxGmNsRh71uiirBiRNN3Uw34qUlphtd8dBA7TYX4uvA==}
     engines: {node: '>=6.0.0'}
 
-  think-model-abstract@1.6.5:
-    resolution: {integrity: sha512-ojDTK1es/KqX+92iQdIeN8Bo7ABZW4l0rKDbxz60NTWD0nMGSaP5SFLNir1OhI/wxX1llv2Cw0h8JftTRfW+DA==}
-
-  think-model@1.5.4:
-    resolution: {integrity: sha512-oZJGL0c/WHKnQEU+h3f7HfgDwTEc/AvgkY80qV4tvRTAZFjxPPz/uPBqEvyUEj8+ZtHzsBCa2RoVazPR8EoP0A==}
-
-  think-mongoose@1.1.3:
-    resolution: {integrity: sha512-3r5SwfOEIlDbWlI+AZ4TZX/br2lJILYLkcjrjAHEgSGTGEshqVhHcJ9UVWUr+CWMsHsI48XOIPiz9JJ4GNNRPw==}
-    engines: {node: '>=6.0.0'}
-
   think-ms@1.0.3:
     resolution: {integrity: sha512-2Ppgqt1oxtj52fuarlERMJaLtwGkDvp9zf7x17cDzEpWILBONuBv4/axz9QljK12BwlAkUV/I9jKsB5TKRZv6A==}
-    engines: {node: '>=6.0.0'}
-
-  think-mysql2@2.0.0:
-    resolution: {integrity: sha512-zZvILAejfmhb5sS5u4q44oLWRRTa6y2g4orEVrlBeAdcOVTefws3hWm32C1dkABL8e0gRPlVrctMeMCUIOaLeA==}
-    engines: {node: '>=6.0.0'}
-
-  think-mysql@1.4.4:
-    resolution: {integrity: sha512-COn8a6gq+wJqUNbkMRgHpJCgSzo5FGCBU4c05B38bhUoSuOGYVcEkLH0qd+uEy8SpivHPTSCNzzCJn7ZlUtbKA==}
     engines: {node: '>=6.0.0'}
 
   think-payload@1.4.1:
@@ -9186,50 +9144,14 @@ packages:
     resolution: {integrity: sha512-0Gclu9ZivfNX1cT2FgL3ISwi8a7jL5CEQgzXtspL/15Ane6pg0qCbuh9c98kJI4c8JIPvmehjeXrPT2u/qikZw==}
     engines: {node: '>=6.0.0'}
 
-  think-session-cookie@1.1.4:
-    resolution: {integrity: sha512-n21SZ83FAHjwIW8ismTWR3A4LbaMu95vaky6MbO9y2mwV02NC96Y71XHXTY5dNSv7GMJitObBrDsSneFjrLl9Q==}
-    engines: {node: '>=6.0.0'}
-    peerDependencies:
-      think-session: ^1.1.4
-
-  think-session-file@1.1.4:
-    resolution: {integrity: sha512-/xuNRcM4xEwRgDLrlXtIQTF3NrO5wMOh7Qi2bhYauX7WbfDI6fOBckiNCTXLRUbdlpoC0r2tMAym7hl71QZNBA==}
-    engines: {node: '>=6.0.0'}
-
-  think-session@1.1.6:
-    resolution: {integrity: sha512-AIinWPjQhpNesUqo3tLgiTJSiNLIsU+lXujaNHl1dTs1u7njo2Gc4wYWSJ0/4tInipbQCM+OdPq+NosBUvKY/w==}
-    engines: {node: '>=6.0.0'}
-
   think-store-file@1.0.12:
     resolution: {integrity: sha512-GjW5f2sn+66O8EZZmQDywNLt9SRs/IfIFK5PtEAJHf3qBJqkyi8vkzMYvCw3nR89NCzVll9Gkre38UTBPXi3cQ==}
-
-  think-store-file@1.1.1:
-    resolution: {integrity: sha512-t6+62s+z8yKKgY0lYmULarzKQ2T/QqgmNiaDdrlGU0oRCocBIHNSYpC5NPm5n+8kvflzdlZDnwUS5Z0QeoHO8A==}
 
   think-trace@1.0.18:
     resolution: {integrity: sha512-ghTO3movOuT3gmWu1Fbv5XHTOkFCmcSOIFw8xMu4SEoW7em+XLHkG/w5mHRklua5vsZ8xdfYEaNBV06c1b0Rrg==}
 
   think-validator@1.6.7:
     resolution: {integrity: sha512-igc0kNrfjucJ+CCeG33wsAxMHGPW3UdP1R3lFE8WJj5n9MdgqwxNZsT3sqHqp1TuowAV+1hCM+DV+1fXAF6XxA==}
-
-  think-view-nunjucks@1.0.11:
-    resolution: {integrity: sha512-k3GifChMsXfDvDXodozCMwhkRoLfpYjAp2RJxwFeVeerih42chLZ3yy/Va9szmiKYhVDq+N3csMi5G0zEunQhw==}
-
-  think-view@1.0.13:
-    resolution: {integrity: sha512-qBrMIp8cqcWm5EZsYBG53ud3oYAdnfpRO2NwKbcchD3iGKV1NAYRVRMOPTIfgYU/jPqrrvBJ20YjZ7BLhLIyHw==}
-    engines: {node: '>=6.0.0'}
-
-  think-watcher@3.0.4:
-    resolution: {integrity: sha512-wLF7EAf4vAOEEg7tQWXhsXgrtLxtcIpFXmCQenUNOTyTQvY7NpI0GYJ8UOpQZ7qScMJk99fOV8+sVHRphHxynw==}
-    engines: {node: '>=6.0.0'}
-
-  think-websocket-socket.io@1.0.13:
-    resolution: {integrity: sha512-ckESTwp9YRkq80CUlHC8yXfpIGuHFJHpbFQ7+599CECSUojjG2Pk/TuCZXkUbXfIX0qASrtyyY4AqsEDMmzKzA==}
-    engines: {node: '>=6.0.0'}
-
-  think-websocket@1.0.8:
-    resolution: {integrity: sha512-+eEFS70GM8p/zcD2yyQ54hIiwz0nNyy3nfHvNi+g0wnIJeNPHjEB/vJGMDBE9locaX2L5jGhObVwORbA8MjbiQ==}
-    engines: {node: '>=6.0.0'}
 
   thinkit@2.3.0:
     resolution: {integrity: sha512-rq7M3aCWG48PaNBLsp2tX2uMhNRl9MyXQvtBksSsTi1Hv+3L3zVYs/+tn48KEdrlF1eQpNr/np8wpYCTw9fICw==}
@@ -10959,18 +10881,6 @@ snapshots:
   '@types/mongoose@5.11.97(aws4@1.13.2)(supports-color@7.2.0)':
     dependencies:
       mongoose: 5.13.23(aws4@1.13.2)(supports-color@7.2.0)
-    transitivePeerDependencies:
-      - aws4
-      - bson-ext
-      - kerberos
-      - mongodb-client-encryption
-      - mongodb-extjson
-      - snappy
-      - supports-color
-
-  '@types/mongoose@5.11.97(supports-color@7.2.0)':
-    dependencies:
-      mongoose: 5.13.23(supports-color@7.2.0)
     transitivePeerDependencies:
       - aws4
       - bson-ext
@@ -15599,10 +15509,6 @@ snapshots:
     dependencies:
       mongoose: 5.13.23(aws4@1.13.2)(supports-color@7.2.0)
 
-  mongoose-legacy-pluralize@1.0.2(mongoose@5.13.23(supports-color@7.2.0)):
-    dependencies:
-      mongoose: 5.13.23(supports-color@7.2.0)
-
   mongoose@5.13.23(aws4@1.13.2)(supports-color@7.2.0):
     dependencies:
       '@types/bson': 4.0.5
@@ -15611,31 +15517,6 @@ snapshots:
       kareem: 2.3.2
       mongodb: 3.7.4(aws4@1.13.2)
       mongoose-legacy-pluralize: 1.0.2(mongoose@5.13.23(aws4@1.13.2)(supports-color@7.2.0))
-      mpath: 0.8.4
-      mquery: 3.2.5(supports-color@7.2.0)
-      ms: 2.1.2
-      optional-require: 1.0.3
-      regexp-clone: 1.0.0
-      safe-buffer: 5.2.1
-      sift: 13.5.2
-      sliced: 1.0.1
-    transitivePeerDependencies:
-      - aws4
-      - bson-ext
-      - kerberos
-      - mongodb-client-encryption
-      - mongodb-extjson
-      - snappy
-      - supports-color
-
-  mongoose@5.13.23(supports-color@7.2.0):
-    dependencies:
-      '@types/bson': 4.0.5
-      '@types/mongodb': 3.6.20
-      bson: 1.1.6
-      kareem: 2.3.2
-      mongodb: 3.7.4(aws4@1.13.2)
-      mongoose-legacy-pluralize: 1.0.2(mongoose@5.13.23(supports-color@7.2.0))
       mpath: 0.8.4
       mquery: 3.2.5(supports-color@7.2.0)
       ms: 2.1.2
@@ -17857,11 +17738,6 @@ snapshots:
       think-helper: 1.0.23
       think-store-file: 1.0.12
 
-  think-cache@1.1.2:
-    dependencies:
-      think-debounce: 1.0.4
-      think-helper: 1.1.5
-
   think-cluster@1.5.8(supports-color@7.2.0):
     dependencies:
       debug: 2.6.9(supports-color@7.2.0)
@@ -17890,10 +17766,6 @@ snapshots:
 
   think-debounce@1.0.4: {}
 
-  think-fetch@1.1.2:
-    dependencies:
-      node-fetch: 1.7.3
-
   think-gc@1.0.3:
     dependencies:
       think-helper: 1.1.5
@@ -17911,20 +17783,6 @@ snapshots:
       lodash.merge: 4.6.2
       ms: 1.0.0
       uuid: 7.0.3
-
-  think-i18n@1.3.2:
-    dependencies:
-      cookie: 0.3.1
-      jed: 1.1.1
-      think-helper: 1.1.5
-
-  think-inspect@0.0.2:
-    dependencies:
-      think-helper: 1.1.5
-
-  think-instance@1.0.2:
-    dependencies:
-      think-helper: 1.1.5
 
   think-loader@1.2.3(supports-color@7.2.0):
     dependencies:
@@ -17945,14 +17803,6 @@ snapshots:
     dependencies:
       think-helper: 1.1.5
 
-  think-memcache@1.1.2(supports-color@7.2.0):
-    dependencies:
-      memcache-plus: 0.2.24(supports-color@7.2.0)
-      think-debounce: 1.0.4
-      think-helper: 1.1.5
-    transitivePeerDependencies:
-      - supports-color
-
   think-meta@1.0.6:
     dependencies:
       think-helper: 1.1.5
@@ -17964,61 +17814,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  think-model-abstract@1.6.5(supports-color@7.2.0):
-    dependencies:
-      debug: 3.2.7(supports-color@7.2.0)
-      think-helper: 1.1.5
-    transitivePeerDependencies:
-      - supports-color
-
-  think-model@1.5.4(supports-color@7.2.0):
-    dependencies:
-      think-cache: 1.1.2
-      think-debounce: 1.0.4
-      think-helper: 1.1.5
-      think-model-abstract: 1.6.5(supports-color@7.2.0)
-    transitivePeerDependencies:
-      - supports-color
-
-  think-mongoose@1.1.3(supports-color@7.2.0):
-    dependencies:
-      '@types/mongoose': 5.11.97(supports-color@7.2.0)
-      mongoose: 5.13.23(supports-color@7.2.0)
-      think-helper: 1.1.5
-      think-instance: 1.0.2
-    transitivePeerDependencies:
-      - aws4
-      - bson-ext
-      - kerberos
-      - mongodb-client-encryption
-      - mongodb-extjson
-      - snappy
-      - supports-color
-
   think-ms@1.0.3:
     dependencies:
       ms: 1.0.0
-
-  think-mysql2@2.0.0(@types/node@25.8.0)(supports-color@7.2.0):
-    dependencies:
-      debug: 2.6.9(supports-color@7.2.0)
-      mysql: mysql2@3.22.3(@types/node@25.8.0)
-      think-debounce: 1.0.4
-      think-helper: 1.1.5
-      think-instance: 1.0.2
-    transitivePeerDependencies:
-      - '@types/node'
-      - supports-color
-
-  think-mysql@1.4.4(supports-color@7.2.0):
-    dependencies:
-      debug: 2.6.9(supports-color@7.2.0)
-      mysql: 2.18.1
-      think-debounce: 1.0.4
-      think-helper: 1.1.5
-      think-instance: 1.0.2
-    transitivePeerDependencies:
-      - supports-color
 
   think-payload@1.4.1:
     dependencies:
@@ -18055,34 +17853,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  think-session-cookie@1.1.4(supports-color@7.2.0)(think-session@1.1.6):
-    dependencies:
-      debug: 2.6.9(supports-color@7.2.0)
-      think-helper: 1.1.5
-      think-session: 1.1.6
-    transitivePeerDependencies:
-      - supports-color
-
-  think-session-file@1.1.4(supports-color@7.2.0):
-    dependencies:
-      debug: 2.6.9(supports-color@7.2.0)
-      think-debounce: 1.0.4
-      think-gc: 1.0.3
-      think-helper: 1.1.5
-      think-store-file: 1.1.1
-    transitivePeerDependencies:
-      - supports-color
-
-  think-session@1.1.6:
-    dependencies:
-      think-helper: 1.1.5
-
   think-store-file@1.0.12:
-    dependencies:
-      think-debounce: 1.0.4
-      think-helper: 1.1.5
-
-  think-store-file@1.1.1:
     dependencies:
       think-debounce: 1.0.4
       think-helper: 1.1.5
@@ -18098,47 +17869,6 @@ snapshots:
     dependencies:
       think-helper: 1.1.5
       validator: 9.4.1
-
-  think-view-nunjucks@1.0.11(chokidar@3.6.0):
-    dependencies:
-      nunjucks: 3.2.4(chokidar@3.6.0)
-      think-helper: 1.1.5
-    transitivePeerDependencies:
-      - chokidar
-
-  think-view@1.0.13(supports-color@7.2.0):
-    dependencies:
-      debug: 2.6.9(supports-color@7.2.0)
-      methods: 1.1.2
-      think-helper: 1.1.5
-    transitivePeerDependencies:
-      - supports-color
-
-  think-watcher@3.0.4(supports-color@7.2.0):
-    dependencies:
-      debug: 2.6.9(supports-color@7.2.0)
-      think-helper: 1.1.5
-    transitivePeerDependencies:
-      - supports-color
-
-  think-websocket-socket.io@1.0.13(supports-color@7.2.0):
-    dependencies:
-      debug: 2.6.9(supports-color@7.2.0)
-      socket.io: 4.8.3(supports-color@7.2.0)
-      think-helper: 1.1.5
-      think-mock-http: 1.0.6(supports-color@7.2.0)
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-
-  think-websocket@1.0.8(supports-color@7.2.0):
-    dependencies:
-      debug: 2.6.9(supports-color@7.2.0)
-      depd: 1.1.2
-      think-helper: 1.1.5
-    transitivePeerDependencies:
-      - supports-color
 
   thinkit@2.3.0:
     dependencies:

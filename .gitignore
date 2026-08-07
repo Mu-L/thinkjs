@@ -30,6 +30,9 @@ build/Release
 node_modules
 jspm_packages
 
+# This monorepo uses the root pnpm lockfile
+package-lock.json
+
 # Optional npm cache directory
 .npm
 
@@ -43,4 +46,4 @@ packages/thinkjs/test/**/*.json
 
 .DS_Store
 .nyc_output/
-coverage/ 
+coverage/

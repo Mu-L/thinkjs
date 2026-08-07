@@ -1,5 +1,8 @@
 packages:
   - "packages/*"
+linkWorkspacePackages: true
+preferWorkspacePackages: true
+saveWorkspaceProtocol: false
 allowBuilds:
   better-sqlite3: true
   core-js: true
