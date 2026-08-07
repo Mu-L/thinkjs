@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const inquirer = require('inquirer');
 const confirmOverwrite = require('../../../lib/generate/confirm-overwrite.js');
 
@@ -8,7 +8,7 @@ test('file already exists. Continue? yes', async t => {
   await runCommand(run, {
     [__filename]: {}
   });
-  t.pass();
+  t.assert.ok(true);
 });
 
 test('file already exists. Continue? no', async t => {
@@ -23,7 +23,7 @@ test('file already exists. Continue? no', async t => {
 
   console.log(' Here should print "Abort the operation": ');
   await new Promise(resolve => setImmediate(resolve));
-  t.false(callbackCalled);
+  t.assert.strictEqual(callbackCalled, false);
 });
 
 test('The new command should be skipped', async t => {
@@ -32,7 +32,7 @@ test('The new command should be skipped', async t => {
   await runCommand(run, {
     [__filename]: {}
   });
-  t.pass();
+  t.assert.ok(true);
 });
 
 function runCommand(run, files) {

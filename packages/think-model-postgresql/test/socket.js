@@ -1,10 +1,10 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const mock = require('mock-require');
 const Socket = require('../lib/socket');
 
 test('socket config', t => {
   const socket = new Socket({ logger: 111 });
-  t.deepEqual(socket.config, {
+  t.assert.deepStrictEqual(socket.config, {
     logger: 111,
     logConnect: true,
     poolIdleTimeout: 8 * 60 * 60 * 1000
@@ -16,7 +16,7 @@ test('socket pool', t => {
 
   const defaultConfig = {
     logger(str) {
-      t.is(str, 'postgresql://root:root@127.0.0.1:3211/user');
+      t.assert.strictEqual(str, 'postgresql://root:root@127.0.0.1:3211/user');
     },
     user: 'root',
     password: 'root',
@@ -28,8 +28,8 @@ test('socket pool', t => {
 
   class Pool {
     constructor(config) {
-      t.is(config.logConnect, defaultConfig.logConnect);
-      t.is(config.poolIdleTimeout, defaultConfig.poolIdleTimeout);
+      t.assert.strictEqual(config.logConnect, defaultConfig.logConnect);
+      t.assert.strictEqual(config.poolIdleTimeout, defaultConfig.poolIdleTimeout);
       this.config = config;
     }
   };
@@ -37,19 +37,19 @@ test('socket pool', t => {
   mock('pg', { Pool });
   const Socket = mock.reRequire('../lib/socket');
   const socket = new Socket(defaultConfig);
-  t.true(socket.pool instanceof Pool);
+  t.assert.strictEqual(socket.pool instanceof Pool, true);
   socket.config = {};
-  t.true(Object.keys(socket.pool.config).length > 0);
+  t.assert.strictEqual(Object.keys(socket.pool.config).length > 0, true);
 
   const Socket2 = mock.reRequire('../lib/socket');
   const socket2 = new Socket2({
     logger(str) {
-      t.is(str, 'hello world');
+      t.assert.strictEqual(str, 'hello world');
     },
     logConnect: true,
     connectionString: 'hello world'
   });
-  t.true(socket2.pool instanceof Pool);
+  t.assert.strictEqual(socket2.pool instanceof Pool, true);
 
   class Pool2 {
     constructor(config) {
@@ -61,24 +61,24 @@ test('socket pool', t => {
   const Socket3 = mock.reRequire('../lib/socket');
   const socket3 = new Socket3({
     logger() {
-      t.fail();
+      t.assert.fail();
     },
     logConnect: false,
     connectionString: 'hello world'
   });
-  t.true(socket3.pool instanceof Pool2);
+  t.assert.strictEqual(socket3.pool instanceof Pool2, true);
   mock.stopAll();
 });
 
 test('getConnection', async t => {
   t.plan(3);
   const socket = new Socket();
-  t.is(await socket.getConnection(2), 2);
+  t.assert.strictEqual(await socket.getConnection(2), 2);
   socket.pool.connect = function () {
-    t.pass();
+    t.assert.ok(true);
     return 3;
   };
-  t.is(socket.getConnection(), 3);
+  t.assert.strictEqual(socket.getConnection(), 3);
 });
 
 test('startTrans', async t => {
@@ -87,15 +87,15 @@ test('startTrans', async t => {
   const socket = new Socket();
   const defaultConnection = Promise.resolve(2);
   socket.query = async function (option, connection) {
-    t.deepEqual(option, {
+    t.assert.deepStrictEqual(option, {
       sql: 'BEGIN',
       transaction: 1,
       debounce: false
     });
-    t.deepEqual(connection, await defaultConnection);
+    t.assert.deepStrictEqual(connection, await defaultConnection);
   };
   const connection = await socket.startTrans(defaultConnection);
-  t.deepEqual(connection, await defaultConnection);
+  t.assert.deepStrictEqual(connection, await defaultConnection);
 });
 
 test('commit', async t => {
@@ -104,15 +104,15 @@ test('commit', async t => {
   const socket = new Socket();
   const defaultConnection = Promise.resolve(3);
   socket.query = function (option, connection) {
-    t.deepEqual(option, {
+    t.assert.deepStrictEqual(option, {
       sql: 'COMMIT',
       transaction: 2,
       debounce: false
     });
-    t.deepEqual(connection, defaultConnection);
+    t.assert.deepStrictEqual(connection, defaultConnection);
     return 333;
   };
-  t.is(await socket.commit(defaultConnection), 333);
+  t.assert.strictEqual(await socket.commit(defaultConnection), 333);
 });
 
 test('rollback', async t => {
@@ -121,24 +121,24 @@ test('rollback', async t => {
   const socket = new Socket();
   const defaultConnection = Promise.resolve(3);
   socket.query = function (option, connection) {
-    t.deepEqual(option, {
+    t.assert.deepStrictEqual(option, {
       sql: 'ROLLBACK',
       transaction: 2,
       debounce: false
     });
-    t.deepEqual(connection, defaultConnection);
+    t.assert.deepStrictEqual(connection, defaultConnection);
     return 333;
   };
-  t.is(await socket.rollback(defaultConnection), 333);
+  t.assert.strictEqual(await socket.rollback(defaultConnection), 333);
 });
 
 test('transaction params check', async t => {
   try {
     const socket = new Socket();
     socket.transaction(1);
-    t.fail();
+    t.assert.fail();
   } catch (e) {
-    t.is(e.message, 'fn must be a function');
+    t.assert.strictEqual(e.message, 'fn must be a function');
   }
 });
 
@@ -148,18 +148,18 @@ test('transaction', async t => {
   const socket = new Socket();
   const defaultConnection = 'connection';
   const defaultFn = function (connection) {
-    t.deepEqual(connection, defaultConnection);
+    t.assert.deepStrictEqual(connection, defaultConnection);
     return 'lizheming';
   };
   socket.startTrans = socket.commit = function (connection) {
-    t.deepEqual(connection, defaultConnection);
+    t.assert.deepStrictEqual(connection, defaultConnection);
     return Promise.resolve(connection);
   };
   socket.rollback = function () {
-    t.fail();
+    t.assert.fail();
   };
   const ret = await socket.transaction(defaultFn, defaultConnection);
-  t.is(ret, 'lizheming');
+  t.assert.strictEqual(ret, 'lizheming');
 });
 
 test('transaction with error', async t => {
@@ -168,26 +168,26 @@ test('transaction with error', async t => {
   const socket = new Socket();
   const defaultConnection = 'connection';
   const defaultFn = function (connection) {
-    t.deepEqual(connection, defaultConnection);
+    t.assert.deepStrictEqual(connection, defaultConnection);
     return 'lizheming';
   };
   socket.startTrans = function (connection) {
-    t.deepEqual(connection, defaultConnection);
+    t.assert.deepStrictEqual(connection, defaultConnection);
     return Promise.resolve(connection);
   };
   socket.commit = function (connection) {
-    t.deepEqual(connection, defaultConnection);
+    t.assert.deepStrictEqual(connection, defaultConnection);
     return Promise.reject(new Error('error'));
   };
   socket.rollback = function (connection) {
-    t.deepEqual(connection, defaultConnection);
+    t.assert.deepStrictEqual(connection, defaultConnection);
     return Promise.resolve();
   };
 
   try {
     await socket.transaction(defaultFn, defaultConnection);
   } catch (e) {
-    t.is(e.message, 'error');
+    t.assert.strictEqual(e.message, 'error');
   }
 });
 
@@ -196,13 +196,13 @@ test('release connection', t => {
   socket.releaseConnection({
     transaction: 1,
     release() {
-      t.fail();
+      t.assert.fail();
     }
   });
   socket.releaseConnection({
     transaction: 2,
     release() {
-      t.pass();
+      t.assert.ok(true);
     }
   });
   socket.releaseConnection({
@@ -219,24 +219,24 @@ test('query', async t => {
   const sqlOption1 = 'string sqloption';
   mock('think-debounce', class {
     debounce(key, fn) {
-      t.is(key, JSON.stringify({ sql: sqlOption1, debounce: true }));
+      t.assert.strictEqual(key, JSON.stringify({ sql: sqlOption1, debounce: true }));
       return fn();
     }
   });
   const defaultConnection = {
     query(sql, cb) {
-      t.is(sql, sqlOption1);
+      t.assert.strictEqual(sql, sqlOption1);
       return cb(null, sql);
     }
   };
   const Socket = mock.reRequire('../lib/socket');
   const socket = new Socket();
   socket.releaseConnection = function (connection) {
-    t.deepEqual(connection, defaultConnection);
+    t.assert.deepStrictEqual(connection, defaultConnection);
   };
   const ret = await socket.query(sqlOption1, defaultConnection);
   mock.stopAll();
-  t.is(ret, sqlOption1);
+  t.assert.strictEqual(ret, sqlOption1);
 });
 
 test('query with object', async t => {
@@ -248,12 +248,12 @@ test('query with object', async t => {
   };
   mock('think-debounce', class {
     debounce() {
-      t.fail();
+      t.assert.fail();
     }
   });
   const defaultConnection = {
     query(sql, cb) {
-      t.is(sql, sqlOption2.sql);
+      t.assert.strictEqual(sql, sqlOption2.sql);
       return cb(null, sql);
     }
   };
@@ -262,7 +262,7 @@ test('query with object', async t => {
   socket.releaseConnection = function () { };
   const ret = await socket.query(sqlOption2, defaultConnection);
   mock.stopAll();
-  t.is(ret, sqlOption2.sql);
+  t.assert.strictEqual(ret, sqlOption2.sql);
 });
 
 test('query with config debounce', async t => {
@@ -274,12 +274,12 @@ test('query with config debounce', async t => {
   };
   mock('think-debounce', class {
     debounce() {
-      t.fail();
+      t.assert.fail();
     }
   });
   const defaultConnection = {
     query(sql, cb) {
-      t.is(sql, sqlOption3.sql);
+      t.assert.strictEqual(sql, sqlOption3.sql);
       return cb(null, sql);
     }
   };
@@ -288,8 +288,8 @@ test('query with config debounce', async t => {
   socket.releaseConnection = function () { };
   const ret = await socket.query(sqlOption3, defaultConnection);
   mock.stopAll();
-  t.is(ret, sqlOption3.sql);
-  t.is(defaultConnection.transaction, 4);
+  t.assert.strictEqual(ret, sqlOption3.sql);
+  t.assert.strictEqual(defaultConnection.transaction, 4);
 });
 
 test('query with connection transaction start', async t => {
@@ -302,12 +302,12 @@ test('query with connection transaction start', async t => {
   const defaultConnection = {
     transaction: 1,
     query() {
-      t.fail();
+      t.assert.fail();
     }
   };
   const socket = new Socket();
   const ret = await socket.query(sqlOption3, defaultConnection);
-  t.is(ret, undefined);
+  t.assert.strictEqual(ret, undefined);
 });
 
 test('query with connection transaction null and sql transtart', async t => {
@@ -326,8 +326,8 @@ test('query with connection transaction null and sql transtart', async t => {
   };
   const socket = new Socket();
   const ret = await socket.query(sqlOption4, defaultConnection);
-  t.is(ret, sqlOption4.sql);
-  t.is(defaultConnection.transaction, 1);
+  t.assert.strictEqual(ret, sqlOption4.sql);
+  t.assert.strictEqual(defaultConnection.transaction, 1);
 });
 
 test('query with connection transaction null and sql transend', async t => {
@@ -346,10 +346,10 @@ test('query with connection transaction null and sql transend', async t => {
   };
   const socket = new Socket();
   socket.releaseConnection = function (connection) {
-    t.is(connection, defaultConnection);
+    t.assert.strictEqual(connection, defaultConnection);
   };
   const ret = await socket.query(sqlOption5, defaultConnection);
-  t.is(ret, undefined);
+  t.assert.strictEqual(ret, undefined);
 });
 
 test('query with connection transaction start and sql transend', async t => {
@@ -369,8 +369,8 @@ test('query with connection transaction start and sql transend', async t => {
   };
   const socket = new Socket();
   const ret = await socket.query(sqlOption6, defaultConnection);
-  t.is(ret, sqlOption6.sql);
-  t.is(defaultConnection.transaction, 2);
+  t.assert.strictEqual(ret, sqlOption6.sql);
+  t.assert.strictEqual(defaultConnection.transaction, 2);
 });
 
 test('query with error', async t => {
@@ -399,14 +399,14 @@ test('query with error', async t => {
   const socket = new Socket({
     logSql: true,
     logger(str) {
-      t.is(str, `SQL: ${sqlOption7.sql}, Time: 3ms`);
+      t.assert.strictEqual(str, `SQL: ${sqlOption7.sql}, Time: 3ms`);
     }
   });
   try {
     await socket.query(sqlOption7, defaultConnection);
-    t.fail();
+    t.assert.fail();
   } catch (e) {
-    t.is(e.message, 'this is string error');
+    t.assert.strictEqual(e.message, 'this is string error');
   }
 });
 
@@ -436,14 +436,14 @@ test('query with error object', async t => {
   const socket = new Socket({
     logSql: true,
     logger(str) {
-      t.is(str, `SQL: ${sqlOption7.sql}, Time: 3ms`);
+      t.assert.strictEqual(str, `SQL: ${sqlOption7.sql}, Time: 3ms`);
     }
   });
   try {
     await socket.query(sqlOption7, defaultConnection);
-    t.fail();
+    t.assert.fail();
   } catch (e) {
-    t.is(e.message, 'this is object error');
+    t.assert.strictEqual(e.message, 'this is object error');
   }
 });
 
@@ -452,21 +452,21 @@ test('excute', t => {
 
   const socket = new Socket();
   socket.query = function (sqlOption, connection) {
-    t.deepEqual(sqlOption, { sql: 'lizheming', debounce: false });
-    t.is(connection, 222);
+    t.assert.deepStrictEqual(sqlOption, { sql: 'lizheming', debounce: false });
+    t.assert.strictEqual(connection, 222);
     return 3;
   };
-  t.is(socket.execute('lizheming', 222), 3);
+  t.assert.strictEqual(socket.execute('lizheming', 222), 3);
 
   socket.query = function (sqlOption) {
-    t.deepEqual(sqlOption, { a: 1, b: 2, debounce: false });
+    t.assert.deepStrictEqual(sqlOption, { a: 1, b: 2, debounce: false });
   };
   socket.execute({ a: 1, b: 2, debounce: true });
 });
 
 test('close', t => {
   const socket = new Socket();
-  socket.close({ end() { t.pass() } });
+  socket.close({ end() { t.assert.ok(true) } });
 });
 
 test('close with null', t => {
@@ -475,7 +475,7 @@ test('close with null', t => {
     get() {
       return {
         end() {
-          t.pass();
+          t.assert.ok(true);
         }
       };
     }

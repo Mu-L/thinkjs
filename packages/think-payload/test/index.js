@@ -1,5 +1,5 @@
 const path = require('path');
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const request = require('supertest');
 const payload = require('../index.js');
 const Koa = require('koa');
@@ -27,7 +27,7 @@ test('should skip middleware', async t => {
   });
 
   const res = await testPromise;
-  t.is(res.text, '');
+  t.assert.strictEqual(res.text, '');
 });
 
 test('should be able to receive json type requests', async t => {
@@ -44,7 +44,7 @@ test('should be able to receive json type requests', async t => {
   });
 
   const res = await testPromise;
-  t.is(res.body.post.name, 'Berwin');
+  t.assert.strictEqual(res.body.post.name, 'Berwin');
 });
 
 
@@ -61,7 +61,7 @@ test('should be thrown 400 errors, Because the parameter format is not json', as
   });
 
   const res = await testPromise;
-  t.is(res.text, 'Incorrect parameter format');
+  t.assert.strictEqual(res.text, 'Incorrect parameter format');
 });
 
 test('should support extend types requests', async t => {
@@ -80,7 +80,7 @@ test('should support extend types requests', async t => {
     });
 
   const res = await testPromise;
-  t.is(res.body.post.name, 'Berwin');
+  t.assert.strictEqual(res.body.post.name, 'Berwin');
 });
 
 test('should be able to receive form type requests', async t => {
@@ -97,7 +97,7 @@ test('should be able to receive form type requests', async t => {
     });
 
   const res = await testPromise;
-  t.is(res.body.post.name, 'Berwin');
+  t.assert.strictEqual(res.body.post.name, 'Berwin');
 });
 
 test('should be able to receive text type requests', async t => {
@@ -113,7 +113,7 @@ test('should be able to receive text type requests', async t => {
   });
 
   const res = await testPromise;
-  t.is(res.text, 'Berwin');
+  t.assert.strictEqual(res.text, 'Berwin');
 });
 
 test('should be able to receive multipart type requests', async t => {
@@ -128,9 +128,9 @@ test('should be able to receive multipart type requests', async t => {
   });
   
   const res = await testPromise;
-  t.truthy(res.body.file.xxfile.path.indexOf(path.join(__dirname, '../tmpdir')) !== -1);
-  t.is(res.body.file.xxfile.name, 'index.js');
-  t.is(res.body.file.xxfile.type, 'application/javascript');
+  t.assert.ok(res.body.file.xxfile.path.indexOf(path.join(__dirname, '../tmpdir')) !== -1);
+  t.assert.strictEqual(res.body.file.xxfile.name, 'index.js');
+  t.assert.strictEqual(res.body.file.xxfile.type, 'application/javascript');
 });
 
 test('should be able to receive multi file', async t => {
@@ -146,8 +146,8 @@ test('should be able to receive multi file', async t => {
   });
 
   const res = await testPromise;
-  t.is(res.body.file.a.type, 'application/javascript');
-  t.is(res.body.file.b.type, 'application/json');
+  t.assert.strictEqual(res.body.file.a.type, 'application/javascript');
+  t.assert.strictEqual(res.body.file.b.type, 'application/json');
 });
 
 test('should be able to receive both file and text', async t => {
@@ -163,9 +163,9 @@ test('should be able to receive both file and text', async t => {
   });
   
   const res = await testPromise;
-  t.is(res.body.post.text, 'test text');
-  t.is(res.body.file.xxfile.name, 'index.js');
-  t.is(res.body.file.xxfile.type, 'application/javascript');
+  t.assert.strictEqual(res.body.post.text, 'test text');
+  t.assert.strictEqual(res.body.file.xxfile.name, 'index.js');
+  t.assert.strictEqual(res.body.file.xxfile.type, 'application/javascript');
 });
 
 test('should be able to receive xml type requests', async t => {
@@ -181,7 +181,7 @@ test('should be able to receive xml type requests', async t => {
   });
   
   const res = await testPromise;
-  t.is(res.body.post.root, 'Hello Berwin!');
+  t.assert.strictEqual(res.body.post.root, 'Hello Berwin!');
 });
 
 test('xml support parameters', async t => {
@@ -197,7 +197,7 @@ test('xml support parameters', async t => {
   });
 
   const res = await testPromise;
-  t.is(res.body.post.root.name, 'Hello Berwin!');
+  t.assert.strictEqual(res.body.post.root.name, 'Hello Berwin!');
 });
 
 test('should throw error', async t => {
@@ -225,6 +225,6 @@ test('should throw error', async t => {
   try {
     await testPromise;
   } catch(e) {
-    t.is(e.message, 'test throw error');
+    t.assert.strictEqual(e.message, 'test throw error');
   }
 });

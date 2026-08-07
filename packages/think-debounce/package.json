@@ -7,8 +7,8 @@
     "email": "welefen@gmail.com"
   },
   "scripts": {
-    "test": "eslint index.js && nyc ava test/",
-    "coverage": "nyc report --reporter=html",
+    "test": "eslint index.js && node --test --test-concurrency=1 test/index.js",
+    "coverage": "node --test --test-concurrency=1 --experimental-test-coverage test/index.js",
     "lint": "eslint index.js",
     "lint-fix": "eslint --fix index.js"
   },
@@ -25,10 +25,8 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
-    "ava": "^8.0.1",
     "babel-core": "^6.22.1",
-    "eslint": "^10.8.0",
-    "nyc": "^18.0.0"
+    "eslint": "^10.8.0"
   },
   "keywords": [],
   "repository": {
@@ -42,10 +40,5 @@
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/thinkjs/think-debounce/issues"
-  },
-  "ava": {
-    "failWithoutAssertions": false,
-    "serial": true,
-    "timeout": "60s"
   }
 }

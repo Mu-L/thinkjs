@@ -4,7 +4,7 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2018-08-25 20:54:01
 */
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const helper = require('think-helper');
 const Validator = require('../src/index.js');
 const defaultCtx = require('./ctx.js');
@@ -29,7 +29,7 @@ test('rule-name-custom-message2', t => {
   }
   let instance = new Validator(ctx);
   let ret = instance.validate(rules, msgs);
-  t.true(ret.arg === err);
+  t.assert.strictEqual(ret.arg === err, true);
 });
 
 test('rule-required, required = true', t => {
@@ -40,7 +40,7 @@ test('rule-required, required = true', t => {
   }
   let instance = new Validator(helper.extend({}, defaultCtx));
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-required, required = false', t => {
@@ -51,7 +51,7 @@ test('rule-required, required = false', t => {
   }
   let instance = new Validator(helper.extend({}, defaultCtx));
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-requiredIf, if the first(parsed) in the last others then required = true', t => {
@@ -67,7 +67,7 @@ test('rule-requiredIf, if the first(parsed) in the last others then required = t
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-requiredIf, if the first(parsed) in the last others then required = true 2', t => {
@@ -86,7 +86,7 @@ test('rule-requiredIf, if the first(parsed) in the last others then required = t
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-requiredIf, if the fist(parsed) not in the last then required = false', t => {
@@ -102,7 +102,7 @@ test('rule-requiredIf, if the fist(parsed) not in the last then required = false
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-requiredIf, if the first not in this.query then required = false', t => {
@@ -113,7 +113,7 @@ test('rule-requiredIf, if the first not in this.query then required = false', t 
   }
   let instance = new Validator(helper.extend({}, defaultCtx));
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-requiredNotIf, if the first(parsed) not in the last then required = true', t => {
@@ -129,7 +129,7 @@ test('rule-requiredNotIf, if the first(parsed) not in the last then required = t
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-requiredNotIf, if the first(parsed) in the last then required = false', t => {
@@ -145,7 +145,7 @@ test('rule-requiredNotIf, if the first(parsed) in the last then required = false
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-requiredWith, if more than one in this.query then required = true', t => {
@@ -161,7 +161,7 @@ test('rule-requiredWith, if more than one in this.query then required = true', t
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-requiredWith, if more than one in this.query then required = true 2', t => {
@@ -177,7 +177,7 @@ test('rule-requiredWith, if more than one in this.query then required = true 2',
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-requiredWith, if more than one in this.query then required = true 2 #2', t => {
@@ -196,7 +196,7 @@ test('rule-requiredWith, if more than one in this.query then required = true 2 #
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-requiredWith, if zero one in this.query then required = false', t => {
@@ -207,7 +207,7 @@ test('rule-requiredWith, if zero one in this.query then required = false', t => 
   }
   let instance = new Validator(helper.extend({}, defaultCtx));
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-requiredWithAll, if all in this.query then required = true', t => {
@@ -224,7 +224,7 @@ test('rule-requiredWithAll, if all in this.query then required = true', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-requiredWithAll, if not all in this.query then required = false', t => {
@@ -240,7 +240,7 @@ test('rule-requiredWithAll, if not all in this.query then required = false', t =
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-requiredWithOut, if at least one not in this.query then required = true', t => {
@@ -256,7 +256,7 @@ test('rule-requiredWithOut, if at least one not in this.query then required = tr
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-requiredWithOut, if all in this.query then required = false', t => {
@@ -273,7 +273,7 @@ test('rule-requiredWithOut, if all in this.query then required = false', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-requiredWithOutAll, if all not in this.query then required = true', t => {
@@ -284,7 +284,7 @@ test('rule-requiredWithOutAll, if all not in this.query then required = true', t
   }
   let instance = new Validator(helper.extend({}, defaultCtx));
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-requiredWithOutAll, if not all in this.query then required = false', t => {
@@ -300,7 +300,7 @@ test('rule-requiredWithOutAll, if not all in this.query then required = false', 
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-contains failure', t => {
@@ -316,7 +316,7 @@ test('rule-contains failure', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-contains success', t => {
@@ -332,7 +332,7 @@ test('rule-contains success', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-equals failure', t => {
@@ -348,7 +348,7 @@ test('rule-equals failure', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-equals parse failure', t => {
@@ -366,7 +366,7 @@ test('rule-equals parse failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-equals parse success', t => {
@@ -383,7 +383,7 @@ test('rule-equals parse success', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-equals parse success2', t => {
@@ -401,7 +401,7 @@ test('rule-equals parse success2', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-equals parse success 2', t => {
@@ -421,7 +421,7 @@ test('rule-equals parse success 2', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-different success', t => {
@@ -437,7 +437,7 @@ test('rule-different success', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-before failure', t => {
@@ -453,7 +453,7 @@ test('rule-before failure', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-before success', t => {
@@ -469,7 +469,7 @@ test('rule-before success', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-before date argument failure', t => {
@@ -485,7 +485,7 @@ test('rule-before date argument failure', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-before date argument success', t => {
@@ -501,7 +501,7 @@ test('rule-before date argument success', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-after failure', t => {
@@ -517,7 +517,7 @@ test('rule-after failure', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-after success', t => {
@@ -533,7 +533,7 @@ test('rule-after success', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-after date argument failure', t => {
@@ -549,7 +549,7 @@ test('rule-after date argument failure', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-after date argument success', t => {
@@ -565,7 +565,7 @@ test('rule-after date argument success', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-alpha failure', t => {
@@ -581,7 +581,7 @@ test('rule-alpha failure', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-alpha success', t => {
@@ -597,7 +597,7 @@ test('rule-alpha success', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-alphaDash failure', t => {
@@ -613,7 +613,7 @@ test('rule-alphaDash failure', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-alphaDash success', t => {
@@ -629,7 +629,7 @@ test('rule-alphaDash success', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-alphaNumeric failure', t => {
@@ -645,7 +645,7 @@ test('rule-alphaNumeric failure', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-alphaNumeric success', t => {
@@ -661,7 +661,7 @@ test('rule-alphaNumeric success', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-alphaNumericDash failure', t => {
@@ -677,7 +677,7 @@ test('rule-alphaNumericDash failure', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-alphaNumericDash success', t => {
@@ -694,7 +694,7 @@ test('rule-alphaNumericDash success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-ascii failure', t => {
@@ -711,7 +711,7 @@ test('rule-ascii failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-ascii failure #2', t => {
@@ -727,7 +727,7 @@ test('rule-ascii failure #2', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-ascii success', t => {
@@ -743,7 +743,7 @@ test('rule-ascii success', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-base64 failure', t => {
@@ -759,7 +759,7 @@ test('rule-base64 failure', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-base64 success', t => {
@@ -775,7 +775,7 @@ test('rule-base64 success', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-byteLength failure1', t => {
@@ -791,7 +791,7 @@ test('rule-byteLength failure1', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-byteLength failure2', t => {
@@ -807,7 +807,7 @@ test('rule-byteLength failure2', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-byteLength failure3', t => {
@@ -823,7 +823,7 @@ test('rule-byteLength failure3', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-byteLength success', t => {
@@ -839,7 +839,7 @@ test('rule-byteLength success', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-byteLength-max-only', t => {
@@ -855,7 +855,7 @@ test('rule-byteLength-max-only', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-creditCard failure', t => {
@@ -871,7 +871,7 @@ test('rule-creditCard failure', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-creditCard success', t => {
@@ -888,7 +888,7 @@ test('rule-creditCard success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-currency failure', t => {
@@ -905,7 +905,7 @@ test('rule-currency failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-currency success', t => {
@@ -922,7 +922,7 @@ test('rule-currency success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-currency options success', t => {
@@ -939,7 +939,7 @@ test('rule-currency options success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-date failure', t => {
@@ -956,7 +956,7 @@ test('rule-date failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-date success', t => {
@@ -973,7 +973,7 @@ test('rule-date success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-decimal failure', t => {
@@ -990,7 +990,7 @@ test('rule-decimal failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-decimal success1', t => {
@@ -1007,7 +1007,7 @@ test('rule-decimal success1', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-decimal success2', t => {
@@ -1023,7 +1023,7 @@ test('rule-decimal success2', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-divisibleBy failure', t => {
@@ -1039,7 +1039,7 @@ test('rule-divisibleBy failure', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-divisibleBy success', t => {
@@ -1056,7 +1056,7 @@ test('rule-divisibleBy success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-email failure', t => {
@@ -1073,7 +1073,7 @@ test('rule-email failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-email success', t => {
@@ -1089,7 +1089,7 @@ test('rule-email success', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-email options success', t => {
@@ -1106,7 +1106,7 @@ test('rule-email options success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-fqdn failure', t => {
@@ -1123,7 +1123,7 @@ test('rule-fqdn failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-fqdn success1', t => {
@@ -1140,7 +1140,7 @@ test('rule-fqdn success1', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-fqdn success2', t => {
@@ -1156,7 +1156,7 @@ test('rule-fqdn success2', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-fqdn success3', t => {
@@ -1173,7 +1173,7 @@ test('rule-fqdn success3', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-fqdn options success', t => {
@@ -1190,7 +1190,7 @@ test('rule-fqdn options success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-float failure', t => {
@@ -1207,7 +1207,7 @@ test('rule-float failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-float success1', t => {
@@ -1224,7 +1224,7 @@ test('rule-float success1', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-float success2', t => {
@@ -1241,7 +1241,7 @@ test('rule-float success2', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-float success3', t => {
@@ -1258,7 +1258,7 @@ test('rule-float success3', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-float options failure', t => {
@@ -1275,7 +1275,7 @@ test('rule-float options failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-float options success', t => {
@@ -1292,7 +1292,7 @@ test('rule-float options success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-fullWidth failure', t => {
@@ -1309,7 +1309,7 @@ test('rule-fullWidth failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-fullWidth success1', t => {
@@ -1326,7 +1326,7 @@ test('rule-fullWidth success1', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-fullWidth success2', t => {
@@ -1343,7 +1343,7 @@ test('rule-fullWidth success2', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-fullWidth success3', t => {
@@ -1360,7 +1360,7 @@ test('rule-fullWidth success3', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-halfWidth', t => {
@@ -1377,7 +1377,7 @@ test('rule-halfWidth', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-hexColor failure', t => {
@@ -1394,7 +1394,7 @@ test('rule-hexColor failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-hexColor success1', t => {
@@ -1411,7 +1411,7 @@ test('rule-hexColor success1', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-hexColor success2', t => {
@@ -1428,7 +1428,7 @@ test('rule-hexColor success2', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-hex success', t => {
@@ -1445,7 +1445,7 @@ test('rule-hex success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-ip failure', t => {
@@ -1462,7 +1462,7 @@ test('rule-ip failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-ip success1', t => {
@@ -1479,7 +1479,7 @@ test('rule-ip success1', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-ip success2', t => {
@@ -1496,7 +1496,7 @@ test('rule-ip success2', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-ip4 failure', t => {
@@ -1513,7 +1513,7 @@ test('rule-ip4 failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-ip4 success', t => {
@@ -1530,7 +1530,7 @@ test('rule-ip4 success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-ip6 failure', t => {
@@ -1547,7 +1547,7 @@ test('rule-ip6 failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-ip6 success', t => {
@@ -1564,7 +1564,7 @@ test('rule-ip6 success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-isbn failure', t => {
@@ -1581,7 +1581,7 @@ test('rule-isbn failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-isbn success', t => {
@@ -1598,7 +1598,7 @@ test('rule-isbn success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-isin failure', t => {
@@ -1615,7 +1615,7 @@ test('rule-isin failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-isin success', t => {
@@ -1632,7 +1632,7 @@ test('rule-isin success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-iso8601 failure', t => {
@@ -1649,7 +1649,7 @@ test('rule-iso8601 failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-iso8601 success', t => {
@@ -1666,7 +1666,7 @@ test('rule-iso8601 success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-in failure', t => {
@@ -1683,7 +1683,7 @@ test('rule-in failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-in success', t => {
@@ -1700,7 +1700,7 @@ test('rule-in success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-notIn failure', t => {
@@ -1717,7 +1717,7 @@ test('rule-notIn failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-notIn success', t => {
@@ -1734,7 +1734,7 @@ test('rule-notIn success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-int failure', t => {
@@ -1751,7 +1751,7 @@ test('rule-int failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-int success', t => {
@@ -1768,7 +1768,7 @@ test('rule-int success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-int options failure', t => {
@@ -1785,7 +1785,7 @@ test('rule-int options failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-int options success', t => {
@@ -1802,7 +1802,7 @@ test('rule-int options success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-length options failure', t => {
@@ -1819,7 +1819,7 @@ test('rule-length options failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-length options failure2', t => {
@@ -1836,7 +1836,7 @@ test('rule-length options failure2', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-length options failure3', t => {
@@ -1853,7 +1853,7 @@ test('rule-length options failure3', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-length options success', t => {
@@ -1870,7 +1870,7 @@ test('rule-length options success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-length-max-only', t => {
@@ -1887,7 +1887,7 @@ test('rule-length-max-only', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 
@@ -1905,7 +1905,7 @@ test('rule-length-min-only', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-lowercase', t => {
@@ -1922,7 +1922,7 @@ test('rule-lowercase', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-uppercase failure', t => {
@@ -1939,7 +1939,7 @@ test('rule-uppercase failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-uppercase success', t => {
@@ -1956,7 +1956,7 @@ test('rule-uppercase success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 
@@ -1974,7 +1974,7 @@ test('rule-mobile failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-mobile success', t => {
@@ -1991,7 +1991,7 @@ test('rule-mobile success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-mobile-locale', t => {
@@ -2008,7 +2008,7 @@ test('rule-mobile-locale', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-mongoId', t => {
@@ -2025,7 +2025,7 @@ test('rule-mongoId', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-multibyte failure', t => {
@@ -2042,7 +2042,7 @@ test('rule-multibyte failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-multibyte success', t => {
@@ -2059,7 +2059,7 @@ test('rule-multibyte success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-url failure', t => {
@@ -2076,7 +2076,7 @@ test('rule-url failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-url success2', t => {
@@ -2093,7 +2093,7 @@ test('rule-url success2', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-url success2 #2', t => {
@@ -2110,7 +2110,7 @@ test('rule-url success2 #2', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-url options success', t => {
@@ -2127,7 +2127,7 @@ test('rule-url options success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-order failure', t => {
@@ -2144,7 +2144,7 @@ test('rule-order failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-order success1', t => {
@@ -2162,7 +2162,7 @@ test('rule-order success1', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-order success2', t => {
@@ -2179,7 +2179,7 @@ test('rule-order success2', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-field success1', t => {
@@ -2196,7 +2196,7 @@ test('rule-field success1', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-field success2', t => {
@@ -2213,7 +2213,7 @@ test('rule-field success2', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-field success3', t => {
@@ -2230,7 +2230,7 @@ test('rule-field success3', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-field success4', t => {
@@ -2247,7 +2247,7 @@ test('rule-field success4', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-image', t => {
@@ -2264,7 +2264,7 @@ test('rule-image', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-image-options', t => {
@@ -2281,7 +2281,7 @@ test('rule-image-options', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-startWith failure', t => {
@@ -2298,7 +2298,7 @@ test('rule-startWith failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-startWith success', t => {
@@ -2315,7 +2315,7 @@ test('rule-startWith success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-endWith failure', t => {
@@ -2332,7 +2332,7 @@ test('rule-endWith failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-endWith success', t => {
@@ -2349,7 +2349,7 @@ test('rule-endWith success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-issn failure', t => {
@@ -2366,7 +2366,7 @@ test('rule-issn failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-issn success', t => {
@@ -2383,7 +2383,7 @@ test('rule-issn success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-issn-options', t => {
@@ -2400,7 +2400,7 @@ test('rule-issn-options', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 
@@ -2418,7 +2418,7 @@ test('rule-uuid failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-uuid success', t => {
@@ -2435,7 +2435,7 @@ test('rule-uuid success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-md5 failure', t => {
@@ -2452,7 +2452,7 @@ test('rule-md5 failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-md5 success', t => {
@@ -2469,7 +2469,7 @@ test('rule-md5 success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-macAddress failure', t => {
@@ -2486,7 +2486,7 @@ test('rule-macAddress failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-macAddress success', t => {
@@ -2503,7 +2503,7 @@ test('rule-macAddress success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-dataURI failure', t => {
@@ -2520,7 +2520,7 @@ test('rule-dataURI failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-dataURI success', t => {
@@ -2537,7 +2537,7 @@ test('rule-dataURI success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-regexp', t => {
@@ -2554,7 +2554,7 @@ test('rule-regexp', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-variableWidth failure', t => {
@@ -2571,7 +2571,7 @@ test('rule-variableWidth failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-variableWidth success', t => {
@@ -2588,7 +2588,7 @@ test('rule-variableWidth success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-string failure', t => {
@@ -2605,7 +2605,7 @@ test('rule-string failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-string success', t => {
@@ -2622,7 +2622,7 @@ test('rule-string success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-object failure', t => {
@@ -2639,7 +2639,7 @@ test('rule-object failure', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-object success', t => {
@@ -2656,7 +2656,7 @@ test('rule-object success', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule method empty', t => {
@@ -2674,7 +2674,7 @@ test('rule method empty', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule method not empty', t => {
@@ -2692,7 +2692,7 @@ test('rule method not empty', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-no-exist', t => {
@@ -2711,7 +2711,7 @@ test('rule-no-exist', t => {
   try{
     let ret = instance.validate(rules);
   }catch(e) {
-    t.pass();
+    t.assert.ok(true);
   }
 });
 
@@ -2724,7 +2724,7 @@ test('rule-ip-no-required', t => {
   }
   let instance = new Validator(helper.extend({}, defaultCtx));
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-add-method', t => {
@@ -2744,7 +2744,7 @@ test('rule-add-method', t => {
   });
   let instance = new Validator(helper.extend({}, defaultCtx));
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0);
+  t.assert.strictEqual(Object.keys(ret).length === 0, true);
 });
 
 test('rule-add-method2', t => {
@@ -2766,7 +2766,7 @@ test('rule-add-method2', t => {
   });
   let instance = new Validator(helper.extend({}, defaultCtx));
   let ret = instance.validate(rules);
-  t.true(ret.arg === wrongMsg);
+  t.assert.strictEqual(ret.arg === wrongMsg, true);
 });
 
 test('rule one-more-basic type', t => {
@@ -2780,7 +2780,7 @@ test('rule one-more-basic type', t => {
   try {
     let ret = instance.validate(rules);
   }catch(e) {
-    t.pass();
+    t.assert.ok(true);
   }
 });
 
@@ -2798,7 +2798,7 @@ test('rule-boolean', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(ctx.param().arg === false);
+  t.assert.strictEqual(ctx.param().arg === false, true);
 });
 
 test('rule-array', t => {
@@ -2815,7 +2815,7 @@ test('rule-array', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.deepEqual(ctx.param().arg, ['123']);
+  t.assert.deepStrictEqual(ctx.param().arg, ['123']);
 });
 
 test('rule-array #2', t => {
@@ -2831,7 +2831,7 @@ test('rule-array #2', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.deepEqual(ctx.param().arg, undefined);
+  t.assert.deepStrictEqual(ctx.param().arg, undefined);
 });
 
 test('rule-int-convert', t => {
@@ -2848,7 +2848,7 @@ test('rule-int-convert', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0 && ctx.param().arg === 123);
+  t.assert.strictEqual(Object.keys(ret).length === 0 && ctx.param().arg === 123, true);
 });
 
 test('rule-array-nest', t => {
@@ -2868,7 +2868,7 @@ test('rule-array-nest', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0 && ctx.param().arg[0] === 12)
+  t.assert.strictEqual(Object.keys(ret).length === 0 && ctx.param().arg[0] === 12, true)
 });
 
 test('rule-array-nest 2', t => {
@@ -2888,7 +2888,7 @@ test('rule-array-nest 2', t => {
   });
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0 && ctx.param().arg[0] === 12)
+  t.assert.strictEqual(Object.keys(ret).length === 0 && ctx.param().arg[0] === 12, true)
 });
 
 test('rule-object-nest', t => {
@@ -2911,7 +2911,7 @@ test('rule-object-nest', t => {
 
   let instance = new Validator(ctx);
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length === 0 && ctx.param().arg.a === 123)
+  t.assert.strictEqual(Object.keys(ret).length === 0 && ctx.param().arg.a === 123, true)
 });
 
 test('rule\'method not match this.ctx.method', t => {
@@ -2924,7 +2924,7 @@ test('rule\'method not match this.ctx.method', t => {
 
   let instance = new Validator(helper.extend({}, defaultCtx));
   let ret = instance.validate(rules);
-  t.true(Object.keys(ret).length > 0);
+  t.assert.strictEqual(Object.keys(ret).length > 0, true);
 });
 
 test('rule-name-custom-message', t => {
@@ -2969,13 +2969,11 @@ test('rule-name-custom-message', t => {
   }
   let instance = new Validator(ctx);
   let ret = instance.validate(rules, msgs);
-  t.true(
-    ret.arg === msgs.arg &&
+  t.assert.strictEqual(ret.arg === msgs.arg &&
     ret.arg2 === msgs.arg2.required &&
     ret['arg3.a'] === msgs.arg3['a,b'] &&
     ret['arg3.c'] === msgs.arg3.c &&
-    ret['arg3.d'] === msgs.arg3.d.int
-  );
+    ret['arg3.d'] === msgs.arg3.d.int, true);
 });
 
 test('rule-array-message', t => {
@@ -2998,7 +2996,7 @@ test('rule-array-message', t => {
   }
   let instance = new Validator(ctx);
   let ret = instance.validate(rules, msgs);
-  t.true(ret['arg3[0]'] === msgs.arg3);
+  t.assert.strictEqual(ret['arg3[0]'] === msgs.arg3, true);
 });
 
 test('rule-name-custom-message-else', t => {
@@ -3065,16 +3063,14 @@ test('rule-name-custom-message-else', t => {
   let ret = instance.validate(rules, msgs);
 
   let INT_ERROR = ' need an integer under your options';
-  t.true(
-    ret.arg === `arg${WITHOUT_ERR_MESSAGE}` &&
+  t.assert.strictEqual(ret.arg === `arg${WITHOUT_ERR_MESSAGE}` &&
     ret.arg2 === `arg2${WITHOUT_ERR_MESSAGE}` &&
     ret['arg3.a'] === `arg3${INT_ERROR}` &&
     ret['arg3.b'] === `arg3${INT_ERROR}` &&
     ret['arg3.c'] === `arg3${INT_ERROR}` &&
     ret['arg3.d'] === `arg3${INT_ERROR}` &&
     ret['arg4.e'] === 'arg4 custom error' &&
-    ret['arg5.f'] === `arg5${INT_ERROR}`
-  );
+    ret['arg5.f'] === `arg5${INT_ERROR}`, true);
 });
 
 

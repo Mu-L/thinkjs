@@ -1,9 +1,9 @@
-const {default: test} = require('ava');
+const {test, before} = require('node:test');
 const Logger = require('../src');
 const process = require('process');
 const Adapter = Logger.Console;
 
-test.before('console logger', () => {
+before(() => {
   global.server_log = '';
   process.stdout.write = (write => (string, ...args) => {
     global.server_log += string;
@@ -19,7 +19,7 @@ test('console logger #2', t => {
   for (const funcName of funcNames) {
     const func = logger[funcName];
     func('Hello World');
-    t.true(global.server_log.includes('Hello World'));
+    t.assert.strictEqual(global.server_log.includes('Hello World'), true);
     global.server_log = '';
   }
 });

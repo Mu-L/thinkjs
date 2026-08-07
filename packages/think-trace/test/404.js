@@ -1,10 +1,10 @@
 const fs = require('fs');
-const {default: test} = require('ava');
+const {test, before, after} = require('node:test');
 const Trace = require('../lib');
 
 const filename = `${__dirname}/notfound.html`;
 
-test.before('404', () => {
+before(() => {
   try {
     fs.statSync(filename);
     fs.unlinkSync(filename);
@@ -46,7 +46,7 @@ test('404 #2', async t => {
 
   }
 
-  t.is(ctx.body, 'Error: url `/index` not found.');
+  t.assert.strictEqual(ctx.body, 'Error: url `/index` not found.');
 
   try {
     await Trace({
@@ -57,7 +57,7 @@ test('404 #2', async t => {
   } catch (e) {
 
   }
-  t.is(ctx.body, '');
+  t.assert.strictEqual(ctx.body, '');
 });
 
-test.after('404 #3', () => fs.unlinkSync(filename));
+after(() => fs.unlinkSync(filename));

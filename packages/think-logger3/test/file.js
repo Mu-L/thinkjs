@@ -1,12 +1,12 @@
 const fs = require('fs');
-const {default: test} = require('ava');
+const {test, before} = require('node:test');
 const Logger = require('../src');
 const Adapter = Logger.File;
 
 const sleep = time => new Promise(resolve => setTimeout(resolve, time));
 const filename = `${__dirname}/test.log`;
 
-test.before('file logger', () => {
+before(() => {
   try {
     fs.statSync(filename);
     fs.unlinkSync(filename);
@@ -29,7 +29,7 @@ test('file logger #2', async t => {
   await sleep(500);
 
   const text = fs.readFileSync(filename, {encoding: 'utf-8'});
-  t.true(text.split('Hello World').length === funcs.length + 1);
+  t.assert.strictEqual(text.split('Hello World').length === funcs.length + 1, true);
 
   fs.unlinkSync(filename);
 });

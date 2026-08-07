@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test, afterEach} = require('node:test');
 const path = require('path');
 const mock = require('mock-require');
 const helper = require('think-helper');
@@ -13,7 +13,7 @@ function mockLocaleConfigs(instance, config={}) {
   }
 }
 
-test.afterEach.always(t => {
+afterEach(t => {
   mock.stopAll();
 });
 
@@ -27,10 +27,10 @@ test('extend will call loadLocaleConfigs with options', t=>{
   var extend = instance.extend(options);
   var controller = extend.controller;
 
-  t.is(expectOptions, options);
-  t.is(helper.isObject(controller), true);
-  t.is(helper.isFunction(controller.getLocale), true);
-  t.is(helper.isFunction(controller.getI18n), true);
+  t.assert.strictEqual(expectOptions, options);
+  t.assert.strictEqual(helper.isObject(controller), true);
+  t.assert.strictEqual(helper.isFunction(controller.getLocale), true);
+  t.assert.strictEqual(helper.isFunction(controller.getI18n), true);
 });
 
 
@@ -56,9 +56,9 @@ test('will listen to viewInit event when passed in app', t=>{
 
   var extend = instance.extend(options);
 
-  t.is(actualFiled, '__');
-  t.is(actualEventKey, 'viewInit');
-  t.is(actualInstance, 'i18nInstance');
+  t.assert.strictEqual(actualFiled, '__');
+  t.assert.strictEqual(actualEventKey, 'viewInit');
+  t.assert.strictEqual(actualInstance, 'i18nInstance');
 });
 
 
@@ -70,7 +70,7 @@ test('when getLocale is empty read from accept-language', t=>{
     ctx: {request: {header: {'accept-language': 'a,b,c,d'}}}
   };
   var locales = extend.controller.getLocale.bind(mockController)();
-  t.deepEqual(locales, ['a','b','c','d']);
+  t.assert.deepStrictEqual(locales, ['a','b','c','d']);
 });
 
 test('when getLocale is empty read from accept-language 2', t=>{
@@ -79,7 +79,7 @@ test('when getLocale is empty read from accept-language 2', t=>{
   var extend = instance.extend({});
   var mockController = {ctx: {request: {header: {}}}};
   var locales = extend.controller.getLocale.bind(mockController)();
-  t.deepEqual(locales, []);
+  t.assert.deepStrictEqual(locales, []);
 });
 
 test('when getLocale is function', t=>{
@@ -89,8 +89,8 @@ test('when getLocale is function', t=>{
   var extend = instance.extend({getLocale(ctx){expectCtx = ctx; return ['localeId'];}});
   var mockController = {ctx: {request: {header: {}}}};
   var locales = extend.controller.getLocale.bind(mockController)();
-  t.deepEqual(expectCtx, {request: {header: {}}});
-  t.deepEqual(locales, ['localeId']);
+  t.assert.deepStrictEqual(expectCtx, {request: {header: {}}});
+  t.assert.deepStrictEqual(locales, ['localeId']);
 });
 
 test('when getLocale by cookie', t=>{
@@ -100,7 +100,7 @@ test('when getLocale by cookie', t=>{
   var extend = instance.extend({getLocale: {by: 'cookie', name: 'locale'}});
   var mockController = {ctx: {request: {header: {}}}};
   var locales = extend.controller.getLocale.bind(mockController)();
-  t.deepEqual(locales, []);
+  t.assert.deepStrictEqual(locales, []);
 });
 
 test('when getLocale by cookie 2', t=>{
@@ -110,7 +110,7 @@ test('when getLocale by cookie 2', t=>{
   var extend = instance.extend({getLocale: {by: 'cookie', name: 'locale'}});
   var mockController = {ctx: {request: {header: {cookie: 'sasd=aaa;locale=en-ch'}}}};
   var locales = extend.controller.getLocale.bind(mockController)();
-  t.deepEqual(locales, ['en-ch']);
+  t.assert.deepStrictEqual(locales, ['en-ch']);
 });
 
 
@@ -121,7 +121,7 @@ test('when getLocale by query', t=>{
   var extend = instance.extend({getLocale: {by: 'query', name: 'locale'}});
   var mockController = {ctx: {request: {url: 'asdfjsjfa'}}};
   var locales = extend.controller.getLocale.bind(mockController)();
-  t.deepEqual(locales, []);
+  t.assert.deepStrictEqual(locales, []);
 });
 
 test('when getLocale by query 2', t=>{
@@ -131,7 +131,7 @@ test('when getLocale by query 2', t=>{
   var extend = instance.extend({getLocale: {by: 'query', name: 'locale'}});
   var mockController = {ctx: {request: {url: 'asdfjsjfa?locale=en'}}};
   var locales = extend.controller.getLocale.bind(mockController)();
-  t.deepEqual(locales, ['en']);
+  t.assert.deepStrictEqual(locales, ['en']);
 });
 
 test('when getLocale by query 3', t=>{
@@ -141,7 +141,7 @@ test('when getLocale by query 3', t=>{
   var extend = instance.extend({getLocale: {by: 'query', name: 'locale'}});
   var mockController = {ctx: {request: {url: 'asdfjsjfa?asjfksj=223&locale=en'}}};
   var locales = extend.controller.getLocale.bind(mockController)();
-  t.deepEqual(locales, ['en']);
+  t.assert.deepStrictEqual(locales, ['en']);
 });
 
 test('when getLocale by query 4', t=>{
@@ -151,7 +151,7 @@ test('when getLocale by query 4', t=>{
   var extend = instance.extend({getLocale: {by: 'query', name: 'locale'}});
   var mockController = {ctx: {request: {url: 'asdfjsjfa%3Fasjfksj%3D223%26locale%3Den%26aaa%3D222%23somehash'}}};
   var locales = extend.controller.getLocale.bind(mockController)();
-  t.deepEqual(locales, ['en']);
+  t.assert.deepStrictEqual(locales, ['en']);
 });
 
 test('when getLocale by unknown 5', t=>{
@@ -161,10 +161,14 @@ test('when getLocale by unknown 5', t=>{
   var extend = instance.extend({getLocale: {by: 'sfsdfsd', name: 'locale'}});
   var mockController = {};
 
-  var err = t.throws(()=>{
+  let err;
+  t.assert.throws(()=>{
     extend.controller.getLocale.bind(mockController)();
-  }, {instanceOf: Error});
-  t.is(err.message, 'getLocale.by must be value of "header", "query" or  "cookie".');
+  }, caughtError => {
+    err = caughtError;
+    return caughtError instanceof Error;
+  });
+  t.assert.strictEqual(err.message, 'getLocale.by must be value of "header", "query" or  "cookie".');
 });
 
 
@@ -172,20 +176,28 @@ test('i18n will use param if provide', t=>{
   var instance = getInstance();
   mockLocaleConfigs(instance);
   var extend = instance.extend({});
-  var err = t.throws(()=>{
+  let err;
+  t.assert.throws(()=>{
     extend.controller.getI18n({});
-  }, {instanceOf: Error});
-  t.is(err.message, 'controller.getI18n(locale), locale must be string or undefined');
+  }, caughtError => {
+    err = caughtError;
+    return caughtError instanceof Error;
+  });
+  t.assert.strictEqual(err.message, 'controller.getI18n(locale), locale must be string or undefined');
 });
 
 test('i18n will use debugLocale if provide and param not provided', t=>{
   var instance = getInstance();
   mockLocaleConfigs(instance);
   var extend = instance.extend({debugLocale: {}});
-  var err = t.throws(()=>{
+  let err;
+  t.assert.throws(()=>{
     extend.controller.getI18n();
-  }, {instanceOf: Error});
-  t.is(err.message, 'controller.getI18n(locale), locale must be string or undefined');
+  }, caughtError => {
+    err = caughtError;
+    return caughtError instanceof Error;
+  });
+  t.assert.strictEqual(err.message, 'controller.getI18n(locale), locale must be string or undefined');
 });
 
 
@@ -197,12 +209,16 @@ test('i18n will use getLocale if not provide param and debugLocale', t=>{
   var extend = instance.extend({localesMapping: function(a){expectParam = a; return {};}});
   var controller = extend.controller;
   controller.getLocale = function(){callTimes++; return 'getLocale';}
-  var err = t.throws(()=>{
+  let err;
+  t.assert.throws(()=>{
     controller.getI18n();
-  }, {instanceOf: Error});
-  t.is(callTimes, 1);
-  t.is(expectParam, 'getLocale');
-  t.is(err.message, 'controller.getI18n(locale), locale must be string or undefined');
+  }, caughtError => {
+    err = caughtError;
+    return caughtError instanceof Error;
+  });
+  t.assert.strictEqual(callTimes, 1);
+  t.assert.strictEqual(expectParam, 'getLocale');
+  t.assert.strictEqual(err.message, 'controller.getI18n(locale), locale must be string or undefined');
 });
 
 test('i18n will throw if no matched localeConfig is found', t=>{
@@ -210,10 +226,14 @@ test('i18n will throw if no matched localeConfig is found', t=>{
   mockLocaleConfigs(instance);
   var extend = instance.extend({});
   var controller = extend.controller;
-  var err = t.throws(()=>{
+  let err;
+  t.assert.throws(()=>{
     controller.getI18n('someLocale');
-  }, {instanceOf: Error});
-  t.is(err.message, 'locale config someLocale not found');
+  }, caughtError => {
+    err = caughtError;
+    return caughtError instanceof Error;
+  });
+  t.assert.strictEqual(err.message, 'locale config someLocale not found');
 });
 
 test('i18n will return i18n object no match locales for moment and numeral', t=>{
@@ -237,13 +257,13 @@ test('i18n will return i18n object no match locales for moment and numeral', t=>
 
   const __ = controller.getI18n.bind(mockController)('someLocale');
 
-  t.is(moment.locale, 'en');
-  t.is(numeral.locale, 'en');
-  t.deepEqual(jedParam, {value: 'value', locale_data: {}});
+  t.assert.strictEqual(moment.locale, 'en');
+  t.assert.strictEqual(numeral.locale, 'en');
+  t.assert.deepStrictEqual(jedParam, {value: 'value', locale_data: {}});
 
-  t.is(__('some key'), 'some key');
-  t.is(__.moment, moment);
-  t.is(__.numeral, numeral);
+  t.assert.strictEqual(__('some key'), 'some key');
+  t.assert.strictEqual(__.moment, moment);
+  t.assert.strictEqual(__.numeral, numeral);
 });
 
 test('i18n will return i18n object not match locales for moment and numeral no jedOptions', t=>{
@@ -263,14 +283,14 @@ test('i18n will return i18n object not match locales for moment and numeral no j
   };
   const __ = controller.getI18n.bind(mockController)('someLocale');
 
-  t.is(moment.locale, 'en');
-  t.is(numeral.locale, 'en');
-  t.deepEqual(jedParam, {locale_data: {}});
+  t.assert.strictEqual(moment.locale, 'en');
+  t.assert.strictEqual(numeral.locale, 'en');
+  t.assert.deepStrictEqual(jedParam, {locale_data: {}});
 
-  t.is(__('some key'), 'some key');
+  t.assert.strictEqual(__('some key'), 'some key');
 
-  t.is(__.moment, moment);
-  t.is(__.numeral, numeral);
+  t.assert.strictEqual(__.moment, moment);
+  t.assert.strictEqual(__.numeral, numeral);
 });
 
 
@@ -291,11 +311,11 @@ test('i18n will return i18n object and change locale accordingly', t=>{
   };
   const __ = controller.getI18n.bind(mockController)('someLocale');
 
-  t.is(moment.locale, 'someLocale');
-  t.is(numeral.locale, 'someLocale');
-  t.deepEqual(jedParam, {locale_data: {}});
+  t.assert.strictEqual(moment.locale, 'someLocale');
+  t.assert.strictEqual(numeral.locale, 'someLocale');
+  t.assert.deepStrictEqual(jedParam, {locale_data: {}});
 
-  t.is(__('some key'), 'some key');
-  t.is(__.moment, moment);
-  t.is(__.numeral, numeral);
+  t.assert.strictEqual(__('some key'), 'some key');
+  t.assert.strictEqual(__.moment, moment);
+  t.assert.strictEqual(__.numeral, numeral);
 });

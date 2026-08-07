@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const Query = require('../../lib/query');
 const Parser = require('../../lib/parser');
 const Schema = require('../../lib/schema');
@@ -19,7 +19,7 @@ test('_getItemSchemaValidate', t => {
 
   t.plan(data.length);
   data.forEach(([params, except]) =>
-    t.deepEqual(schema._getItemSchemaValidate(params), except)
+    t.assert.deepStrictEqual(schema._getItemSchemaValidate(params), except)
   );
 });
 
@@ -46,7 +46,7 @@ test('_parseItemSchema', t => {
 
   t.plan(data.length);
   data.forEach(([params, except]) =>
-    t.deepEqual(schema._parseItemSchema(params), except)
+    t.assert.deepStrictEqual(schema._parseItemSchema(params), except)
   );
 });
 
@@ -56,8 +56,8 @@ test('schema parser and query object', t => {
   const schema = new Schema();
   schema.query = new Query();
   schema.parser = new Parser();
-  t.true(schema.query instanceof Query);
-  t.true(schema.parser instanceof Parser);
+  t.assert.strictEqual(schema.query instanceof Query, true);
+  t.assert.strictEqual(schema.parser instanceof Parser, true);
 });
 
 test('parser is getter', t => {
@@ -65,7 +65,7 @@ test('parser is getter', t => {
   instance.query = new Query();
   instance.parser = new Parser();
   const parser = instance.parser;
-  t.true(parser instanceof Parser);
+  t.assert.strictEqual(parser instanceof Parser, true);
 });
 
 test('parser is getter 2', t => {
@@ -74,8 +74,8 @@ test('parser is getter 2', t => {
   instance.parser = new Parser();
   const parser = instance.parser;
   const parser2 = instance.parser;
-  t.true(parser instanceof Parser);
-  t.true(parser === parser2);
+  t.assert.strictEqual(parser instanceof Parser, true);
+  t.assert.strictEqual(parser === parser2, true);
 });
 
 test('query is getter', t => {
@@ -83,7 +83,7 @@ test('query is getter', t => {
   instance.query = new Query();
   instance.parser = new Parser();
   const query = instance.query;
-  t.true(query instanceof Query);
+  t.assert.strictEqual(query instanceof Query, true);
 });
 
 test('query is getter 2', t => {
@@ -92,8 +92,8 @@ test('query is getter 2', t => {
   instance.parser = new Parser();
   const query = instance.query;
   const query2 = instance.query;
-  t.true(query instanceof Query);
-  t.true(query === query2);
+  t.assert.strictEqual(query instanceof Query, true);
+  t.assert.strictEqual(query === query2, true);
 });
 
 test('schema get empty schema', async t => {
@@ -103,7 +103,7 @@ test('schema get empty schema', async t => {
   const result = await schema.getSchema().catch(() => {
     return {};
   });
-  t.deepEqual(result, {});
+  t.assert.deepStrictEqual(result, {});
 });
 
 test('schema get empty schema 2', async t => {
@@ -116,8 +116,8 @@ test('schema get empty schema 2', async t => {
   const result2 = await schema.getSchema().catch(() => {
     return {};
   });
-  t.deepEqual(result, {});
-  t.deepEqual(result, result2);
+  t.assert.deepStrictEqual(result, {});
+  t.assert.deepStrictEqual(result, result2);
 });
 
 test('schema get normal schema', async t => {
@@ -150,7 +150,7 @@ test('schema get normal schema', async t => {
   });
 
   const result = await schema.getSchema('post1');
-  t.deepEqual(result, {
+  t.assert.deepStrictEqual(result, {
     id: {
       name: 'id',
       type: 'int(10)',
@@ -216,7 +216,7 @@ test('schema get normal schema 2', async t => {
   });
 
   const result = await schema.getSchema('post2');
-  t.deepEqual(result, {
+  t.assert.deepStrictEqual(result, {
     id: {
       name: 'id',
       type: 'int(10)',
@@ -282,7 +282,7 @@ test('schema get normal schema 3', async t => {
   });
 
   const result = await schema.getSchema('post3');
-  t.deepEqual(result, {
+  t.assert.deepStrictEqual(result, {
     id: {
       name: 'id',
       type: 'int(10)',
@@ -352,7 +352,7 @@ test('schema get normal schema 4', async t => {
   });
 
   const result = await schema.getSchema('post4');
-  t.deepEqual(result, {
+  t.assert.deepStrictEqual(result, {
     id: {
       name: 'id',
       type: 'int(10)',
@@ -388,19 +388,19 @@ test('schema parse type', t => {
   t.plan(15);
 
   const schema = new Schema({ jsonFormat: true });
-  t.is(schema.parseType('enum', '1'), '1');
-  t.is(schema.parseType('set', 'True'), 'True');
-  t.is(schema.parseType('bigint', 'False'), 'False');
-  t.is(schema.parseType('int(10)', '3'), 3);
-  t.is(schema.parseType('int(10)', 'fasdfadf'), 0);
-  t.is(schema.parseType('double', '3.3'), 3.3);
-  t.is(schema.parseType('float', '3.3'), 3.3);
-  t.is(schema.parseType('float', 'fasdfasdf'), 0);
-  t.is(schema.parseType('decimal', '3.3'), 3.3);
-  t.is(schema.parseType('bool', '0'), 1);
-  t.is(schema.parseType('bool', ''), 0);
-  t.is(schema.parseType('xxx', 'aaa'), 'aaa');
-  t.is(schema.parseType('json', [1, 2, 3, 4]), '[1,2,3,4]');
-  t.is(schema.parseType('json', null), null);
-  t.is(schema.parseType('json', undefined), null);
+  t.assert.strictEqual(schema.parseType('enum', '1'), '1');
+  t.assert.strictEqual(schema.parseType('set', 'True'), 'True');
+  t.assert.strictEqual(schema.parseType('bigint', 'False'), 'False');
+  t.assert.strictEqual(schema.parseType('int(10)', '3'), 3);
+  t.assert.strictEqual(schema.parseType('int(10)', 'fasdfadf'), 0);
+  t.assert.strictEqual(schema.parseType('double', '3.3'), 3.3);
+  t.assert.strictEqual(schema.parseType('float', '3.3'), 3.3);
+  t.assert.strictEqual(schema.parseType('float', 'fasdfasdf'), 0);
+  t.assert.strictEqual(schema.parseType('decimal', '3.3'), 3.3);
+  t.assert.strictEqual(schema.parseType('bool', '0'), 1);
+  t.assert.strictEqual(schema.parseType('bool', ''), 0);
+  t.assert.strictEqual(schema.parseType('xxx', 'aaa'), 'aaa');
+  t.assert.strictEqual(schema.parseType('json', [1, 2, 3, 4]), '[1,2,3,4]');
+  t.assert.strictEqual(schema.parseType('json', null), null);
+  t.assert.strictEqual(schema.parseType('json', undefined), null);
 });

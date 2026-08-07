@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const routerREST = require('../index.js');
 
 test('rest true', t => {
@@ -18,7 +18,7 @@ test('rest true', t => {
   };
 
   routerREST({})(ctx, () => true);
-  t.is(ctx.action, 'post');
+  t.assert.strictEqual(ctx.action, 'post');
 });
 
 test('rest false', t => {
@@ -37,7 +37,7 @@ test('rest false', t => {
   };
 
   routerREST({})(ctx, () => true);
-  t.is(ctx.action, 'index');
+  t.assert.strictEqual(ctx.action, 'index');
 });
 
 test('rest custom method without post request', t => {
@@ -61,7 +61,7 @@ test('rest custom method without post request', t => {
   };
 
   routerREST({})(ctx, () => true);
-  t.is(ctx.action, 'get');
+  t.assert.strictEqual(ctx.action, 'get');
 });
 
 test('rest custom method with post request', t => {
@@ -85,5 +85,5 @@ test('rest custom method with post request', t => {
   };
 
   routerREST({})(ctx, () => true);
-  t.is(ctx.action, 'delete');
+  t.assert.strictEqual(ctx.action, 'delete');
 });

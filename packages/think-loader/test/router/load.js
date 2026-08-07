@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const mock = require('mock-require');
 const path = require('path');
 
@@ -80,10 +80,10 @@ function createTest(modules, isFiles, fileContents,
     var result = router.load('appPath', modules);
 
     if (expectAssertParams.length === 0) {
-      t.deepEqual(params, formatRouterCallParams);
-      t.deepEqual(result, expectResult);
+      t.assert.deepStrictEqual(params, formatRouterCallParams);
+      t.assert.deepStrictEqual(result, expectResult);
     } else {
-      t.deepEqual(assertParams, expectAssertParams);
+      t.assert.deepStrictEqual(assertParams, expectAssertParams);
     }
   };
 }

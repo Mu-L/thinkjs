@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const Debounce = require('../index.js');
 const fs = require('fs');
 
@@ -23,10 +23,10 @@ test('await', t => {
 
 
   return Promise.all([promise1, promise2]).then(values => {
-    t.is(readTimes, 1);
-    t.is(values[0], values[1]);
+    t.assert.strictEqual(readTimes, 1);
+    t.assert.strictEqual(values[0], values[1]);
   }, reason => {
-    t.is(readTimes, 1);
+    t.assert.strictEqual(readTimes, 1);
   });
 });
 
@@ -50,9 +50,9 @@ test('await 1', t => {
   let promise2 = instance.debounce(awaitKey, readFileCallback);
 
   return Promise.all([promise1, promise2]).then(values => {
-    t.is(readTimes, 1);
-    t.is(values[0], values[1]);
+    t.assert.strictEqual(readTimes, 1);
+    t.assert.strictEqual(values[0], values[1]);
   }, reason => {
-    t.is(readTimes, 1);
+    t.assert.strictEqual(readTimes, 1);
   });
 });

@@ -1,10 +1,10 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const mock = require('mock-require');
 
 mock('think-redis', './mock-think-redis.js');
 const RedisCache = require('../index');
 
-test.serial('set key -> get key -> del key', async t => {
+test('set key -> get key -> del key', async t => {
   const redisCache = new RedisCache();
   const key = 'redisCache';
   const content = 'Thinkjs';
@@ -13,10 +13,10 @@ test.serial('set key -> get key -> del key', async t => {
   await redisCache.delete(key);
   const g2 = await redisCache.get(key);
 
-  t.true(g1 === content && g2 === void 0);
+  t.assert.strictEqual(g1 === content && g2 === void 0, true);
 });
 
-test.serial('set key -> get key -> del key2', async t => {
+test('set key -> get key -> del key2', async t => {
   const redisCache = new RedisCache();
   const key = 'redisCache';
   const content = {a: {b: 'thinkjs'}};
@@ -25,10 +25,10 @@ test.serial('set key -> get key -> del key2', async t => {
   await redisCache.delete(key);
   const g2 = await redisCache.get(key);
 
-  t.true(g1.a.b === content.a.b && g2 === void 0);
+  t.assert.strictEqual(g1.a.b === content.a.b && g2 === void 0, true);
 });
 
-test.serial('set key1 -> get ke1 -> set key2 ->get key2 ->delCache ke1 key2', async t => {
+test('set key1 -> get ke1 -> set key2 ->get key2 ->delCache ke1 key2', async t => {
   const redisCache = new RedisCache();
   const key1 = 'name1';
   const key2 = 'name2';
@@ -42,5 +42,5 @@ test.serial('set key1 -> get ke1 -> set key2 ->get key2 ->delCache ke1 key2', as
   const regRes = await redisCache.delete(regKey);
   const res1 = await redisCache.get(key1);
   const res2 = await redisCache.get(key2);
-  t.true(g1.a.b === content1.a.b && g2.c.d === content2.c.d && regRes === 'OK' && res1 === void 0 && res2 === void 0);
+  t.assert.strictEqual(g1.a.b === content1.a.b && g2.c.d === content2.c.d && regRes === 'OK' && res1 === void 0 && res2 === void 0, true);
 });

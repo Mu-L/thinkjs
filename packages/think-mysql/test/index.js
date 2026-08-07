@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const helper = require('think-helper');
 const mock = require('mock-require');
 mock('mysql', {
@@ -50,10 +50,10 @@ test('constructor function', async t => {
   const instance = mysql.getInstance(config);
   const conn = await instance.getConnection();
   const keys = Object.keys(instance.config).sort();
-  t.deepEqual(keys, [ 'acquireWaitTimeout', 'connectionLimit', 'database', 'host', 'logConnect', 'logSql', 'logger', 'password', 'port', 'user' ]);
-  t.is(helper.isEmpty(instance.config), false);
-  t.is(helper.isEmpty(instance.pool), false);
-  t.is(helper.isEmpty(conn), false);
+  t.assert.deepStrictEqual(keys, [ 'acquireWaitTimeout', 'connectionLimit', 'database', 'host', 'logConnect', 'logSql', 'logger', 'password', 'port', 'user' ]);
+  t.assert.strictEqual(helper.isEmpty(instance.config), false);
+  t.assert.strictEqual(helper.isEmpty(instance.pool), false);
+  t.assert.strictEqual(helper.isEmpty(conn), false);
 });
 
 test('constructor function 2', async t => {
@@ -62,9 +62,9 @@ test('constructor function 2', async t => {
   const mysql = getMysql();
   const instance = mysql.getInstance(conf);
   const conn = await instance.getConnection();
-  t.is(helper.isEmpty(instance.config), false);
-  t.is(helper.isEmpty(instance.pool), false);
-  t.is(helper.isEmpty(conn), false);
+  t.assert.strictEqual(helper.isEmpty(instance.config), false);
+  t.assert.strictEqual(helper.isEmpty(instance.pool), false);
+  t.assert.strictEqual(helper.isEmpty(conn), false);
 });
 
 test('constructor function 3', async t => {
@@ -73,9 +73,9 @@ test('constructor function 3', async t => {
   const mysql = getMysql();
   const instance = mysql.getInstance(conf);
   const conn = await instance.getConnection();
-  t.is(helper.isEmpty(instance.config), false);
-  t.is(helper.isEmpty(instance.pool), false);
-  t.is(helper.isEmpty(conn), false);
+  t.assert.strictEqual(helper.isEmpty(instance.config), false);
+  t.assert.strictEqual(helper.isEmpty(instance.pool), false);
+  t.assert.strictEqual(helper.isEmpty(conn), false);
 });
 
 test('query function', async t => {
@@ -94,7 +94,7 @@ test('query function', async t => {
     values: ['David']
   });
 
-  t.is(books[0].name, 'thinkjs best practice');
+  t.assert.strictEqual(books[0].name, 'thinkjs best practice');
 });
 
 test('query function #2', async t => {
@@ -109,7 +109,7 @@ test('query function #2', async t => {
     'SELECT * FROM `books` WHERE `author` = "David"'
   );
 
-  t.is(books[0].name, 'thinkjs best practice');
+  t.assert.strictEqual(books[0].name, 'thinkjs best practice');
 });
 
 test('query function #3', async t => {
@@ -126,7 +126,7 @@ test('query function #3', async t => {
     'SELECT * FROM `books` WHERE `author` = "David"'
   );
 
-  t.is(books[0].name, 'thinkjs best practice');
+  t.assert.strictEqual(books[0].name, 'thinkjs best practice');
 });
 
 test('close function', async t => {
@@ -134,7 +134,7 @@ test('close function', async t => {
   const instance = mysql.getInstance(config);
 
   await instance.close();
-  t.is(instance.pool._closed, true);
+  t.assert.strictEqual(instance.pool._closed, true);
 });
 
 test('trans function', async t => {
@@ -161,7 +161,7 @@ test('trans function', async t => {
     sql: 'SELECT * FROM `books` WHERE `author2` = ?',
     values: [`${result.insertId}-David`]
   });
-  t.is(result[0].name, 'this is a trans test');
+  t.assert.strictEqual(result[0].name, 'this is a trans test');
 });
 
 test('trans function #2', async t => {
@@ -188,7 +188,7 @@ test('trans function #2', async t => {
     sql: 'SELECT * FROM `books` WHERE `author3` = ?',
     values: [`${result.insertId}-David`]
   });
-  t.deepEqual([], result);
+  t.assert.deepStrictEqual([], result);
 });
 
 test('query function #4', async t => {
@@ -206,7 +206,7 @@ test('query function #4', async t => {
     }
   );
 
-  t.is(books[0].name, 'thinkjs best practice');
+  t.assert.strictEqual(books[0].name, 'thinkjs best practice');
 });
 
 test('transaction function', async t => {
@@ -231,7 +231,7 @@ test('transaction function', async t => {
     sql: 'SELECT * FROM `books` WHERE `author2` = ?',
     values: [`${result.insertId}-David`]
   });
-  t.is(result[0].name, 'this is a trans test');
+  t.assert.strictEqual(result[0].name, 'this is a trans test');
 });
 
 test('transaction function #2', async t => {
@@ -256,7 +256,7 @@ test('transaction function #2', async t => {
   } catch (e) {
     result = e;
   }
-  t.is(result instanceof Error, true);
+  t.assert.strictEqual(result instanceof Error, true);
 });
 
 test('transaction function #3', async t => {
@@ -284,7 +284,7 @@ test('transaction function #3', async t => {
     sql: 'SELECT * FROM `books` WHERE `author2` = ?',
     values: [`${result.insertId}-David`]
   });
-  t.is(result[0].name, 'this is a trans test');
+  t.assert.strictEqual(result[0].name, 'this is a trans test');
 });
 
 test('transaction function #4', async t => {
@@ -310,7 +310,7 @@ test('transaction function #4', async t => {
   } catch (e) {
     result = e;
   }
-  t.is(result instanceof Error, true);
+  t.assert.strictEqual(result instanceof Error, true);
 });
 
 test('transaction function #5', async t => {
@@ -336,5 +336,5 @@ test('transaction function #5', async t => {
   } catch (e) {
     result = e;
   }
-  t.is(result instanceof Error, true);
+  t.assert.strictEqual(result instanceof Error, true);
 });

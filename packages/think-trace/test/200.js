@@ -1,5 +1,5 @@
 const fs = require('fs');
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const Trace = require('../lib');
 
 test('200', async t => {
@@ -14,5 +14,5 @@ test('200', async t => {
   };
 
   await Trace()(ctx, next);
-  t.true(ctx.body === 'Hello World!');
+  t.assert.strictEqual(ctx.body === 'Hello World!', true);
 });

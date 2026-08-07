@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const path = require('path');
 var callGetMidFilesParams;
 function mockGetFiles(instance) {
@@ -19,11 +19,11 @@ test('loadFiles isMultiModule === true', t => {
   const middleware = getInstance();
   const params = mockGetFiles(middleware);
   const result = middleware.loadFiles('appPath', true);
-  t.deepEqual(params, [
+  t.assert.deepStrictEqual(params, [
     path.join('appPath', 'common/middleware')
   ]);
 
-  t.deepEqual(result, {
+  t.assert.deepStrictEqual(result, {
     1: 'value',
     controller: require('thinkjs/lib/middleware/controller'),
     logic: require('thinkjs/lib/middleware/logic'),
@@ -39,11 +39,11 @@ test('loadFiles isMultiModule === false', t => {
   const middleware = getInstance();
   const params = mockGetFiles(middleware);
   const result = middleware.loadFiles('appPath', false);
-  t.deepEqual(params, [
+  t.assert.deepStrictEqual(params, [
     path.join('appPath', 'middleware')
   ]);
 
-  t.deepEqual(result, {
+  t.assert.deepStrictEqual(result, {
     1: 'value',
     controller: require('thinkjs/lib/middleware/controller'),
     logic: require('thinkjs/lib/middleware/logic'),

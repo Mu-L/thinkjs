@@ -1,9 +1,9 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const path = require('path');
 function mockHelper(t, dir) {
   var helper = require('think-helper');
   helper.getdirFiles = function(d) {
-    t.is(d, dir);
+    t.assert.strictEqual(d, dir);
     return ['a.js', 'b.js', 'c.es', 'd.config', 'e.js.etc'];
   };
 }
@@ -29,7 +29,7 @@ test('getFiles', t => {
 
   const middleware = createInstance();
   const result = middleware.getFiles('middlewarePath');
-  t.deepEqual(result, {
+  t.assert.deepStrictEqual(result, {
     a: 1,
     b: 2,
     c: 3

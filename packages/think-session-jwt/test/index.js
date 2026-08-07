@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const mock = require('mock-require');
 const jwt = require('jsonwebtoken');
 
@@ -41,24 +41,28 @@ async function sleep(dur = 100) {
   });
 }
 
-test.serial('1.options without jwt secret', t => {
+test('1.options without jwt secret', t => {
   return new Promise(async function(resolve, reject) {
     const JWTSession = mockRequire();
     const ctx = mockContext();
     const options = {
       tokenName: cookieName[0]
     };
-    const error = t.throws(() => {
+    let error;
+    t.assert.throws(() => {
       // eslint-disable-next-line no-unused-vars
       const jwtSession = new JWTSession(options, ctx);
+    }, caughtError => {
+      error = caughtError;
+      return true;
     });
-    t.is(error.message, 'jwt secret is required');
+    t.assert.strictEqual(error.message, 'jwt secret is required');
 
     resolve();
   });
 });
 
-test.serial('2.set and get session data without maxAge', t => {
+test('2.set and get session data without maxAge', t => {
   return new Promise(async function(resolve, reject) {
     const JWTSession = mockRequire();
     const ctx = mockContext();
@@ -70,21 +74,21 @@ test.serial('2.set and get session data without maxAge', t => {
     ctx.cookie(options.tokenName, jwt.sign({ abc: '123' }, 'secret'));
     const jwtSession = new JWTSession(options, ctx);
     await jwtSession.set('abc', '123');
-    t.is(jwtSession.data.abc, '123');
+    t.assert.strictEqual(jwtSession.data.abc, '123');
 
     await jwtSession.set();
-    t.is(jwtSession.data.abc, '123');
+    t.assert.strictEqual(jwtSession.data.abc, '123');
 
     const value = await jwtSession.get('abc');
-    t.is(value, '123');
+    t.assert.strictEqual(value, '123');
 
     const value1 = await jwtSession.get();
     delete value1.iat;
     delete value1.exp;
-    t.deepEqual(value1, { abc: '123' });
+    t.assert.deepStrictEqual(value1, { abc: '123' });
 
     await jwtSession.delete();
-    t.deepEqual(jwtSession.data, {});
+    t.assert.deepStrictEqual(jwtSession.data, {});
 
     const options1 = {
       tokenName: cookieName[0],
@@ -97,7 +101,7 @@ test.serial('2.set and get session data without maxAge', t => {
   });
 });
 
-test.serial('3.set and get session data with maxAge', async t => {
+test('3.set and get session data with maxAge', async t => {
   return new Promise(async function(resolve, reject) {
     const JWTSession = mockRequire();
     const ctx = mockContext();
@@ -113,23 +117,23 @@ test.serial('3.set and get session data with maxAge', async t => {
     const jwtSession = new JWTSession(options, ctx);
 
     const token = await jwtSession.set('abc', '123');
-    t.is(jwtSession.data.abc, '123');
+    t.assert.strictEqual(jwtSession.data.abc, '123');
 
     const value = await jwtSession.get('abc');
-    t.is(value, '123');
+    t.assert.strictEqual(value, '123');
 
     ctx.cookie(options.tokenName, token);
     await sleep(1100);
 
     const jwtSession1 = new JWTSession(options, ctx);
     const data = await jwtSession1.get();
-    t.is(data.name, 'TokenExpiredError');
-    t.is(data.message, 'jwt expired');
+    t.assert.strictEqual(data.name, 'TokenExpiredError');
+    t.assert.strictEqual(data.message, 'jwt expired');
     resolve();
   });
 });
 
-test.serial('4.set and get session data when JsonWebTokenError', t => {
+test('4.set and get session data when JsonWebTokenError', t => {
   return new Promise(async function(resolve, reject) {
     const JWTSession = mockRequire();
     const ctx = mockContext();
@@ -142,21 +146,21 @@ test.serial('4.set and get session data when JsonWebTokenError', t => {
     const jwtSession = new JWTSession(options, ctx);
 
     const data = await jwtSession.get();
-    t.is(data.name, 'JsonWebTokenError');
-    t.is(data.message, 'jwt malformed');
+    t.assert.strictEqual(data.name, 'JsonWebTokenError');
+    t.assert.strictEqual(data.message, 'jwt malformed');
 
     const jwtSession1 = new JWTSession(options, ctx);
     jwtSession1.data = undefined;
 
     const token = jwt.sign({}, options.secret);
     const data1 = await jwtSession1.set();
-    t.deepEqual(data1, token);
+    t.assert.deepStrictEqual(data1, token);
 
     resolve();
   });
 });
 
-test.serial('5.get jwt from request header', t => {
+test('5.get jwt from request header', t => {
   return new Promise(async function(resolve, reject) {
     const JWTSession = mockRequire();
     const ctx = mockContext();
@@ -169,16 +173,16 @@ test.serial('5.get jwt from request header', t => {
     const jwtSession = new JWTSession(options, ctx);
     const token = await jwtSession.set('abc', '123');
 
-    t.is(jwtSession.data.abc, '123');
+    t.assert.strictEqual(jwtSession.data.abc, '123');
 
-    t.is(typeof token, 'string');
+    t.assert.strictEqual(typeof token, 'string');
 
     await jwtSession.delete();
     resolve();
   });
 });
 
-test.serial('6.get jwt from query', t => {
+test('6.get jwt from query', t => {
   return new Promise(async function(resolve, reject) {
     const JWTSession = mockRequire();
     const ctx = mockContext();
@@ -190,14 +194,14 @@ test.serial('6.get jwt from query', t => {
     const jwtSession = new JWTSession(options, ctx);
     const token = await jwtSession.set('abc', '123');
 
-    t.is(jwtSession.data.abc, '123');
+    t.assert.strictEqual(jwtSession.data.abc, '123');
 
-    t.is(typeof token, 'string');
+    t.assert.strictEqual(typeof token, 'string');
     resolve();
   });
 });
 
-test.serial('7.get jwt from request body', t => {
+test('7.get jwt from request body', t => {
   return new Promise(async function(resolve, reject) {
     const JWTSession = mockRequire();
     const ctx = mockContext();
@@ -209,9 +213,9 @@ test.serial('7.get jwt from request body', t => {
     const jwtSession = new JWTSession(options, ctx);
     const token = await jwtSession.set('abc', '123');
 
-    t.is(jwtSession.data.abc, '123');
+    t.assert.strictEqual(jwtSession.data.abc, '123');
 
-    t.is(typeof token, 'string');
+    t.assert.strictEqual(typeof token, 'string');
     resolve();
   });
 });

@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const path = require('path');
 
 const fileList = ['folder/b2.js', 'a.js', 'folder/b1.js', 'd.css', 'e.js.bs', 'folder\\folder2\\c.js'];
@@ -31,16 +31,16 @@ test('common loadFiles will call getdirFiles, rename, repalce and sort', t => {
 
   var ret = common.loadFiles('dir');
 
-  t.deepEqual(params1, ['dir']);
+  t.assert.deepStrictEqual(params1, ['dir']);
 
-  t.deepEqual(params2, [
+  t.assert.deepStrictEqual(params2, [
     path.join('dir', fileList[0]),
     path.join('dir', fileList[1]),
     path.join('dir', fileList[2]),
     path.join('dir', fileList[5])
   ]); // 4 match js files
 
-  t.deepEqual(ret, {
+  t.assert.deepStrictEqual(ret, {
     'folder/b2': 1,
     'a': 2,
     'folder/b1': 3,

@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const mock = require('mock-require');
 const path = require('path');
 
@@ -50,7 +50,7 @@ test('load config isMultiModule === true', t => {
 
   var extendParams2 = extendParams1.slice(0, 1);
 
-  t.deepEqual(depsCalledParams, [
+  t.assert.deepStrictEqual(depsCalledParams, [
     extendParams1,
     'env',
     'config',
@@ -78,9 +78,9 @@ test('load config isMultiModule === true', t => {
     adapter: 'adapter'
   };
 
-  t.deepEqual(result.dir1, expect);
+  t.assert.deepStrictEqual(result.dir1, expect);
 
-  t.deepEqual(result.common, expect);
+  t.assert.deepStrictEqual(result.common, expect);
 });
 
 test('load config isMultiModule === false', t => {
@@ -91,14 +91,14 @@ test('load config isMultiModule === false', t => {
   const result = instance.load('appPath', 'env', []);
 
   const paths = [path.join('appPath', 'config')];
-  t.deepEqual(depsCalledParams, [
+  t.assert.deepStrictEqual(depsCalledParams, [
     paths, 'env', 'config', // loadConfig has been called with {paths, 'env'}
     paths, 'env', 'adapter', // loadConfig adapter
     path.join('appPath', 'adapter'), // loadAdapter                             // loadAdapter config has been called with {paths, 'env'}
     { type: 'load adapter' }, 'load adapter result' // formatAdapter has been called with 'adapter call result'
   ]);
 
-  t.deepEqual(result, {
+  t.assert.deepStrictEqual(result, {
     thinkConfig: 'value of thinkConfig',
     a: 'this will overwrite thinkconfig',
     b: 2,

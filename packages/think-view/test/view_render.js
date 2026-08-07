@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const mock = require('mock-require');
 const helper = require('think-helper');
 
@@ -44,7 +44,7 @@ test('render function -- normal scene', t => {
   const view = new View(ctx);
   const file = 'index.html';
   let promise = view.render(file,getConfig());
-  t.not(promise.then,undefined);
+  t.assert.notStrictEqual(promise.then,undefined);
 });
 
 
@@ -54,7 +54,7 @@ test('render function -- beforeRender', t => {
   const file = 'index.html';
   let config = helper.extend({}, getConfig(), {beforeRender: function() {}});
   let promise = view.render(file,config);
-  t.not(promise.then,undefined);
+  t.assert.notStrictEqual(promise.then,undefined);
 });
 
 // test('render function -- delete config.handle', t => {
@@ -72,10 +72,10 @@ test('render function -- empty config', t => {
   const View = getView();
   const view = new View(ctx);
   const file = 'index.html';
-  t.throws(() => {
+  t.assert.throws(() => {
     view.render(file);
-  }, {instanceOf: Error});
-  t.deepEqual(
+  }, Error);
+  t.assert.deepStrictEqual(
     assertCallParams,
     [
       false,

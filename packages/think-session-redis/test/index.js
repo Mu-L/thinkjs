@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const mock = require('mock-require');
 
 let redisData = {};
@@ -62,7 +62,7 @@ function sleep(dur) {
   });
 }
 
-test.serial('1. set and get session data without maxAge', t => {
+test('1. set and get session data without maxAge', t => {
   const cookieName = fileList[0];
   return new Promise(async (resolve, reject) => {
     const RedisSession = mockRequire();
@@ -82,27 +82,27 @@ test.serial('1. set and get session data without maxAge', t => {
     const redisSession = new RedisSession(options, ctx);
     await redisSession.set('abc', '123');
 
-    t.deepEqual(redisSession.data, {
+    t.assert.deepStrictEqual(redisSession.data, {
       'abc': '123'
     });
     await sleep(100);
     const data = await redisSession.get('abc');
-    t.is(data, '123');
+    t.assert.strictEqual(data, '123');
 
     const redisSession1 = new RedisSession(options, ctx);
     const data1 = await redisSession1.get('abc');
-    t.is(data1, '123');
+    t.assert.strictEqual(data1, '123');
     const data2 = await redisSession1.get();
-    t.deepEqual(data2, {
+    t.assert.deepStrictEqual(data2, {
       'abc': '123'
     });
     redisSession1.delete();
-    t.deepEqual(redisSession1.data, {});
+    t.assert.deepStrictEqual(redisSession1.data, {});
 
     resolve();
   });
 });
-test.serial('2. set and get session data with short maxAge', t => {
+test('2. set and get session data with short maxAge', t => {
   const cookieName = fileList[1];
   return new Promise(async (resolve, reject) => {
     const RedisSession = mockRequire();
@@ -122,19 +122,19 @@ test.serial('2. set and get session data with short maxAge', t => {
     const redisSession = new RedisSession(options, ctx);
     await redisSession.set('abc', '123');
 
-    t.deepEqual(redisSession.data, {
+    t.assert.deepStrictEqual(redisSession.data, {
       'abc': '123'
     });
     await sleep(100);
 
     const redisSession1 = new RedisSession(options, ctx);
     const data1 = await redisSession1.get('abc');
-    t.is(data1, undefined);
+    t.assert.strictEqual(data1, undefined);
     resolve();
   });
 });
 
-test.serial('3. set and get session data with fresh param', t => {
+test('3. set and get session data with fresh param', t => {
   const cookieName = fileList[2];
   return new Promise(async (resolve, reject) => {
     let failureTimer;
@@ -158,18 +158,18 @@ test.serial('3. set and get session data with fresh param', t => {
     const redisSession = new RedisSession(options, ctx);
     await redisSession.set('abc', '123');
 
-    t.deepEqual(redisSession.data, {
+    t.assert.deepStrictEqual(redisSession.data, {
       'abc': '123'
     });
 
     failureTimer = setTimeout(() => {
-      t.fail('new session value not set to redis');
+      t.assert.fail('new session value not set to redis');
       reject();
     }, 20);
 
   });
 });
-test.serial('4. set and get session data when JSON.parse(content) returns error', t => {
+test('4. set and get session data when JSON.parse(content) returns error', t => {
   const cookieName = fileList[3];
   return new Promise(async (resolve, reject) => {
     const debugParam = [];
@@ -198,12 +198,12 @@ test.serial('4. set and get session data when JSON.parse(content) returns error'
     const redisSession1 = new RedisSession(options, ctx);
     await redisSession1.set('abc', '123');
 
-    t.is(debugParam.length, 0);
+    t.assert.strictEqual(debugParam.length, 0);
     resolve();
   });
 });
 
-test.serial('5. set and get session data when options is undefined', t => {
+test('5. set and get session data when options is undefined', t => {
   return new Promise(async (resolve, reject) => {
 
     const RedisSession = mockRequire();
@@ -218,10 +218,14 @@ test.serial('5. set and get session data when options is undefined', t => {
       }
     }
 
-    const error = t.throws(()=>{
+    let error;
+    t.assert.throws(()=>{
       const redisSession = new RedisSession(undefined, ctx);
+    }, caughtError => {
+      error = caughtError;
+      return true;
     });
-    t.is(error.message, '.cookie required');
+    t.assert.strictEqual(error.message, '.cookie required');
 
     resolve();
   });

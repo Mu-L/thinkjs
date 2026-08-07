@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const Model = require('../lib/model');
 const handle = require('think-model-abstract');
 
@@ -12,16 +12,16 @@ test('model instance normal', t => {
   };
   const modelName = 'post';
   const model = new Model(modelName, config);
-  t.is(model.modelName, modelName);
-  t.is(model.config, config);
-  t.deepEqual(model.options, {});
+  t.assert.strictEqual(model.modelName, modelName);
+  t.assert.strictEqual(model.config, config);
+  t.assert.deepStrictEqual(model.options, {});
 });
 test('model instance abnormal', t => {
   try {
     new Model({handle: 222});
-    t.fail();
+    t.assert.fail();
   } catch (e) {
-    t.pass();
+    t.assert.ok(true);
   }
 });
 test('model get db', t => {
@@ -29,38 +29,38 @@ test('model get db', t => {
     handle
   };
   const model = new Model(config);
-  t.true(model.db() instanceof config.handle);
+  t.assert.strictEqual(model.db() instanceof config.handle, true);
 });
 test('model get models', t => {
   t.plan(2);
   const models = {post: {}};
   const model = new Model({handle});
-  t.deepEqual(model.models, {});
+  t.assert.deepStrictEqual(model.models, {});
   model.models = models;
-  t.is(model.models, models);
+  t.assert.strictEqual(model.models, models);
 });
 test('model get table prefix', t => {
   t.plan(2);
 
-  t.is((new Model({handle})).tablePrefix, '');
+  t.assert.strictEqual((new Model({handle})).tablePrefix, '');
 
   const model = new Model({handle, prefix: 'fk_'});
-  t.is(model.tablePrefix, 'fk_');
+  t.assert.strictEqual(model.tablePrefix, 'fk_');
 });
 test('model get table name', t => {
   t.plan(2);
   let model = new Model('post', {handle});
-  t.is(model.tableName, 'post');
+  t.assert.strictEqual(model.tableName, 'post');
 
   model = new Model('post', {handle, prefix: 'fk_'});
-  t.is(model.tableName, 'fk_post');
+  t.assert.strictEqual(model.tableName, 'fk_post');
 });
 test('model get pk', t => {
   t.plan(2);
   const model = new Model({handle});
-  t.is(model.pk, 'id');
+  t.assert.strictEqual(model.pk, 'id');
   model._pk = 'user_id';
-  t.is(model.pk, model._pk);
+  t.assert.strictEqual(model.pk, model._pk);
 });
 test('model get model inline', t => {
   t.plan(3);
@@ -72,9 +72,9 @@ test('model get model inline', t => {
     }
   };
 
-  t.is(model.model('user').tablePrefix, 'fk_');
-  t.is(model.model('user').models, model.models);
-  t.is(model.model('admin/user').tableName, 'user');
+  t.assert.strictEqual(model.model('user').tablePrefix, 'fk_');
+  t.assert.strictEqual(model.model('user').models, model.models);
+  t.assert.strictEqual(model.model('admin/user').tableName, 'user');
 });
 test('model set cache option', t => {
   t.plan(4);
@@ -88,74 +88,74 @@ test('model set cache option', t => {
   });
 
   model.cache(500);
-  t.is(model.options.cache._keyTimeout, 500);
+  t.assert.strictEqual(model.options.cache._keyTimeout, 500);
   model.cache('page', {timeout: 300});
-  t.is(model.options.cache.key, 'page');
-  t.is(model.options.cache._keyTimeout, 300);
+  t.assert.strictEqual(model.options.cache.key, 'page');
+  t.assert.strictEqual(model.options.cache._keyTimeout, 300);
   model.cache('page', {key: 'post'});
-  t.is(model.options.cache.key, 'post');
+  t.assert.strictEqual(model.options.cache.key, 'post');
 });
 test('model set limit', t => {
   t.plan(6);
 
   const model = new Model('post', {handle});
   model.limit();
-  t.is(model.options.limit, undefined);
+  t.assert.strictEqual(model.options.limit, undefined);
   model.limit([1]);
-  t.deepEqual(model.options.limit, [1, undefined]);
+  t.assert.deepStrictEqual(model.options.limit, [1, undefined]);
   model.limit([1, 2]);
-  t.deepEqual(model.options.limit, [1, 2]);
+  t.assert.deepStrictEqual(model.options.limit, [1, 2]);
   model.limit(-1, -1);
-  t.deepEqual(model.options.limit, [0, 0]);
+  t.assert.deepStrictEqual(model.options.limit, [0, 0]);
   model.limit([-1, -10]);
-  t.deepEqual(model.options.limit, [0, 0]);
+  t.assert.deepStrictEqual(model.options.limit, [0, 0]);
   model.limit([]);
-  t.deepEqual(model.options.limit, [0, undefined]);
+  t.assert.deepStrictEqual(model.options.limit, [0, undefined]);
 });
 test('model set page', t => {
   const model = new Model('post', {handle});
   model.page();
-  t.deepEqual(model.options.limit, [0, 10]);
+  t.assert.deepStrictEqual(model.options.limit, [0, 10]);
   model.page(0);
-  t.deepEqual(model.options.limit, [0, 10]);
+  t.assert.deepStrictEqual(model.options.limit, [0, 10]);
   model.page(2);
-  t.deepEqual(model.options.limit, [10, 10]);
+  t.assert.deepStrictEqual(model.options.limit, [10, 10]);
   model.page(0, 30);
-  t.deepEqual(model.options.limit, [0, 30]);
+  t.assert.deepStrictEqual(model.options.limit, [0, 30]);
   model.page([3, 20]);
-  t.deepEqual(model.options.limit, [40, 20]);
+  t.assert.deepStrictEqual(model.options.limit, [40, 20]);
 });
 test('model set where', t => {
   t.plan(4);
 
   const model = new Model('post', {handle});
   model.where();
-  t.is(model.options.where, undefined);
+  t.assert.strictEqual(model.options.where, undefined);
   model.where('hello');
-  t.is(model.options.where._string, 'hello');
+  t.assert.strictEqual(model.options.where._string, 'hello');
   model.options.where = 'hello';
   model.where('123');
-  t.is(model.options.where._string, '123');
+  t.assert.strictEqual(model.options.where._string, '123');
   delete model.options.where;
   model.where({id: ['>', 30]});
-  t.deepEqual(model.options.where, {id: ['>', 30]});
+  t.assert.deepStrictEqual(model.options.where, {id: ['>', 30]});
 });
 test('model set field reverse', t => {
   t.plan(8);
 
   const model = new Model('post', {handle});
   model.field();
-  t.is(model.options.field, undefined);
-  t.is(model.options.fieldReverse, undefined);
+  t.assert.strictEqual(model.options.field, undefined);
+  t.assert.strictEqual(model.options.fieldReverse, undefined);
   model.field('hello');
-  t.is(model.options.field, 'hello');
-  t.is(model.options.fieldReverse, false);
+  t.assert.strictEqual(model.options.field, 'hello');
+  t.assert.strictEqual(model.options.fieldReverse, false);
   model.field('hello', true);
-  t.is(model.options.field, 'hello');
-  t.is(model.options.fieldReverse, true);
+  t.assert.strictEqual(model.options.field, 'hello');
+  t.assert.strictEqual(model.options.fieldReverse, true);
   model.fieldReverse('hello2');
-  t.is(model.options.field, 'hello2');
-  t.is(model.options.fieldReverse, true);
+  t.assert.strictEqual(model.options.field, 'hello2');
+  t.assert.strictEqual(model.options.fieldReverse, true);
 });
 
 test('model set table name', t => {
@@ -163,13 +163,13 @@ test('model set table name', t => {
 
   const model = new Model('post', {handle, prefix: 'fk_'});
   model.table();
-  t.is(model.options.table, undefined);
+  t.assert.strictEqual(model.options.table, undefined);
   model.table('  user  ');
-  t.is(model.options.table, 'fk_user');
+  t.assert.strictEqual(model.options.table, 'fk_user');
   model.table('SELECT * FROM user');
-  t.is(model.options.table, 'SELECT * FROM user');
+  t.assert.strictEqual(model.options.table, 'SELECT * FROM user');
   model.table('user', true);
-  t.is(model.options.table, 'user');
+  t.assert.strictEqual(model.options.table, 'user');
 });
 
 test('model set union', t => {
@@ -177,11 +177,11 @@ test('model set union', t => {
 
   const model = new Model('post', {handle});
   model.union();
-  t.is(model.options.union, undefined);
+  t.assert.strictEqual(model.options.union, undefined);
   model.union('test');
-  t.deepEqual(model.options.union, [{union: 'test', all: false}]);
+  t.assert.deepStrictEqual(model.options.union, [{union: 'test', all: false}]);
   model.union('test2', true);
-  t.deepEqual(model.options.union, [{union: 'test', all: false}, {union: 'test2', all: true}]);
+  t.assert.deepStrictEqual(model.options.union, [{union: 'test', all: false}, {union: 'test2', all: true}]);
 });
 
 test('model set join', t => {
@@ -189,26 +189,26 @@ test('model set join', t => {
 
   const model = new Model('post', {handle});
   model.join();
-  t.is(model.options.join, undefined);
+  t.assert.strictEqual(model.options.join, undefined);
   model.join(222);
-  t.deepEqual(model.options.join, [222]);
+  t.assert.deepStrictEqual(model.options.join, [222]);
   model.join([1, 2, 3, 4]);
-  t.deepEqual(model.options.join, [222, 1, 2, 3, 4]);
+  t.assert.deepStrictEqual(model.options.join, [222, 1, 2, 3, 4]);
 });
 
 test('model set order alias having group lock auto explan distinct', t => {
   t.plan(9);
 
   const model = new Model('post', {handle});
-  t.is(model.order('id').options.order, 'id');
-  t.is(model.alias('user').options.alias, 'user');
-  t.is(model.having('user').options.having, 'user');
-  t.is(model.group('user').options.group, 'user');
-  t.is(model.lock('user').options.lock, 'user');
-  t.is(model.auto('user').options.auto, 'user');
-  t.is(model.explain('user').options.explain, 'user');
-  t.is(model.distinct('user').options.field, 'user');
-  t.deepEqual(model.distinct({field: 'user'}).options.distinct, {field: 'user'});
+  t.assert.strictEqual(model.order('id').options.order, 'id');
+  t.assert.strictEqual(model.alias('user').options.alias, 'user');
+  t.assert.strictEqual(model.having('user').options.having, 'user');
+  t.assert.strictEqual(model.group('user').options.group, 'user');
+  t.assert.strictEqual(model.lock('user').options.lock, 'user');
+  t.assert.strictEqual(model.auto('user').options.auto, 'user');
+  t.assert.strictEqual(model.explain('user').options.explain, 'user');
+  t.assert.strictEqual(model.distinct('user').options.field, 'user');
+  t.assert.deepStrictEqual(model.distinct({field: 'user'}).options.distinct, {field: 'user'});
 });
 
 test('model parse options', async t => {
@@ -220,15 +220,15 @@ test('model parse options', async t => {
 
   const model = new Model('post', {handle: adapter});
 
-  t.deepEqual(
+  t.assert.deepStrictEqual(
     await model.parseOptions(3),
     {table: 'post', pk: 'id', tablePrefix: '', where: {id: '3'}}
   );
-  t.deepEqual(
+  t.assert.deepStrictEqual(
     await model.parseOptions('3,4'),
     {table: 'post', pk: 'id', tablePrefix: '', where: {id: {IN: '3,4'}}}
   );
-  t.deepEqual(
+  t.assert.deepStrictEqual(
     await model.parseOptions({table: 'user', where: {id: 3}}),
     {table: 'user', pk: 'id', tablePrefix: '', where: {id: 3}}
   );
@@ -238,7 +238,7 @@ test('model parse options', async t => {
     field: 'title',
     fieldReverse: true
   };
-  t.deepEqual(
+  t.assert.deepStrictEqual(
     await model.parseOptions(),
     {table: 'fk_post', pk: 'id', tablePrefix: 'fk_', field: ['id', 'name', 'title']}
   );
@@ -259,13 +259,13 @@ test('model add data', async t => {
   const model = new Model('post', {handle: adapter});
   try {
     await model.add();
-    t.fail();
+    t.assert.fail();
   } catch (e) {
-    t.pass();
+    t.assert.ok(true);
   };
 
   const result = await model.add({title: 'hello', content: 'hello world'});
-  t.is(result, 3);
+  t.assert.strictEqual(result, 3);
 });
 
 test('model then add data', async t => {
@@ -273,7 +273,7 @@ test('model then add data', async t => {
 
   const model = new Model('post', {handle: class {
     add(data) {
-      t.deepEqual(data, {title: 'hello2', content: 'hello world again!'});
+      t.assert.deepStrictEqual(data, {title: 'hello2', content: 'hello world again!'});
       return 2;
     }
     parseData(data) {
@@ -288,10 +288,10 @@ test('model then add data', async t => {
   };
 
   let result = await model.thenAdd({title: 'hello2', content: 'hello world again!'}, {id: 1});
-  t.deepEqual(result, {type: 'exist', id: 1});
+  t.assert.deepStrictEqual(result, {type: 'exist', id: 1});
 
   result = await model.thenAdd({title: 'hello2', content: 'hello world again!'}, {id: 2});
-  t.deepEqual(result, {type: 'add', id: 2});
+  t.assert.deepStrictEqual(result, {type: 'add', id: 2});
 });
 
 test('model then update data exist', async t => {
@@ -302,11 +302,11 @@ test('model then update data exist', async t => {
     return {id: 1, title: 'test', content: 'world'};
   };
   model.update = function(data) {
-    t.is(this.options.where.id, 1);
+    t.assert.strictEqual(this.options.where.id, 1);
     return {id: 1, title: 'hello', content: 'world'};
   };
   const result = await model.thenUpdate({title: 'hello'}, {id: 1});
-  t.deepEqual(result, 1);
+  t.assert.deepStrictEqual(result, 1);
 });
 
 test('model then update data not exist', async t => {
@@ -314,14 +314,14 @@ test('model then update data not exist', async t => {
 
   const model = new Model('post', {handle});
   model.find = function() {
-    t.is(this.options.where.id, 3);
+    t.assert.strictEqual(this.options.where.id, 3);
     return {};
   };
   model.add = function(data) {
     return 4;
   };
   const result = await model.thenUpdate({title: 'hello', content: 'world'}, {id: 3});
-  t.is(result, 4);
+  t.assert.strictEqual(result, 4);
 });
 
 test('model add many data error', async t => {
@@ -339,13 +339,13 @@ test('model add many data error', async t => {
   try {
     await model.addMany({title: 'hello'});
   } catch (e) {
-    t.pass();
+    t.assert.ok(true);
   }
 
   try {
     await model.addMany([1, 2]);
   } catch (e) {
-    t.pass();
+    t.assert.ok(true);
   }
 });
 
@@ -357,7 +357,7 @@ test('model add many data', async t => {
       return data;
     }
     addMany(data) {
-      t.true(data.every(d => d.user === 'lizheming'));
+      t.assert.strictEqual(data.every(d => d.user === 'lizheming'), true);
       return [1, 2, 3, 4];
     }
   }});
@@ -373,10 +373,10 @@ test('model add many data', async t => {
     return data;
   };
   model.afterAdd = function(data) {
-    t.true(data.hasOwnProperty('id'));
+    t.assert.strictEqual(data.hasOwnProperty('id'), true);
   };
   const result = await model.addMany(addData);
-  t.deepEqual(result, [1, 2, 3, 4]);
+  t.assert.deepStrictEqual(result, [1, 2, 3, 4]);
 });
 
 test('model delete data', async t => {
@@ -390,12 +390,12 @@ test('model delete data', async t => {
   const options = {id: 3};
 
   model.beforeDelete = model.afterDelete = function(opt) {
-    t.is(opt.id, options.id);
+    t.assert.strictEqual(opt.id, options.id);
     return opt;
   };
 
   const result = await model.delete(options);
-  t.is(result, 1);
+  t.assert.strictEqual(result, 1);
 });
 
 test('model update data', async t => {
@@ -403,12 +403,12 @@ test('model update data', async t => {
 
   const model = new Model('post', {handle: class {
     parseData(data, isUpdate) {
-      t.true(isUpdate);
+      t.assert.strictEqual(isUpdate, true);
       return data;
     }
     update(data, options) {
-      t.deepEqual(options.where, {id: 3});
-      t.deepEqual(data, {title: 'hello'});
+      t.assert.deepStrictEqual(options.where, {id: 3});
+      t.assert.deepStrictEqual(data, {title: 'hello'});
       return 'update data';
     }
   }});
@@ -416,11 +416,11 @@ test('model update data', async t => {
   try {
     await model.update({title: 'hello'});
   } catch (e) {
-    t.pass();
+    t.assert.ok(true);
   }
 
   const result = await model.update({title: 'hello', id: 3});
-  t.is(result, 'update data');
+  t.assert.strictEqual(result, 'update data');
 });
 
 test('model updateMany data error', async t => {
@@ -435,9 +435,9 @@ test('model updateMany data error', async t => {
 
   try {
     await model.updateMany({id: 3, title: 'hello'});
-    t.fail();
+    t.assert.fail();
   } catch (e) {
-    t.deepEqual(model.options, {});
+    t.assert.deepStrictEqual(model.options, {});
   }
 });
 
@@ -453,9 +453,9 @@ test('updateMany has no pk', async t => {
 
   try {
     await model.updateMany([{title: 'hello'}]);
-    t.fail();
+    t.assert.fail();
   } catch (e) {
-    t.deepEqual(model.options, {});
+    t.assert.deepStrictEqual(model.options, {});
   }
 });
 
@@ -469,18 +469,18 @@ test('updateMany normal', async t => {
   }});
   model.update = function(data, options) {
     if (data.id === 3) {
-      t.deepEqual(data, {id: 3, title: 'hello1', content: 'world1'});
+      t.assert.deepStrictEqual(data, {id: 3, title: 'hello1', content: 'world1'});
     } else {
-      t.deepEqual(data, {id: 10, title: 'hello2', content: 'world2'});
+      t.assert.deepStrictEqual(data, {id: 10, title: 'hello2', content: 'world2'});
     }
-    t.deepEqual(options, {});
+    t.assert.deepStrictEqual(options, {});
     return data.id;
   };
   const result = await model.updateMany([
     {id: 3, title: 'hello1', content: 'world1'},
     {id: 10, title: 'hello2', content: 'world2'}
   ], {});
-  t.deepEqual(result, [3, 10]);
+  t.assert.deepStrictEqual(result, [3, 10]);
 });
 
 test('model find data', async t => {
@@ -498,22 +498,22 @@ test('model find data', async t => {
   const data = {title: 'hello', content: 'world'};
   const model = new Model('post', {handle: class {
     select(opt) {
-      t.deepEqual(opt, options);
+      t.assert.deepStrictEqual(opt, options);
       return [data];
     }
   }});
 
   model.beforeFind = function(opt) {
-    t.deepEqual(opt, options);
+    t.assert.deepStrictEqual(opt, options);
     return opt;
   };
   model.afterFind = function(findData, opt) {
-    t.deepEqual(findData, data);
-    t.deepEqual(opt, options);
+    t.assert.deepStrictEqual(findData, data);
+    t.assert.deepStrictEqual(opt, options);
     return findData;
   };
   const result = await model.where({id: 3}).limit([0, 10]).find();
-  t.deepEqual(result, data);
+  t.assert.deepStrictEqual(result, data);
 });
 
 test('model select data', async t => {
@@ -530,21 +530,21 @@ test('model select data', async t => {
   const data = [{title: 'hello', content: 'world'}];
   const model = new Model('post', {handle: class {
     select(opt) {
-      t.deepEqual(opt, options);
+      t.assert.deepStrictEqual(opt, options);
       return data;
     }
   }});
   model.beforeSelect = function(opt) {
-    t.deepEqual(opt, options);
+    t.assert.deepStrictEqual(opt, options);
     return opt;
   };
   model.afterSelect = function(selectData, opt) {
-    t.deepEqual(selectData, data);
-    t.deepEqual(opt, options);
+    t.assert.deepStrictEqual(selectData, data);
+    t.assert.deepStrictEqual(opt, options);
     return selectData;
   };
   const result = await model.where({id: ['>', 10]}).select();
-  t.deepEqual(result, data);
+  t.assert.deepStrictEqual(result, data);
 });
 
 test.todo('selectAdd');
@@ -556,7 +556,7 @@ test('model get field normal', async t => {
 
   const model = new Model('post', {handle: class {
     select(options) {
-      t.deepEqual(options, {
+      t.assert.deepStrictEqual(options, {
         pk: 'id',
         table: 'post',
         tablePrefix: '',
@@ -571,7 +571,7 @@ test('model get field normal', async t => {
   }});
 
   const result = await model.getField('content, title');
-  t.deepEqual(result, {
+  t.assert.deepStrictEqual(result, {
     title: ['hello1', 'hello2'],
     content: ['world1', 'world2']
   });
@@ -582,7 +582,7 @@ test('model get field one data', async t => {
 
   const model = new Model('post', {handle: class {
     select(options) {
-      t.deepEqual(options, {
+      t.assert.deepStrictEqual(options, {
         pk: 'id',
         limit: 1,
         table: 'post',
@@ -597,7 +597,7 @@ test('model get field one data', async t => {
   }});
 
   const result = await model.getField('content, title', true);
-  t.deepEqual(result, {
+  t.assert.deepStrictEqual(result, {
     title: 'hello1',
     content: 'world1'
   });
@@ -613,7 +613,7 @@ test('model get field no data 1', async t => {
   }});
 
   const result = await model.getField('content, title', true);
-  t.deepEqual(result, {
+  t.assert.deepStrictEqual(result, {
     title: undefined,
     content: undefined
   });
@@ -629,7 +629,7 @@ test('model get field no data 2', async t => {
   }});
 
   const result = await model.getField('content', true);
-  t.deepEqual(result, undefined);
+  t.assert.deepStrictEqual(result, undefined);
 });
 
 test('model get field no data 3', async t => {
@@ -642,7 +642,7 @@ test('model get field no data 3', async t => {
   }});
 
   const result = await model.getField('content');
-  t.deepEqual(result, []);
+  t.assert.deepStrictEqual(result, []);
 });
 
 test('model get field no data 3 #2', async t => {
@@ -655,7 +655,7 @@ test('model get field no data 3 #2', async t => {
   }});
 
   const result = await model.getField('content,title');
-  t.deepEqual(result, {
+  t.assert.deepStrictEqual(result, {
     title: [],
     content: []
   });
@@ -666,7 +666,7 @@ test('model get field one key', async t => {
 
   const model = new Model('post', {handle: class {
     select(options) {
-      t.deepEqual(options, {
+      t.assert.deepStrictEqual(options, {
         pk: 'id',
         table: 'post',
         tablePrefix: '',
@@ -681,7 +681,7 @@ test('model get field one key', async t => {
   }});
 
   const result = await model.getField('title');
-  t.deepEqual(result, ['hello1', 'hello2']);
+  t.assert.deepStrictEqual(result, ['hello1', 'hello2']);
 });
 
 test('model get field one data one key', async t => {
@@ -689,7 +689,7 @@ test('model get field one data one key', async t => {
 
   const model = new Model('post', {handle: class {
     select(options) {
-      t.deepEqual(options, {
+      t.assert.deepStrictEqual(options, {
         pk: 'id',
         limit: 1,
         table: 'post',
@@ -704,7 +704,7 @@ test('model get field one data one key', async t => {
   }});
 
   const result = await model.getField('title,content', true);
-  t.deepEqual(result, {title: 'hello2', content: 'world2'});
+  t.assert.deepStrictEqual(result, {title: 'hello2', content: 'world2'});
 });
 
 test('model increment', async t => {
@@ -732,27 +732,27 @@ test('model increment', async t => {
 
     model.update = function(data) {
       if (time === 0) {
-        t.deepEqual(data, arrData(step));
+        t.assert.deepStrictEqual(data, arrData(step));
         return arrData(step);
       } else if (time === 1) {
-        t.deepEqual(data, objData());
+        t.assert.deepStrictEqual(data, objData());
         return objData();
       } else {
-        t.deepEqual(data, strData(step));
+        t.assert.deepStrictEqual(data, strData(step));
         return strData(step);
       }
     };
-    t.deepEqual(
+    t.assert.deepStrictEqual(
       await model.increment(arr, step),
       arrData(step)
     );
     time = 1;
-    t.deepEqual(
+    t.assert.deepStrictEqual(
       await model.increment(obj, step),
       objData()
     );
     time = 2;
-    t.deepEqual(
+    t.assert.deepStrictEqual(
       await model.increment(str, step),
       strData(step)
     );
@@ -784,27 +784,27 @@ test('model decrement', async t => {
 
     model.update = function(data) {
       if (time === 0) {
-        t.deepEqual(data, arrData(step));
+        t.assert.deepStrictEqual(data, arrData(step));
         return arrData(step);
       } else if (time === 1) {
-        t.deepEqual(data, objData());
+        t.assert.deepStrictEqual(data, objData());
         return objData();
       } else {
-        t.deepEqual(data, strData(step));
+        t.assert.deepStrictEqual(data, strData(step));
         return strData(step);
       }
     };
-    t.deepEqual(
+    t.assert.deepStrictEqual(
       await model.decrement(arr, step),
       arrData(step)
     );
     time = 1;
-    t.deepEqual(
+    t.assert.deepStrictEqual(
       await model.decrement(obj, step),
       objData()
     );
     time = 2;
-    t.deepEqual(
+    t.assert.deepStrictEqual(
       await model.decrement(str, step),
       strData(step)
     );
@@ -816,7 +816,7 @@ for (const logic of ['count', 'sum', 'min', 'max', 'avg']) {
     const model = new Model('post', {handle});
     model.db(db);
     model.getField = function(sql) {
-      t.is(sql, `${logic.toUpperCase()}(*) AS think_${logic}`);
+      t.assert.strictEqual(sql, `${logic.toUpperCase()}(*) AS think_${logic}`);
     };
     model[logic]();
   });
@@ -825,7 +825,7 @@ for (const logic of ['count', 'sum', 'min', 'max', 'avg']) {
     model.db(db);
     model._pk = 'post_id';
     model.getField = function(sql) {
-      t.is(sql, `${logic.toUpperCase()}(*) AS think_${logic}`);
+      t.assert.strictEqual(sql, `${logic.toUpperCase()}(*) AS think_${logic}`);
     };
     model[logic]();
   });
@@ -834,7 +834,7 @@ for (const logic of ['count', 'sum', 'min', 'max', 'avg']) {
     model.db(db);
     Object.defineProperty(model, 'pk', {value: false});
     model.getField = function(sql) {
-      t.is(sql, `${logic.toUpperCase()}(*) AS think_${logic}`);
+      t.assert.strictEqual(sql, `${logic.toUpperCase()}(*) AS think_${logic}`);
     };
     model[logic]();
   });
@@ -843,7 +843,7 @@ for (const logic of ['count', 'sum', 'min', 'max', 'avg']) {
     model.db(db);
     Object.defineProperty(model, 'pk', {value: false});
     model.getField = function(sql) {
-      t.is(sql, `${logic.toUpperCase()}(title) AS think_${logic}`);
+      t.assert.strictEqual(sql, `${logic.toUpperCase()}(title) AS think_${logic}`);
     };
     model[logic]('title');
   });
@@ -855,16 +855,16 @@ test('model query method', async t => {
   const options = {table: 'post', where: {id: ['>', 30]}};
   const model = new Model('post', {handle: class {
     select(opt, c) {
-      t.is(opt, options);
+      t.assert.strictEqual(opt, options);
       return 'select return';
     }
   }});
   model.parseSql = function(opt) {
-    t.is(opt, options);
+    t.assert.strictEqual(opt, options);
     return opt;
   };
   const result = await model.query(options);
-  t.is(result, 'select return');
+  t.assert.strictEqual(result, 'select return');
 });
 
 test('model excute method', async t => {
@@ -873,16 +873,16 @@ test('model excute method', async t => {
   const options = {table: 'post', where: {id: ['>', 30]}};
   const model = new Model('post', {handle: class {
     execute(opt, c) {
-      t.is(opt, options);
+      t.assert.strictEqual(opt, options);
       return 'select return';
     }
   }});
   model.parseSql = function(opt) {
-    t.is(opt, options);
+    t.assert.strictEqual(opt, options);
     return opt;
   };
   const result = await model.execute(options);
-  t.is(result, 'select return');
+  t.assert.strictEqual(result, 'select return');
 });
 
 test('model parser sql', t => {
@@ -893,7 +893,7 @@ test('model parser sql', t => {
   model.db(db);
 
   const result = model.parseSql('__TABLE__  __TABLE__  __TITLE__ __title__');
-  t.is(result.sql, ' fk_post  fk_post  fk_title __title__');
+  t.assert.strictEqual(result.sql, ' fk_post  fk_post  fk_title __title__');
 });
 test('set db 2', t => {
   const model = new Model('post', {
@@ -902,7 +902,7 @@ test('set db 2', t => {
   });
   const db1 = model.db();
   const db2 = model.db();
-  t.is(db1, db2);
+  t.assert.strictEqual(db1, db2);
 });
 
 test('set db 3', t => {
@@ -917,7 +917,7 @@ test('set db 3', t => {
   const db1 = model1.db();
   model2.db(db1);
   const db2 = model2.db();
-  t.is(db1 === db2, false);
+  t.assert.strictEqual(db1 === db2, false);
 });
 
 test('set db 4', t => {
@@ -932,5 +932,5 @@ test('set db 4', t => {
   const db1 = model1.db();
   model2.db(db1);
   const db2 = model2.db();
-  t.is(db1.query, db2.query);
+  t.assert.strictEqual(db1.query, db2.query);
 });

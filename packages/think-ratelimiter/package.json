@@ -22,19 +22,12 @@
     "ratelimiter": "^3.0.3"
   },
   "devDependencies": {
-    "ava": "^8.0.1",
     "coveralls": "^3.0.0",
     "eslint": "^10.8.0",
     "mockery": "^2.1.0",
-    "nyc": "^18.0.0",
     "supertest": "^3.0.0"
   },
   "engines": {
     "node": ">=20.19.0"
-  },
-  "ava": {
-    "failWithoutAssertions": false,
-    "serial": true,
-    "timeout": "60s"
   }
 }

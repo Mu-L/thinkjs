@@ -1,6 +1,6 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 
 test('extend.allowExtends', t => {
   var allowExtends = require('../loader/extend').allowExtends;
-  t.deepEqual(allowExtends, ['think', 'application', 'context', 'request', 'response', 'controller', 'logic', 'service']);
+  t.assert.deepStrictEqual(allowExtends, ['think', 'application', 'context', 'request', 'response', 'controller', 'logic', 'service']);
 });

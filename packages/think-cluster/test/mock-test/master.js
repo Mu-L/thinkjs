@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const mock = require('mock-require');
 const path = require('path');
 const helper = require('think-helper');
@@ -74,7 +74,7 @@ function mockAssert(assertCallParams = []) {
   });
 }
 
-test.serial('normal case', async t => {
+test('normal case', async t => {
   mockCluster();
   const cluster = require('cluster');
   const Master = getMaster();
@@ -82,19 +82,19 @@ test.serial('normal case', async t => {
   await instance.forkWorkers();
   cluster.trigger('message', 'think-graceful-disconnect');
   cluster.trigger('message', 'test');
-  t.is(cluster.workers[0].hasGracefulReload, undefined);
+  t.assert.strictEqual(cluster.workers[0].hasGracefulReload, undefined);
 });
 
-test.serial('normal case #2', async t => {
+test('normal case #2', async t => {
   mockCluster();
   const cluster = require('cluster');
   const Master = getMaster();
   const instance = new Master();
   await instance.forkWorkers();
-  t.is(cluster.workers.length, require('os').cpus().length);
+  t.assert.strictEqual(cluster.workers.length, require('os').cpus().length);
 });
 
-test.serial('normal case #3', async t => {
+test('normal case #3', async t => {
   mockCluster();
   const cluster = require('cluster');
   const Master = getMaster();
@@ -102,10 +102,10 @@ test.serial('normal case #3', async t => {
   await instance.forkWorkers();
   cluster.trigger('message', 'think-graceful-disconnect');
   cluster.trigger('exit');
-  t.is(cluster.workers.length, require('os').cpus().length);
+  t.assert.strictEqual(cluster.workers.length, require('os').cpus().length);
 });
 
-test.serial('normal case #4', async t => {
+test('normal case #4', async t => {
   mockCluster();
   const cluster = require('cluster');
   const Master = getMaster();
@@ -115,20 +115,20 @@ test.serial('normal case #4', async t => {
   const listener = process.listeners('SIGUSR2').find(item => !listeners.has(item));
   listener();
   process.removeListener('SIGUSR2', listener);
-  t.pass();
+  t.assert.ok(true);
 });
 
-test.serial('normal case #5', async t => {
+test('normal case #5', async t => {
   mockCluster();
   const cluster = require('cluster');
   const Master = getMaster();
   const instance = new Master({});
   await instance.forkWorkers();
   cluster.trigger('listening');
-  t.is(cluster.workers.length, require('os').cpus().length);
+  t.assert.strictEqual(cluster.workers.length, require('os').cpus().length);
 });
 
-test.serial('normal case #6', async t => {
+test('normal case #6', async t => {
   mockCluster();
   const cluster = require('cluster');
   const Master = getMaster();
@@ -136,10 +136,10 @@ test.serial('normal case #6', async t => {
   await instance.forkWorkers();
   await instance.killWorker(cluster.workers[0]);
   await sleep(1000);
-  t.is(cluster.workers[0].isKilled, true);
+  t.assert.strictEqual(cluster.workers[0].isKilled, true);
 });
 
-test.serial('normal case #7', async t => {
+test('normal case #7', async t => {
   mockCluster();
   const cluster = require('cluster');
   const Master = getMaster();
@@ -149,11 +149,11 @@ test.serial('normal case #7', async t => {
   await sleep(1000);
   await instance.killWorker(cluster.workers[0]);
   await sleep(1000);
-  t.is(cluster.workers[0].isKilled, true);
-  t.is(cluster.workers[0].hasGracefulReload, undefined);
+  t.assert.strictEqual(cluster.workers[0].isKilled, true);
+  t.assert.strictEqual(cluster.workers[0].hasGracefulReload, undefined);
 });
 
-test.serial('normal case #8', async t => {
+test('normal case #8', async t => {
   mockCluster();
   const cluster = require('cluster');
   const Master = getMaster();
@@ -162,7 +162,7 @@ test.serial('normal case #8', async t => {
   instance.forceReloadWorkers();
 });
 
-test.serial('normal case #9', async t => {
+test('normal case #9', async t => {
   mockCluster();
   const cluster = require('cluster');
   const Master = getMaster();
@@ -172,7 +172,7 @@ test.serial('normal case #9', async t => {
   instance.forceReloadWorkers();
 });
 
-test.serial('normal case #10', async t => {
+test('normal case #10', async t => {
   mockCluster();
   const cluster = require('cluster');
   const Master = getMaster();
@@ -181,7 +181,7 @@ test.serial('normal case #10', async t => {
   instance.forceReloadWorkers();
 });
 
-test.serial('normal case #11', async t => {
+test('normal case #11', async t => {
   mockCluster();
   const cluster = require('cluster');
   const Master = getMaster();

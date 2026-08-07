@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test, afterEach} = require('node:test');
 const model = require('../src/model');
 
 const defaultTable = 'test';
@@ -17,50 +17,50 @@ const manyData = [
   {name: 'curry', age: 28, version: 1}
 ];
 
-test.afterEach.always(async _ => {
+afterEach(async _ => {
   const m = new model(defaultTable, defaultOptions);
   await m.delete();
   await m.table('think').delete();
 });
 
-test.serial('transaction', async t => {
+test('transaction', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.transaction(async session => {
     await m.add({name: 'thinkjs'});
   });
   const ret = await m.select();
-  t.is(ret.length, 1);
+  t.assert.strictEqual(ret.length, 1);
 });
 
-test.serial('model', async t => {
+test('model', async t => {
   const m = new model(defaultTable, defaultOptions);
   const ret = m.model('test');
-  t.is(ret.modelName, 'test');
+  t.assert.strictEqual(ret.modelName, 'test');
 });
 
-test.serial('add data', async t => {
+test('add data', async t => {
   const m = new model(defaultTable, defaultOptions);
   const insertId = await m.add({name: 'thinkjs'});
-  t.is(!!insertId, true);
+  t.assert.strictEqual(!!insertId, true);
 });
 
-test.serial('where', async t => {
+test('where', async t => {
   const m = new model(defaultTable, defaultOptions);
   const data = {name: 'query data'};
   await m.add(data);
   const ret = await m.where(data).find();
-  t.is(ret.name, data.name);
+  t.assert.strictEqual(ret.name, data.name);
 });
 
-test.serial('where with empty', async t => {
+test('where with empty', async t => {
   const m = new model(defaultTable, defaultOptions);
   const data = {name: 'query data'};
   await m.add(data);
   const ret = await m.where().find();
-  t.is(ret.name, data.name);
+  t.assert.strictEqual(ret.name, data.name);
 });
 
-test.serial('field', async t => {
+test('field', async t => {
   const m = new model(defaultTable, defaultOptions);
   const data = [
     {name: 'thinkjs', version: 3},
@@ -68,200 +68,200 @@ test.serial('field', async t => {
   ];
   await m.addMany(data);
   const ret = await m.field('version').select();
-  t.is(ret[0].name, undefined);
-  t.is(ret[1].version, 2);
+  t.assert.strictEqual(ret[0].name, undefined);
+  t.assert.strictEqual(ret[1].version, 2);
 });
 
-test.serial('field with empty', async t => {
+test('field with empty', async t => {
   const m = new model(defaultTable, defaultOptions);
   const data = {name: 'thinkjs', version: 3};
   await m.add(data);
   const ret = await m.field().select();
-  t.is(ret[0].name, data.name);
+  t.assert.strictEqual(ret[0].name, data.name);
 });
 
-test.serial('limit', async t => {
+test('limit', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   const ret = await m.limit(1).select();
-  t.is(ret[0].version, manyData[0].version);
-  t.is(ret.length, 1);
+  t.assert.strictEqual(ret[0].version, manyData[0].version);
+  t.assert.strictEqual(ret.length, 1);
 });
 
-test.serial('limit without params', async t => {
+test('limit without params', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   const ret = await m.limit().select();
-  t.is(ret.length, manyData.length);
+  t.assert.strictEqual(ret.length, manyData.length);
 });
 
-test.serial('limit with array params', async t => {
+test('limit with array params', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   const ret = await m.limit([1, 2]).select();
-  t.is(ret.length, 2);
+  t.assert.strictEqual(ret.length, 2);
 });
 
-test.serial('limit with two params', async t => {
+test('limit with two params', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   const ret = await m.limit([1], 2).select();
-  t.is(ret.length, 2);
+  t.assert.strictEqual(ret.length, 2);
 });
 
-test.serial('limit with invalid offset and limit', async t => {
+test('limit with invalid offset and limit', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   const ret = await m.limit('t', 'j').select();
-  t.is(ret.length, manyData.length);
+  t.assert.strictEqual(ret.length, manyData.length);
 });
 
-test.serial('page', async t => {
+test('page', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   const ret = await m.page(1, 2).select();
-  t.is(ret.length, 2);
-  t.is(ret[0].version, manyData[0].version);
+  t.assert.strictEqual(ret.length, 2);
+  t.assert.strictEqual(ret[0].version, manyData[0].version);
 });
 
-test.serial('page without pagesize params', async t => {
+test('page without pagesize params', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   const ret = await m.page([1, 2]).select();
-  t.is(ret.length, 2);
-  t.is(ret[0].version, manyData[0].version);
+  t.assert.strictEqual(ret.length, 2);
+  t.assert.strictEqual(ret[0].version, manyData[0].version);
 });
 
-test.serial('page with array params', async t => {
+test('page with array params', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   const ret = await m.page([1]).select();
-  t.is(ret.length, 2);
-  t.is(ret[0].version, manyData[0].version);
+  t.assert.strictEqual(ret.length, 2);
+  t.assert.strictEqual(ret[0].version, manyData[0].version);
 });
 
-test.serial('page with no params', async t => {
+test('page with no params', async t => {
   const opt = Object.assign({}, defaultOptions, {pagesize: null});
   const m = new model(defaultTable, opt);
   await m.addMany(manyData);
   const ret = await m.page().select();
-  t.is(ret.length, manyData.length);
-  t.is(ret[0].version, manyData[0].version);
+  t.assert.strictEqual(ret.length, manyData.length);
+  t.assert.strictEqual(ret[0].version, manyData[0].version);
 });
 
-test.serial('table', async t => {
+test('table', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.table('think').addMany(manyData);
   const ret = await m.table('think').select();
-  t.is(ret.length, manyData.length);
+  t.assert.strictEqual(ret.length, manyData.length);
 });
 
-test.serial('order', async t => {
+test('order', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   const ret = await m.where({name: 'thinkjs'}).order('version ASC').select();
-  t.is(ret[0].version, '1.0');
+  t.assert.strictEqual(ret[0].version, '1.0');
 });
 
-test.serial('order #2', async t => {
+test('order #2', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   const ret = await m.group('name').select();
-  t.is(ret.length, manyData.length);
+  t.assert.strictEqual(ret.length, manyData.length);
 });
 
-test.serial('thenAdd with exist data', async t => {
+test('thenAdd with exist data', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   await m.thenAdd(manyData[0], manyData[0]);
   const ret = await m.select();
-  t.is(ret.length, manyData.length);
+  t.assert.strictEqual(ret.length, manyData.length);
 });
 
-test.serial('thenAdd with no-exist data', async t => {
+test('thenAdd with no-exist data', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   await m.thenAdd({name: 'harden'}, {name: 'harden'});
   const ret = await m.select();
-  t.is(ret.length, manyData.length + 1);
+  t.assert.strictEqual(ret.length, manyData.length + 1);
 });
 
-test.serial('thenUpdate with exist', async t => {
+test('thenUpdate with exist', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   await m.thenUpdate({age: 100}, manyData[0]);
   const ret = await m.select();
-  t.is(ret[0].age, 100);
+  t.assert.strictEqual(ret[0].age, 100);
 });
 
-test.serial('thenUpdate with no-exist', async t => {
+test('thenUpdate with no-exist', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   await m.thenUpdate({name: 'harden'}, {name: 'harden'});
   const ret = await m.where({name: 'harden'}).find();
-  t.is(!!ret, true);
+  t.assert.strictEqual(!!ret, true);
 });
 
-test.serial('updateMany', async t => {
+test('updateMany', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   await m.updateMany([{name: 'think'}]);
   const ret = await m.where({name: 'think'}).find();
-  t.is(!!ret, true);
+  t.assert.strictEqual(!!ret, true);
 });
 
-test.serial('update with no-exist', async t => {
+test('update with no-exist', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   const d = await m.where({name: 'kobe'}).find();
   const ret = m.where({name: 'fake kobe'}).update({name: 'kobe bryant', _id: d._id}, true);
-  t.is(!!ret, true);
+  t.assert.strictEqual(!!ret, true);
 });
 
-test.serial('countSelect', async t => {
+test('countSelect', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   const ret = await m.page(1, 2).countSelect();
-  t.is(!!ret.currentPage, true);
+  t.assert.strictEqual(!!ret.currentPage, true);
 });
 
-test.serial('countSelect with limit', async t => {
+test('countSelect with limit', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   const ret = await m.countSelect({}, true);
-  t.is(!!ret.currentPage, true);
+  t.assert.strictEqual(!!ret.currentPage, true);
 });
 
-test.serial('countSelect with limit #2', async t => {
+test('countSelect with limit #2', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   let ret = await m.countSelect({limit: [10, 2]}, true);
-  t.is(!!ret.currentPage, true);
+  t.assert.strictEqual(!!ret.currentPage, true);
   ret = await m.countSelect({limit: [10, 2]}, false);
-  t.is(!!ret.currentPage, true);
+  t.assert.strictEqual(!!ret.currentPage, true);
 });
 
-test.serial('countSelect with limit #3', async t => {
+test('countSelect with limit #3', async t => {
   const m = new model(defaultTable, defaultOptions);
   const ret = await m.countSelect();
-  t.deepEqual(ret.data, []);
+  t.assert.deepStrictEqual(ret.data, []);
 });
 
-test.serial('increment', async t => {
+test('increment', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   const ret = await m.where({age: 1}).increment('age');
-  t.deepEqual(!!ret, true);
+  t.assert.deepStrictEqual(!!ret, true);
 });
 
-test.serial('decrement', async t => {
+test('decrement', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   const ret = await m.where({age: 3}).decrement('age');
-  t.deepEqual(!!ret, true);
+  t.assert.deepStrictEqual(!!ret, true);
 });
 
-test.serial('mapReduce', async t => {
+test('mapReduce', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   // Map function
@@ -269,83 +269,83 @@ test.serial('mapReduce', async t => {
   // Reduce function
   var reduce = function(k, vals) { return 1 };
   const ret = await m.mapReduce(map, reduce, {out: {replace: 'tempCollection'}});
-  t.deepEqual(!!ret, true);
+  t.assert.deepStrictEqual(!!ret, true);
 });
 
-test.serial('getIndex', async t => {
+test('getIndex', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   const ret = await m.getIndexes();
-  t.deepEqual(!!ret, true);
+  t.assert.deepStrictEqual(!!ret, true);
 });
 
-test.serial('sum', async t => {
+test('sum', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   const ret = await m.sum('age');
   const sum = manyData.reduce((s, i) => s + i.age, 0);
-  t.deepEqual(ret, sum);
+  t.assert.deepStrictEqual(ret, sum);
 });
 
-test.serial('group sum', async t => {
+test('group sum', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   const ret = await m.group('name').sum('age');
   const sum = manyData.filter(item => item.name === 'thinkjs').reduce((s, i) => s + i.age, 0);
   const thinkSum = ret.filter(item => item.group === 'thinkjs')[0].total;
-  t.deepEqual(thinkSum, sum);
+  t.assert.deepStrictEqual(thinkSum, sum);
 });
 
-test.serial('group sum #2', async t => {
+test('group sum #2', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   const ret = await m.where({name: 'thinkjs'}).order('version ASC').group('name,version').sum('age');
   const think1Sum = ret.filter(item => item.group.name === 'thinkjs' && item.group.version === '3.0')[0].total;
-  t.deepEqual(think1Sum, 1);
+  t.assert.deepStrictEqual(think1Sum, 1);
 });
 
-test.serial('aggregate', async t => {
+test('aggregate', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   const ret = await m.aggregate({$unwind: '$tags'});
-  t.deepEqual(ret, []);
+  t.assert.deepStrictEqual(ret, []);
 });
 
-test.serial('createIndex', async t => {
+test('createIndex', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   const ret = await m.createIndex('think');
-  t.deepEqual(ret, 'think_1');
+  t.assert.deepStrictEqual(ret, 'think_1');
 });
 
-test.serial('distinct', async t => {
+test('distinct', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.addMany(manyData);
   const ret = await m.distinct('name').select();
   const n = ret.filter(item => item === 'thinkjs').length;
-  t.is(n, 1);
+  t.assert.strictEqual(n, 1);
 });
 
-test.serial('transaction #2', async t => {
+test('transaction #2', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.transaction(async session => {
     await m.add({name: 'thinkjs'});
   }).catch(e => {});
   const ret = await m.select();
-  t.is(ret.length, 1);
+  t.assert.strictEqual(ret.length, 1);
 });
 
-test.serial('transaction #3', async t => {
+test('transaction #3', async t => {
   const m = new model(defaultTable, defaultOptions);
   await m.transaction(async session => {
     await m.add({name: 'thinkjs'});
     throw Error('transaction failed');
   }).catch(e => {});
   const ret = await m.select();
-  t.is(ret.length, 0);
+  t.assert.strictEqual(ret.length, 0);
 });
 
-test.serial('transaction failed with multi connection', async t => {
+test('transaction failed with multi connection', async t => {
   const m = new model(defaultTable, defaultOptions);
   const n = new model(defaultTable, defaultOptions);
   await m.transaction(async session => {
@@ -355,10 +355,10 @@ test.serial('transaction failed with multi connection', async t => {
     throw Error('transaction failed');
   }).catch(e => {});
   const ret = await m.select();
-  t.is(ret.length, 0);
+  t.assert.strictEqual(ret.length, 0);
 });
 
-test.serial('transaction with multi connection', async t => {
+test('transaction with multi connection', async t => {
   const m = new model(defaultTable, defaultOptions);
   const n = new model(defaultTable, defaultOptions);
   await m.transaction(async session => {
@@ -367,10 +367,10 @@ test.serial('transaction with multi connection', async t => {
     await n.add({name: 'thinkjs2'});
   }).catch(e => {});
   const ret = await m.select();
-  t.is(ret.length, 2);
+  t.assert.strictEqual(ret.length, 2);
 });
 
-test.serial('transaction with update', async t => {
+test('transaction with update', async t => {
   const m = new model(defaultTable, defaultOptions);
   const n = new model(defaultTable, defaultOptions);
   await m.add({name: 'thinkjs'});
@@ -379,10 +379,10 @@ test.serial('transaction with update', async t => {
     await n.where({name: 'thinkjs'}).update({name: 'thinkjs2'});
   }).catch(e => {});
   const ret = await m.select();
-  t.is(ret[0].name, 'thinkjs2');
+  t.assert.strictEqual(ret[0].name, 'thinkjs2');
 });
 
-test.serial('transaction failed with update', async t => {
+test('transaction failed with update', async t => {
   const m = new model(defaultTable, defaultOptions);
   const n = new model(defaultTable, defaultOptions);
   await m.add({name: 'thinkjs'});
@@ -392,10 +392,10 @@ test.serial('transaction failed with update', async t => {
     throw Error('transaction failed');
   }).catch(e => {});
   const ret = await m.select();
-  t.is(ret[0].name, 'thinkjs');
+  t.assert.strictEqual(ret[0].name, 'thinkjs');
 });
 
-test.serial('transaction with delete', async t => {
+test('transaction with delete', async t => {
   const m = new model(defaultTable, defaultOptions);
   const n = new model(defaultTable, defaultOptions);
   await m.add({name: 'thinkjs'});
@@ -404,10 +404,10 @@ test.serial('transaction with delete', async t => {
     await n.where({name: 'thinkjs'}).delete();
   }).catch(e => {});
   const ret = await m.select();
-  t.is(ret.length, 0);
+  t.assert.strictEqual(ret.length, 0);
 });
 
-test.serial('transaction failed with delete', async t => {
+test('transaction failed with delete', async t => {
   const m = new model(defaultTable, defaultOptions);
   const n = new model(defaultTable, defaultOptions);
   await m.add({name: 'thinkjs'});
@@ -417,5 +417,5 @@ test.serial('transaction failed with delete', async t => {
     throw Error('transaction failed');
   }).catch(e => {});
   const ret = await m.select();
-  t.is(ret.length, 1);
+  t.assert.strictEqual(ret.length, 1);
 });

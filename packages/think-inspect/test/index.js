@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test, beforeEach, afterEach} = require('node:test');
 const Inspector = require('../index.js');
 const mock = require('mock-require');
 
@@ -10,7 +10,7 @@ const locale = 'locale';
 const needVersion = ">=6.0.0";
 const realNodeVersion = process.version;
 
-test.beforeEach(t => {
+beforeEach(t => {
   const fs = require('fs');
   const Helper = require('think-helper');
     fs.___readdirSync = fs.readdirSync;
@@ -68,21 +68,21 @@ test('checkNodeVersion when it meets the requirement of package.json', t => {
   const isFile = true;
   const nodeVersion = "v6.0.0";
   const checkNodeVersion_error = testCheckNodeVersion(t, isFile, nodeVersion);
-  t.is(checkNodeVersion_error, false);
+  t.assert.strictEqual(checkNodeVersion_error, false);
 });
 
 test('checkNodeVersion when it is lower than the requirement of package.json', t => {
   const isFile = true;
   const nodeVersion = "5.0.0";
   const checkNodeVersion_error = testCheckNodeVersion(t, isFile, nodeVersion);
-  t.is(checkNodeVersion_error, true);
+  t.assert.strictEqual(checkNodeVersion_error, true);
 });
 
 test('checkNodeVersion when package.json is not a file', t => {
   const isFile = false;
   const nodeVersion = "6.0.0";
   const checkNodeVersion_error = testCheckNodeVersion(t, isFile, nodeVersion);
-  t.is(checkNodeVersion_error, false);
+  t.assert.strictEqual(checkNodeVersion_error, false);
 });
 
 function mockHelperGetDirFiles() {
@@ -106,7 +106,7 @@ test('checkFileName', t => {
     logger
   });
   inspector.checkFileName();
-  t.is(checkFileNameWran, true);
+  t.assert.strictEqual(checkFileNameWran, true);
 });
 
 
@@ -171,22 +171,22 @@ test('checkDependencies when env is development', t => {
   const env = 'development';
   const isPkgFile = true;
   const checkDependencies_error = testCheckDependencies(t, isPkgFile, env);
-  t.is(checkDependencies_error, true);
+  t.assert.strictEqual(checkDependencies_error, true);
 });
 test('checkDependencies when env is production', t => {
   const env = 'production';
   const isPkgFile = true;
   const checkDependencies_error = testCheckDependencies(t, isPkgFile, env);
-  t.is(checkDependencies_error, true);
+  t.assert.strictEqual(checkDependencies_error, true);
 });
 test('checkDependencies when package.json is not file', t => {
   const env = 'production';
   const isPkgFile = false;
   const checkDependencies_error = testCheckDependencies(t, isPkgFile, env);
-  t.is(checkDependencies_error, false);
+  t.assert.strictEqual(checkDependencies_error, false);
 });
 
-test.afterEach.always(t => {
+afterEach(t => {
   const fs = require('fs');
   const Helper = require('think-helper');
   fs.readdirSync =fs.___readdirSync;

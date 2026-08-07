@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const path = require('path');
 const mock = require('mock-require');
 
@@ -89,7 +89,7 @@ function createTest(modules, isFileArray, expectReturn) {
     mockUtil(modules.length);
     const load = getLoader(['think', 'context']);
     const ret = load('appPath', modules);
-    t.deepEqual(ret, expectReturn);
+    t.assert.deepStrictEqual(ret, expectReturn);
   };
 }
 
@@ -161,7 +161,7 @@ test('assert type must be one of allowExtends', t => {
   var params = mockAssert();
   const load = getLoader(['think', 'context']);
   load('appPath', []);
-  t.deepEqual(params.slice(2, 4), [
+  t.assert.deepStrictEqual(params.slice(2, 4), [
     false,
     `extend type=notallow not allowed, allow types: ${['think', 'context'].join(', ')}`
   ]);

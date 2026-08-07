@@ -6,7 +6,7 @@
   "types": "index.d.ts",
   "scripts": {
     "test": "pnpm run eslint && pnpm run test-cov",
-    "test-cov": "nyc ava test/ && nyc report --reporter=html",
+    "test-cov": "node --test --test-concurrency=1 --experimental-test-coverage test/console.js test/file.js",
     "eslint": "eslint ./src",
     "prepublish": "pnpm test"
   },
@@ -30,17 +30,10 @@
     "log4js": "^6.4.0"
   },
   "devDependencies": {
-    "ava": "^8.0.1",
     "eslint": "^10.8.0",
-    "nyc": "^18.0.0",
     "sandboxed-module": "^2.0.3"
   },
   "engines": {
     "node": ">=20.19.0"
-  },
-  "ava": {
-    "failWithoutAssertions": false,
-    "serial": true,
-    "timeout": "60s"
   }
 }

@@ -1,7 +1,7 @@
 'use strict';
 
 const Koa = require('koa');
-const {default: test} = require('ava');
+const {test, before, after, afterEach} = require('node:test');
 const serve = require('..');
 const request = require('supertest');
 const helper = require('think-helper');
@@ -11,14 +11,14 @@ const path = require('path');
 
 const extensionRoot = path.join(os.tmpdir(), `think-resource-assets-${process.pid}`);
 const servers = new Set();
-test.before(() => fs.cpSync(path.join(__dirname, 'assets'), extensionRoot, {recursive: true}));
-test.afterEach.always(async () => {
+before(() => fs.cpSync(path.join(__dirname, 'assets'), extensionRoot, {recursive: true}));
+afterEach(async () => {
   await Promise.all([...servers].map(server => new Promise((resolve, reject) => {
     server.close(error => error ? reject(error) : resolve());
   })));
   servers.clear();
 });
-test.after.always(() => fs.rmSync(extensionRoot, {force: true, recursive: true}));
+after(() => fs.rmSync(extensionRoot, {force: true, recursive: true}));
 
 function createServer (options, middlewares = [], callback) {
   const app = new Koa();
@@ -46,10 +46,10 @@ test('serve by no options"."', async t => {
   t.plan(1);
   try {
     createServer();
-    t.fail();
+    t.assert.fail();
   }
   catch (e) {
-    t.pass();
+    t.assert.ok(true);
   }
 });
 
@@ -58,7 +58,7 @@ test('serve by root:"."', async t => {
   await request(createServer({ root: '.' }))
     .get('/package.json')
     .expect(200);
-  t.pass();
+  t.assert.ok(true);
 });
 
 test('serve by path:"not a file"', async t => {
@@ -66,7 +66,7 @@ test('serve by path:"not a file"', async t => {
   await request(createServer({ root: 'test/assets' }))
     .get('/errpath.txt')
     .expect(404);
-  t.pass();
+  t.assert.ok(true);
 });
 
 test('serve by invalid path', async t => {
@@ -74,7 +74,7 @@ test('serve by invalid path', async t => {
   await request(createServer({ root: 'test/assets' }))
     .get('/%fdsa')
     .expect(400);
-  t.pass();
+  t.assert.ok(true);
 });
 
 test('serve by valid path', async t => {
@@ -83,7 +83,7 @@ test('serve by valid path', async t => {
     .get('/1.txt')
     .expect(200)
     .expect('txt hello');
-  t.pass();
+  t.assert.ok(true);
 });
 
 test('serve by upstream middleware responds', async t => {
@@ -96,7 +96,7 @@ test('serve by upstream middleware responds', async t => {
     .get('/1.txt')
     .expect(200)
     .expect('txt hello');
-  t.pass();
+  t.assert.ok(true);
 });
 
 test('serve by index', async t => {
@@ -106,7 +106,7 @@ test('serve by index', async t => {
     .expect(200)
     .expect('Content-Type', 'text/plain; charset=utf-8')
     .expect('index');
-  t.pass();
+  t.assert.ok(true);
 });
 
 test('serve by index html', async t => {
@@ -116,7 +116,7 @@ test('serve by index html', async t => {
     .expect(200)
     .expect('Content-Type', 'text/html; charset=utf-8')
     .expect('index html world');
-  t.pass();
+  t.assert.ok(true);
 });
 
 test('serve by disabled index', async t => {
@@ -124,7 +124,7 @@ test('serve by disabled index', async t => {
   await request(createServer({ root: 'test/assets', index: false }))
     .get('/html/')
     .expect(404);
-  t.pass();
+  t.assert.ok(true);
 });
 
 test('serve by POST method', async t => {
@@ -132,7 +132,7 @@ test('serve by POST method', async t => {
   await request(createServer({ root: 'test/assets' }))
     .post('/1.txt')
     .expect(404);
-  t.pass();
+  t.assert.ok(true);
 });
 
 test('serve by publicPath', async t => {
@@ -140,7 +140,7 @@ test('serve by publicPath', async t => {
   await request(createServer({ root: 'test/assets', publicPath: '/1.txt' }))
     .get('/1.txt')
     .expect(200);
-  t.pass();
+  t.assert.ok(true);
 });
 
 test('serve by publicPath #2', async t => {
@@ -148,7 +148,7 @@ test('serve by publicPath #2', async t => {
   await request(createServer({ root: 'test/assets', publicPath: /1\.txt/ }))
     .get('/1.txt')
     .expect(200);
-  t.pass();
+  t.assert.ok(true);
 });
 
 test('serve by publicPath #3', async t => {
@@ -156,7 +156,7 @@ test('serve by publicPath #3', async t => {
   await request(createServer({ root: 'test/assets', publicPath: /^\/html\/index.html/ }))
     .get('/html/index.html')
     .expect(200);
-  t.pass();
+  t.assert.ok(true);
 });
 
 test('serve by publicPath #4', async t => {
@@ -164,7 +164,7 @@ test('serve by publicPath #4', async t => {
   await request(createServer({ root: 'test/assets', publicPath: '1.txt' }))
     .get('/1.txt')
     .expect(200);
-  t.pass();
+  t.assert.ok(true);
 });
 
 test('serve by format:"true"', async t => {
@@ -172,7 +172,7 @@ test('serve by format:"true"', async t => {
   await request(createServer({ root: 'test/assets', format: true }))
     .get('/html')
     .expect(200);
-  t.pass();
+  t.assert.ok(true);
 });
 
 
@@ -181,7 +181,7 @@ test('serve by format:"false"', async t => {
   await request(createServer({ root: 'test/assets', format: false }))
     .get('/html')
     .expect(404);
-  t.pass();
+  t.assert.ok(true);
 });
 
 test('serve by setHeaders:"true"', async t => {
@@ -189,7 +189,7 @@ test('serve by setHeaders:"true"', async t => {
   await request(createServer({ root: 'test/assets', setHeaders: true }))
     .get('/html')
     .expect(500);
-  t.pass();
+  t.assert.ok(true);
 });
 
 test('serve by gzip', async t => {
@@ -197,14 +197,14 @@ test('serve by gzip', async t => {
   await request(createServer({ root: 'test/assets', gzip: true }))
     .get('/gzip.json')
     .expect(200);
-  t.pass();
+  t.assert.ok(true);
 });
 
 test('serve by extensions', async t => {
   await request(createServer({ root: extensionRoot, extensions: ['.html', 'txt'] }))
     .get('/index')
     .expect(200);
-  t.pass();
+  t.assert.ok(true);
 });
 
 test('serve by extensions fail', async t => {
@@ -212,7 +212,7 @@ test('serve by extensions fail', async t => {
   await request(createServer({ root: extensionRoot, extensions: ['txt'] }))
     .get('/test')
     .expect(404);
-  t.pass();
+  t.assert.ok(true);
 });
 
 test('serve by extensions err', async t => {
@@ -220,7 +220,7 @@ test('serve by extensions err', async t => {
   await request(createServer({ root: extensionRoot, extensions: [2, {}, []] }))
     .get('/index')
     .expect(500);
-  t.pass();
+  t.assert.ok(true);
 });
 
 test('serve by hidden file', async t => {
@@ -228,7 +228,7 @@ test('serve by hidden file', async t => {
   await request(createServer({ root: 'test/assets', hidden: true }))
     .get('/.hidden')
     .expect(200);
-  t.pass();
+  t.assert.ok(true);
 });
 
 test('serve by hidden file #2', async t => {
@@ -236,7 +236,7 @@ test('serve by hidden file #2', async t => {
   await request(createServer({ root: 'test/assets', hidden: false }))
     .get('/.hidden')
     .expect(404);
-  t.pass();
+  t.assert.ok(true);
 });
 
 test('serve by notFoundNext', async t => {
@@ -245,7 +245,7 @@ test('serve by notFoundNext', async t => {
     .get('/1.txt')
     .expect(200)
     .expect('txt hello');
-  t.pass();
+  t.assert.ok(true);
 });
 
 test('serve by notFoundNext #2', async t => {
@@ -253,5 +253,5 @@ test('serve by notFoundNext #2', async t => {
   await request(createServer({ root: 'test/assets', notFoundNext: true }))
     .get('/1.txt1')
     .expect(404);
-  t.pass();
+  t.assert.ok(true);
 });

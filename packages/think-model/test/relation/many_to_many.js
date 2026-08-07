@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const Model = require('../../lib/model');
 const Relation = require('../../lib/relation/many_to_many');
 
@@ -8,7 +8,7 @@ test('many to many get relation model name', t => {
     {model: {modelName: 'Option'}},
     {modelName: 'Model'}
   );
-  t.is(relation.getRelationModelName(), 'model_option');
+  t.assert.strictEqual(relation.getRelationModelName(), 'model_option');
 });
 
 test('many to many get relation no relation where', async t => {
@@ -27,7 +27,7 @@ test('many to many get relation no relation where', async t => {
   });
 
   relation.parseRelationWhere = () => false;
-  t.deepEqual(
+  t.assert.deepStrictEqual(
     await relation.getRelationData(),
     [{
       id: 3,
@@ -62,14 +62,14 @@ test('many to many get relation get modelName from rModel', async t => {
 
   relation.model = relation.options.model = new Model('user', {handle: new Function()});
   relation.options.model.select = function() {
-    t.deepEqual(this.options, {'field': '*,b.post_id', 'fieldReverse': false, 'alias': 'a', 'where': {'b.post_id': ['IN', [3, 10]]}, 'join': [{'post_user': {'table': 'relationModel', 'as': 'b', 'join': 'inner', 'on': ['id', 'user_id']}}]});
+    t.assert.deepStrictEqual(this.options, {'field': '*,b.post_id', 'fieldReverse': false, 'alias': 'a', 'where': {'b.post_id': ['IN', [3, 10]]}, 'join': [{'post_user': {'table': 'relationModel', 'as': 'b', 'join': 'inner', 'on': ['id', 'user_id']}}]});
     return [
       {name: 'lizheming', post_id: 10},
       {name: 'lizheming1', post_id: 10},
       {name: 'lizheming', post_id: 3}
     ];
   };
-  t.deepEqual(await relation.getRelationData(), [{
+  t.assert.deepStrictEqual(await relation.getRelationData(), [{
     id: 3,
     title: 'hello1',
     content: 'world1',
@@ -100,7 +100,7 @@ test('many to many delete data with relation', async t => {
 
   relation.model = relation.options.model = new Model('post', {handle: new Function()});
   relation.model.model = function(name) {
-    t.is(name, 'post_cate');
+    t.assert.strictEqual(name, 'post_cate');
     const model = new Model('post_cate', {handle: new Function()});
     model.db = function() {
       return {
@@ -112,7 +112,7 @@ test('many to many delete data with relation', async t => {
       };
     };
     model.where = function(where) {
-      t.deepEqual(where, {post_id: 778});
+      t.assert.deepStrictEqual(where, {post_id: 778});
       return model;
     };
     return model;
@@ -144,7 +144,7 @@ test('many to many add data with relation', async t => {
       };
     };
     model.addMany = function(data) {
-      t.deepEqual(data, [{post_id: 778, cate_id: 1}, {post_id: 778, cate_id: 2}]);
+      t.assert.deepStrictEqual(data, [{post_id: 778, cate_id: 1}, {post_id: 778, cate_id: 2}]);
       return model;
     };
     return model;

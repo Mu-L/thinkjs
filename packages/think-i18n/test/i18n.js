@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test, afterEach} = require('node:test');
 const path = require('path');
 const mock = require('mock-require');
 
@@ -8,7 +8,7 @@ function getInstance() {
 }
 
 
-test.afterEach.always(t => {
+afterEach(t => {
   mock.stopAll();
 });
 
@@ -26,19 +26,19 @@ test('test assert', t=>{
   var instance = getInstance();
   instance.assert('type', 'value', 'message');
 
-  t.is(condition, 'condition');
-  t.is(message, 'message');
-  t.is(value, 'value');
+  t.assert.strictEqual(condition, 'condition');
+  t.assert.strictEqual(message, 'message');
+  t.assert.strictEqual(value, 'value');
 });
 
 test('validateGetLocale passed correct value', t=>{
 
   var instance = getInstance();
   // getLocale is empty
-  t.is(instance.validateGetLocale(), true);
-  t.is(instance.validateGetLocale({by: 'cookie', name: 'name'}), true);
-  t.is(instance.validateGetLocale({by: 'query', name: 'queryField'}), true);
-  t.is(instance.validateGetLocale(function customFunc() {}), true);
+  t.assert.strictEqual(instance.validateGetLocale(), true);
+  t.assert.strictEqual(instance.validateGetLocale({by: 'cookie', name: 'name'}), true);
+  t.assert.strictEqual(instance.validateGetLocale({by: 'query', name: 'queryField'}), true);
+  t.assert.strictEqual(instance.validateGetLocale(function customFunc() {}), true);
 });
 
 test('validateGetLocale pass object, incorrect type and no name', t=>{
@@ -48,7 +48,7 @@ test('validateGetLocale pass object, incorrect type and no name', t=>{
   });
   var instance = getInstance();
   instance.validateGetLocale({by: 'unknow'});
-  t.deepEqual(cms, [false, 'getLocale.by must be value of "cookie" or "query", value is unknow', false, 'missing getLocale.name']);
+  t.assert.deepStrictEqual(cms, [false, 'getLocale.by must be value of "cookie" or "query", value is unknow', false, 'missing getLocale.name']);
 
 });
 
@@ -59,7 +59,7 @@ test('validateGetLocale pass incorrect type', t=>{
   });
   var instance = getInstance();
   instance.validateGetLocale('sfjsdk');
-  t.deepEqual(cms, [false, 'getLocale must be either object or function']);
+  t.assert.deepStrictEqual(cms, [false, 'getLocale must be either object or function']);
 });
 
 test('getConfigFiles', t=>{
@@ -71,7 +71,7 @@ test('getConfigFiles', t=>{
   var instance = getInstance();
   var result = instance.getConfigFiles('i18nFolder');
   var expectResult = ['a.js', 'd.js'].map(f=>path.join('i18nFolder', f));
-  t.deepEqual(result, expectResult);
+  t.assert.deepStrictEqual(result, expectResult);
 });
 
 test('getCofnigFiles will assert when no file is matched', t=>{
@@ -84,7 +84,7 @@ test('getCofnigFiles will assert when no file is matched', t=>{
   }});
   var instance = getInstance();
   instance.getConfigFiles('i18nFolder');
-  t.deepEqual(args, [false, 'missing locale setting, no .js files are found in i18nFolder']);
+  t.assert.deepStrictEqual(args, [false, 'missing locale setting, no .js files are found in i18nFolder']);
 });
 
 test('prepareOptions will call with right params', t=>{
@@ -107,14 +107,14 @@ test('prepareOptions will call with right params', t=>{
     localesMapping: 'localesMapping',
     getLocale: 'getLocale'
   });
-  t.deepEqual(args, [
+  t.assert.deepStrictEqual(args, [
     'isString', 'i18nFolder', 'i18nFolder should be type of string',
     'isDirectory', 'i18nFolder', 'i18nFolder must be directory path',
     'isFunction', 'localesMapping', 'missing configure localesMapping(locales){return locale;}'
   ]);
-  t.is(getLocaleArg, 'getLocale');
-  t.is(i18nFolder, 'i18nFolder');
-  t.is(result, 'getConfigFiles');
+  t.assert.strictEqual(getLocaleArg, 'getLocale');
+  t.assert.strictEqual(i18nFolder, 'i18nFolder');
+  t.assert.strictEqual(result, 'getConfigFiles');
 });
 
 test('loadLocaleSettings', t=>{
@@ -132,9 +132,9 @@ test('loadLocaleSettings', t=>{
   var instance = getInstance();
   var result = instance.loadLocaleSettings(localeFiles);
 
-  t.deepEqual(expectCallWith, ['localeId', dateFormat]);
-  t.deepEqual(locales, {localeId: {}});
-  t.deepEqual(result, {
+  t.assert.deepStrictEqual(expectCallWith, ['localeId', dateFormat]);
+  t.assert.deepStrictEqual(locales, {localeId: {}});
+  t.assert.deepStrictEqual(result, {
     localeConfigs: {localeId: config},
     customNumeralFormats: {localeId: [1,2,3]}
   });
@@ -147,5 +147,5 @@ test('applyNumeralCustomFormat', t=>{
   });
   var value = 11111.1111;
   var numeral = require('numeral');
-  t.is(numeral(value).format('currency'), numeral(value).format('$ 000.000'));
+  t.assert.strictEqual(numeral(value).format('currency'), numeral(value).format('$ 000.000'));
 });

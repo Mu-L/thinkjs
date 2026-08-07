@@ -4,19 +4,19 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2017-03-21 11:30:32
 */
-const {default: test} = require('ava');
+const {test, afterEach} = require('node:test');
 const helper = require('think-helper');
 const path = require('path');
 const fs = require('fs');
 const FileStore = require('../index');
 
 // del data dir after every test case
-test.afterEach(() => {
+afterEach(() => {
   let cachePath = path.join(__dirname, 'data');
   return helper.rmdir(cachePath, false);
 });
 
-test.serial('set file & get file & del file', async t => {
+test('set file & get file & del file', async t => {
   let content = 'Welcome to Thinkjs\'s World';
   let relativePath = 'abc/a.js';
   let storeInst = new FileStore(path.join(__dirname, 'data'));
@@ -26,20 +26,20 @@ test.serial('set file & get file & del file', async t => {
   await storeInst.delete(relativePath);
   let ret2 = await storeInst.get(relativePath);
 
-  t.true(ret1 === content && !ret2)
+  t.assert.strictEqual(ret1 === content && !ret2, true)
 });
 
-test.serial('set file & get file empty', async t => {
+test('set file & get file empty', async t => {
   let content = '';
   let relativePath = 'abc/a.js';
   let storeInst = new FileStore(path.join(__dirname, 'data'));
   await storeInst.set(relativePath, content);
   let ret1 = await storeInst.get(relativePath);
-  t.true(ret1 === '')
+  t.assert.strictEqual(ret1 === '', true)
 });
 
 
-test.serial('use exist dir', async t => {
+test('use exist dir', async t => {
   let content = 'Welcome to Thinkjs\'s World';
   let relativePath = 'abc/a.js';
   let storeInst = new FileStore(path.join(__dirname));
@@ -47,6 +47,6 @@ test.serial('use exist dir', async t => {
   let ret1 = await storeInst.get(relativePath);
 
   helper.rmdir(path.join(__dirname, 'abc'), false).then(() => {
-    t.true(ret1 === content)
+    t.assert.strictEqual(ret1 === content, true)
   });
 });

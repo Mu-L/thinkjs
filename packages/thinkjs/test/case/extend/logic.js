@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const mock = require('mock-require');
 const mockie = require('../../lib/mockie');
 mockie.mockThinkValidator();
@@ -11,13 +11,13 @@ const mockThink = {
 
 global.think = Object.assign({}, mockThink);
 
-test.serial('validate with empty rules', async t => {
+test('validate with empty rules', async t => {
   let result = logic.validate();
 
-  t.is(result,undefined)
+  t.assert.strictEqual(result,undefined)
 });
 
-test.serial('validate pass', async t => {
+test('validate pass', async t => {
   let rules = {
     mockResult:false,
     username: {
@@ -36,12 +36,12 @@ test.serial('validate pass', async t => {
     version:{string:true}
   };
   let flag = logic.validate(rules);
-  t.is(flag,true);
+  t.assert.strictEqual(flag,true);
   think.app.validators.rules = null;
 });
 
 
-test.serial('validate pass #2', async t => {
+test('validate pass #2', async t => {
   let rules = {
     mockResult:false,
     username: {
@@ -60,11 +60,11 @@ test.serial('validate pass #2', async t => {
     version:{string:true}
   };
   let flag = logic.validate(rules);
-  t.is(flag,true);
+  t.assert.strictEqual(flag,true);
   think.app.validators.rules = null;
 });
 
-test.serial('validate error', async t => {
+test('validate error', async t => {
   let rules = {
     mockResult:true,
     username: {
@@ -79,32 +79,32 @@ test.serial('validate error', async t => {
     }
   };
   let flag = logic.validate(rules);
-  t.is(flag,false);
+  t.assert.strictEqual(flag,false);
 });
 
-test.serial('_after', async t => {
+test('_after', async t => {
   const ret = logic.__after();
-  t.is(ret,undefined);
+  t.assert.strictEqual(ret,undefined);
 });
 
-test.serial('_after #2', async t => {
+test('_after #2', async t => {
   logic.allowMethods = ['POST','GET'];
   logic.config = ()=>{};
   logic.fail = ()=>{};
   const ret = logic.__after();
-  t.is(ret,false);
+  t.assert.strictEqual(ret,false);
 });
 
-test.serial('_after #3', async t => {
+test('_after #3', async t => {
   logic.allowMethods = 'POST,GET';
   logic.method = 'GET';
   logic.config = ()=>{};
   logic.fail = ()=>{};
   const ret = logic.__after();
-  t.is(ret,undefined);
+  t.assert.strictEqual(ret,undefined);
 });
 
-test.serial('_after #4', async t => {
+test('_after #4', async t => {
   logic.rules = {
     mockResult:false,
     username: {
@@ -119,10 +119,10 @@ test.serial('_after #4', async t => {
     }
   };
   let ret = logic.__after();
-  t.is(ret,undefined);
+  t.assert.strictEqual(ret,undefined);
 });
 
-test.serial('_after #5', async t => {
+test('_after #5', async t => {
   logic = mock.reRequire('../../../lib/extend/logic');
   logic.scope = {
     id: {
@@ -145,10 +145,10 @@ test.serial('_after #5', async t => {
   logic.config = ()=>{};
   logic.fail = ()=>{};
   let ret = logic.__after();
-  t.is(ret,false);
+  t.assert.strictEqual(ret,false);
 });
 
-test.serial('_after #6', async t => {
+test('_after #6', async t => {
   logic = mock.reRequire('../../../lib/extend/logic');
   logic.rules = {
     mockResult:false,
@@ -166,5 +166,5 @@ test.serial('_after #6', async t => {
   logic.config = ()=>{};
   logic.fail = ()=>{};
   let ret = logic.__after();
-  t.is(ret,undefined);
+  t.assert.strictEqual(ret,undefined);
 });

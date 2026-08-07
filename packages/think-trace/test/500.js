@@ -1,10 +1,10 @@
 const fs = require('fs');
-const {default: test} = require('ava');
+const {test, before, after} = require('node:test');
 const Trace = require('../lib');
 
 const filename = `${__dirname}/test.html`;
 
-test.before('500', () => {
+before(() => {
   try {
     fs.statSync(filename);
     fs.unlinkSync(filename);
@@ -48,7 +48,7 @@ test('500 #2', async t => {
 
   }
   const result = ctx.body;
-  t.true(result.includes('normal trace test'));
+  t.assert.strictEqual(result.includes('normal trace test'), true);
 
   try {
     await Trace({
@@ -59,10 +59,10 @@ test('500 #2', async t => {
 
   }
 
-  t.is(ctx.body, '[]');
+  t.assert.strictEqual(ctx.body, '[]');
 });
 
-test.after('500 #3', () => fs.unlinkSync(filename));
+after(() => fs.unlinkSync(filename));
 
 test('500 not exist file', async t => {
   const ctx = {
@@ -90,5 +90,5 @@ test('500 not exist file', async t => {
 
   }
   const result = ctx.body;
-  t.true(result.includes('thinkjs'));
+  t.assert.strictEqual(result.includes('thinkjs'), true);
 });

@@ -1,17 +1,17 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const Parser = require('../lib/parser');
 
 test('parserKey', t => {
   t.plan(7);
 
   const parser = new Parser();
-  t.is(parser.parseKey('aa bb'), 'aa bb');
-  t.is(parser.parseKey('lizheming'), 'lizheming');
-  t.is(parser.parseKey('userName'), 'userName');
-  t.is(parser.parseKey('where'), '"where"');
-  t.is(parser.parseKey('2fa'), '"2fa"');
-  t.is(parser.parseKey('2fa_secret'), '"2fa_secret"');
-  t.is(parser.parseKey('count(*)'), 'count(*)');
+  t.assert.strictEqual(parser.parseKey('aa bb'), 'aa bb');
+  t.assert.strictEqual(parser.parseKey('lizheming'), 'lizheming');
+  t.assert.strictEqual(parser.parseKey('userName'), 'userName');
+  t.assert.strictEqual(parser.parseKey('where'), '"where"');
+  t.assert.strictEqual(parser.parseKey('2fa'), '"2fa"');
+  t.assert.strictEqual(parser.parseKey('2fa_secret'), '"2fa_secret"');
+  t.assert.strictEqual(parser.parseKey('count(*)'), 'count(*)');
 });
 
 test('parseGroup', t => {
@@ -35,7 +35,7 @@ test('parseGroup', t => {
 
   t.plan(data.length);
   data.forEach(([params, except]) =>
-    t.deepEqual(parser.parseGroup(params), except)
+    t.assert.deepStrictEqual(parser.parseGroup(params), except)
   );
 });
 
@@ -53,7 +53,7 @@ test('parseLimit', t => {
 
   t.plan(data.length);
   data.forEach(([params, except]) =>
-    t.deepEqual(parser.parseLimit(params), except)
+    t.assert.deepStrictEqual(parser.parseLimit(params), except)
   );
 });
 
@@ -80,7 +80,7 @@ test('parseValue', t => {
 
   t.plan(data.length);
   data.forEach(([params, except]) =>
-    t.deepEqual(parser.parseValue(params), except)
+    t.assert.deepStrictEqual(parser.parseValue(params), except)
   );
 });
 
@@ -94,11 +94,11 @@ test('buildInsertSql', t => {
   };
 
   parser.__proto__.__proto__.buildInsertSql = function(opts) {
-    t.deepEqual(opts, options);
+    t.assert.deepStrictEqual(opts, options);
     return 'INSERT INTO demo';
   };
   const sql = parser.buildInsertSql(options);
-  t.is(sql, 'INSERT INTO demo RETURNING id');
+  t.assert.strictEqual(sql, 'INSERT INTO demo RETURNING id');
 });
 
 test('buildInsertSql without pk', t => {
@@ -110,9 +110,9 @@ test('buildInsertSql without pk', t => {
   };
 
   parser.__proto__.__proto__.buildInsertSql = function(opts) {
-    t.deepEqual(opts, options);
+    t.assert.deepStrictEqual(opts, options);
     return 'INSERT INTO demo';
   };
   const sql = parser.buildInsertSql(options);
-  t.is(sql, 'INSERT INTO demo');
+  t.assert.strictEqual(sql, 'INSERT INTO demo');
 });

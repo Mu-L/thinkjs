@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test, afterEach} = require('node:test');
 const mock = require('mock-require');
 const helper = require('think-helper');
 const path = require('path');
@@ -48,7 +48,7 @@ function createFile(dir, filename) {
 const defaultCallback = () => {
 };
 
-test.afterEach.always(_ => {
+afterEach(_ => {
   const tmp = path.resolve(__dirname, 'tmp');
   rimraf.sync(tmp);
 });
@@ -61,7 +61,7 @@ test('constructor function -- cb not a function', t => {
   };
   const Watcher = getWatcher();
   new Watcher(options);
-  t.deepEqual(assertCallParams,
+  t.assert.deepStrictEqual(assertCallParams,
     [
       false,
       'callback must be a function',
@@ -76,7 +76,7 @@ test('buildOptions function -- undefined options', t => {
   mockAssert(assertCallParams);
   const Watcher = getWatcher();
   new Watcher(undefined, defaultCallback);
-  t.deepEqual(assertCallParams,
+  t.assert.deepStrictEqual(assertCallParams,
     [
       true,
       'callback must be a function',
@@ -92,19 +92,19 @@ test('buildOptions function -- string srcPath,undefined diffPath,undefined filte
     srcPath: 'watchFiles'
   };
   let watcher = new Watcher(options, defaultCallback);
-  t.deepEqual(watcher.options.srcPath, ['watchFiles']);
-  t.deepEqual(watcher.options.diffPath, []);
-  t.deepEqual(watcher.options.allowExts, defaultOptions.allowExts);
-  t.deepEqual(helper.isFunction(watcher.options.filter), true);
+  t.assert.deepStrictEqual(watcher.options.srcPath, ['watchFiles']);
+  t.assert.deepStrictEqual(watcher.options.diffPath, []);
+  t.assert.deepStrictEqual(watcher.options.allowExts, defaultOptions.allowExts);
+  t.assert.deepStrictEqual(helper.isFunction(watcher.options.filter), true);
 });
 
 test('buildOptions function -- string options', t => {
   const Watcher = getWatcher();
   let watcher = new Watcher('watchFiles', defaultCallback);
-  t.deepEqual(watcher.options.srcPath, ['watchFiles']);
-  t.deepEqual(watcher.options.diffPath, []);
-  t.deepEqual(watcher.options.allowExts, defaultOptions.allowExts);
-  t.deepEqual(helper.isFunction(watcher.options.filter), true);
+  t.assert.deepStrictEqual(watcher.options.srcPath, ['watchFiles']);
+  t.assert.deepStrictEqual(watcher.options.diffPath, []);
+  t.assert.deepStrictEqual(watcher.options.allowExts, defaultOptions.allowExts);
+  t.assert.deepStrictEqual(helper.isFunction(watcher.options.filter), true);
 });
 
 test('buildOptions function -- empty string options', t => {
@@ -112,7 +112,7 @@ test('buildOptions function -- empty string options', t => {
   mockAssert(assertCallParams);
   const Watcher = getWatcher();
   new Watcher('', defaultCallback);
-  t.deepEqual(assertCallParams,
+  t.assert.deepStrictEqual(assertCallParams,
     [
       true,
       'callback must be a function',
@@ -129,10 +129,10 @@ test('buildOptions function -- Array srcPath,string diffPath,undefined filter,un
     diffPath: 'diffFiles'
   };
   let watcher = new Watcher(options, defaultCallback);
-  t.deepEqual(watcher.options.srcPath, ['watchFiles1','watchFiles2']);
-  t.deepEqual(watcher.options.diffPath, ['diffFiles']);
-  t.deepEqual(watcher.options.allowExts, defaultOptions.allowExts);
-  t.deepEqual(helper.isFunction(watcher.options.filter), true);
+  t.assert.deepStrictEqual(watcher.options.srcPath, ['watchFiles1','watchFiles2']);
+  t.assert.deepStrictEqual(watcher.options.diffPath, ['diffFiles']);
+  t.assert.deepStrictEqual(watcher.options.allowExts, defaultOptions.allowExts);
+  t.assert.deepStrictEqual(helper.isFunction(watcher.options.filter), true);
 });
 
 test('buildOptions function -- options.filter', t => {
@@ -143,10 +143,10 @@ test('buildOptions function -- options.filter', t => {
     filter:()=>{}
   };
   let watcher = new Watcher(options, defaultCallback);
-  t.deepEqual(watcher.options.srcPath, ['watchFiles1','watchFiles2']);
-  t.deepEqual(watcher.options.diffPath, ['diffFiles']);
-  t.deepEqual(watcher.options.allowExts, defaultOptions.allowExts);
-  t.deepEqual(helper.isFunction(watcher.options.filter), true);
+  t.assert.deepStrictEqual(watcher.options.srcPath, ['watchFiles1','watchFiles2']);
+  t.assert.deepStrictEqual(watcher.options.diffPath, ['diffFiles']);
+  t.assert.deepStrictEqual(watcher.options.allowExts, defaultOptions.allowExts);
+  t.assert.deepStrictEqual(helper.isFunction(watcher.options.filter), true);
 });
 
 test('buildOptions function -- options.allowExts', t => {
@@ -157,10 +157,10 @@ test('buildOptions function -- options.allowExts', t => {
     allowExts:['js','ts','jsx']
   };
   let watcher = new Watcher(options, defaultCallback);
-  t.deepEqual(watcher.options.srcPath, ['watchFiles1','watchFiles2']);
-  t.deepEqual(watcher.options.diffPath, ['diffFiles']);
-  t.deepEqual(watcher.options.allowExts, ['js','ts','jsx']);
-  t.deepEqual(helper.isFunction(watcher.options.filter), true);
+  t.assert.deepStrictEqual(watcher.options.srcPath, ['watchFiles1','watchFiles2']);
+  t.assert.deepStrictEqual(watcher.options.diffPath, ['diffFiles']);
+  t.assert.deepStrictEqual(watcher.options.allowExts, ['js','ts','jsx']);
+  t.assert.deepStrictEqual(helper.isFunction(watcher.options.filter), true);
 });
 
 test('defaultOptions.filter function -- hidden file', t => {
@@ -170,7 +170,7 @@ test('defaultOptions.filter function -- hidden file', t => {
     file: '/foo/bar/.baz/qux'
   };
   let result = watcher.options.filter(fileInfo);
-  t.is(result,false);
+  t.assert.strictEqual(result,false);
 });
 
 test('defaultOptions.filter function -- valid extend name', t => {
@@ -180,7 +180,7 @@ test('defaultOptions.filter function -- valid extend name', t => {
     file: '/foo/bar/baz/qux/admin1.js'
   };
   let result = watcher.options.filter(fileInfo,watcher.options);
-  t.is(result,true);
+  t.assert.strictEqual(result,true);
 });
 
 test('defaultOptions.filter function -- invalid extend name', t => {
@@ -190,7 +190,7 @@ test('defaultOptions.filter function -- invalid extend name', t => {
     file: '/foo/bar/baz/qux/a.jsx'
   };
   let result = watcher.options.filter(fileInfo,watcher.options);
-  t.is(result,false);
+  t.assert.strictEqual(result,false);
 });
 
 test('getChangedFiles function -- srcPath must be an absolute path', t => {
@@ -202,7 +202,7 @@ test('getChangedFiles function -- srcPath must be an absolute path', t => {
   };
   let watcher = new Watcher(options, defaultCallback);
   watcher.getChangedFiles();
-  t.deepEqual(assertCallParams,
+  t.assert.deepStrictEqual(assertCallParams,
     [
       true,
       'callback must be a function',
@@ -226,7 +226,7 @@ test('getChangedFiles function -- empty diffPath', t => {
 
   let watcher = new Watcher(options, defaultCallback);
   let watchFiles = watcher.getChangedFiles();
-  t.deepEqual(
+  t.assert.deepStrictEqual(
     watchFiles,
     [
       {
@@ -263,7 +263,7 @@ test('getChangedFiles function -- delete error files in diffPath', t => {
     [ 'admin1.js', 'diff2.js' ],  // create diff1.js,but give an error diff2.js file path
     diffAdmin
   );
-  t.deepEqual(helper.getdirFiles(diffAdmin),[ 'admin1.js', 'diff1.js' ]);
+  t.assert.deepStrictEqual(helper.getdirFiles(diffAdmin),[ 'admin1.js', 'diff1.js' ]);
 });
 
 test('getChangedFiles function -- delete extra files in diffPath', t => {
@@ -283,7 +283,7 @@ test('getChangedFiles function -- delete extra files in diffPath', t => {
   let watcher = new Watcher(options, defaultCallback);
   watcher.getChangedFiles();
   let files = helper.getdirFiles(diff);
-  t.deepEqual(files, []);
+  t.assert.deepStrictEqual(files, []);
 });
 
 test('getChangedFiles function -- delete extra files in diffPath #2', t => {
@@ -303,7 +303,7 @@ test('getChangedFiles function -- delete extra files in diffPath #2', t => {
   let watcher = new Watcher(options, defaultCallback);
   watcher.getChangedFiles();
   let files = helper.getdirFiles(diff);
-  t.deepEqual(files, []);
+  t.assert.deepStrictEqual(files, []);
 });
 
 test('getChangedFiles function -- delete extra files in diffPath #3', t => {
@@ -331,8 +331,8 @@ test('getChangedFiles function -- delete extra files in diffPath #3', t => {
   let adminFiles = helper.getdirFiles(diffAdmin);
   let homeFiles = helper.getdirFiles(diffHome);
 
-  t.deepEqual(adminFiles, ['admin1.js']);
-  t.deepEqual(homeFiles, ['home1.js']);
+  t.assert.deepStrictEqual(adminFiles, ['admin1.js']);
+  t.assert.deepStrictEqual(homeFiles, ['home1.js']);
 });
 
 
@@ -360,7 +360,7 @@ test('getChangedFiles function -- get empty file if mtime of diff file is later 
 
   let watcher = new Watcher(options, defaultCallback);
   let files = watcher.getChangedFiles();
-  t.deepEqual(files,[]);
+  t.assert.deepStrictEqual(files,[]);
 });
 
 
@@ -389,7 +389,7 @@ test('getChangedFiles function -- watch file change', async(t) => {
 
   await sleep(1000);
 
-  t.is(fileChange,true);
+  t.assert.strictEqual(fileChange,true);
   watcher.close();
 
   const tmp = path.resolve(__dirname, 'tmp1');
@@ -404,7 +404,7 @@ test('watch keeps the polling timer referenced', t => {
   const watcher = new Watcher({srcPath: admin, interval: 1000}, defaultCallback);
   watcher.watch();
 
-  t.true(watcher.timer.hasRef());
+  t.assert.strictEqual(watcher.timer.hasRef(), true);
   watcher.close();
 });
 
@@ -417,6 +417,6 @@ test('close called from the callback stops polling', t => {
   watcher = new Watcher({srcPath: admin}, () => watcher.close());
   watcher.watch();
 
-  t.true(watcher.closed);
-  t.is(watcher.timer, null);
+  t.assert.strictEqual(watcher.closed, true);
+  t.assert.strictEqual(watcher.timer, null);
 });

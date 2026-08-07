@@ -4,11 +4,10 @@
   "description": "JsonWebToken for ThinkJS 3.x",
   "main": "index.js",
   "scripts": {
-    "test": "nyc ava test/index.js",
-    "coverage": "nyc report --reporter=html",
+    "test": "node --test --test-concurrency=1 test/index.js",
+    "coverage": "node --test --test-concurrency=1 --experimental-test-coverage test/index.js",
     "pretest": "eslint index.js",
-    "lint-fix": "eslint --fix index.js",
-    "prepublish": "rm -rf .nyc_output"
+    "lint-fix": "eslint --fix index.js"
   },
   "repository": {
     "type": "git",
@@ -27,12 +26,10 @@
   },
   "homepage": "https://github.com/thinkjs/think-session-jwt#readme",
   "devDependencies": {
-    "ava": "^8.0.1",
     "babel-core": "^6.26.0",
     "coveralls": "^2.13.1",
     "eslint": "^10.8.0",
-    "mock-require": "^2.0.2",
-    "nyc": "^18.0.0"
+    "mock-require": "^2.0.2"
   },
   "dependencies": {
     "debug": "^3.0.0",
@@ -42,10 +39,5 @@
   },
   "engines": {
     "node": ">=20.19.0"
-  },
-  "ava": {
-    "failWithoutAssertions": false,
-    "serial": true,
-    "timeout": "60s"
   }
 }

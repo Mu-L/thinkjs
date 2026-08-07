@@ -8,7 +8,7 @@
   },
   "main": "bin/thinkjs",
   "scripts": {
-    "test": "eslint lib/ && nyc ava test/ --serial",
+    "test": "eslint lib/ && node --test --test-concurrency=1 test/lib/generate/confirm-overwrite.test.js test/lib/run.test.js test/lib/utils.test.js",
     "lint": "eslint lib/",
     "lint-fix": "eslint --fix lib/"
   },
@@ -42,17 +42,10 @@
     "urllib": "^2.22.0"
   },
   "devDependencies": {
-    "ava": "^8.0.1",
     "coveralls": "^3.0.2",
-    "eslint": "^10.8.0",
-    "nyc": "^18.0.0"
+    "eslint": "^10.8.0"
   },
   "engines": {
     "node": ">=20.19.0"
-  },
-  "ava": {
-    "failWithoutAssertions": false,
-    "serial": true,
-    "timeout": "60s"
   }
 }

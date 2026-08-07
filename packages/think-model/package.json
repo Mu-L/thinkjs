@@ -6,7 +6,7 @@
     "watch": "babel ./src --out-dir ./lib --watch",
     "compile": "babel ./src --out-dir ./lib",
     "test": "pnpm run compile && pnpm run eslint && pnpm run test-cov",
-    "test-cov": "nyc ava test/ && nyc report --reporter=html",
+    "test-cov": "node --test --test-concurrency=1 --experimental-test-coverage test/index.js test/model.js test/relation/base.js test/relation/belong_to.js test/relation/has_many.js test/relation/has_one.js test/relation/many_to_many.js test/relation/relation.js",
     "eslint": "eslint ./src",
     "prepublish": "pnpm test && pnpm run compile",
     "semantic-release": "semantic-release"
@@ -39,13 +39,11 @@
   "devDependencies": {
     "@semantic-release/github": "^5.4.3",
     "@semantic-release/npm": "^5.1.15",
-    "ava": "^8.0.1",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-preset-think-node": "^1.0.1",
     "eslint": "^10.8.0",
     "muk": "^0.5.3",
-    "nyc": "^18.0.0",
     "semantic-release": "^15.13.24"
   },
   "babel": {
@@ -62,10 +60,5 @@
   },
   "engines": {
     "node": ">=20.19.0"
-  },
-  "ava": {
-    "failWithoutAssertions": false,
-    "serial": true,
-    "timeout": "60s"
   }
 }

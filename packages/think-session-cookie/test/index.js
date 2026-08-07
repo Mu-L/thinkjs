@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test, afterEach} = require('node:test');
 const mock = require('mock-require');
 
 function mockAssert(assertCallParams = []) {
@@ -35,7 +35,7 @@ const defaultCtx = {
   }
 };
 
-test.afterEach.always(_ => {
+afterEach(_ => {
   mock.stop('assert');
   defaultCtx.clear();
 });
@@ -49,11 +49,11 @@ test('constructor function -- option.encrypt with empty keys', t => {
   };
   const SessionCookie = getSessionCookie();
 
-  t.throws(() => {
+  t.assert.throws(() => {
     new SessionCookie({}, defaultCtx, options);
-  }, {instanceOf: Error});
+  }, Error);
 
-  t.deepEqual(assertCallParams,
+  t.assert.deepStrictEqual(assertCallParams,
     [
       undefined,
       '.keys required and must be an array when encrypt is set'
@@ -70,11 +70,11 @@ test('constructor function -- option.encrypt with not array keys', t => {
   };
   const SessionCookie = getSessionCookie();
 
-  t.throws(() => {
+  t.assert.throws(() => {
     new SessionCookie({}, defaultCtx, options);
-  }, {instanceOf: Error});
+  }, Error);
 
-  t.deepEqual(assertCallParams,
+  t.assert.deepStrictEqual(assertCallParams,
     [
       undefined,
       '.keys required and must be an array when encrypt is set'
@@ -90,7 +90,7 @@ test('initSessionData function -- get empty session data', t => {
 
   const sc = new SessionCookie({}, defaultCtx, options);
 
-  t.deepEqual(sc.data, {});
+  t.assert.deepStrictEqual(sc.data, {});
 });
 
 test('initSessionData function -- get empty session data #2', t => {
@@ -101,8 +101,8 @@ test('initSessionData function -- get empty session data #2', t => {
 
   const sc = new SessionCookie({}, defaultCtx, options);
 
-  t.deepEqual(sc.data, {id: 1, value: 'test'});
-  t.deepEqual(sc.fresh, false);
+  t.assert.deepStrictEqual(sc.data, {id: 1, value: 'test'});
+  t.assert.deepStrictEqual(sc.fresh, false);
 });
 
 test('set/get function -- normal scene', async t => {
@@ -115,7 +115,7 @@ test('set/get function -- normal scene', async t => {
   await sc.set('username', 'thinkjs');
   let value = await sc.get('username');
 
-  t.deepEqual(value, 'thinkjs');
+  t.assert.deepStrictEqual(value, 'thinkjs');
 
 });
 
@@ -130,7 +130,7 @@ test('set/get function -- encrypt 1', async t => {
   await sc.set('username', 'thinkjs');
   let value = await sc.get('username');
 
-  t.deepEqual(value, 'thinkjs');
+  t.assert.deepStrictEqual(value, 'thinkjs');
 });
 
 test('get function -- autoUpdate && maxAge name', async t => {
@@ -159,13 +159,13 @@ test('get function -- autoUpdate && maxAge name', async t => {
 
   sc.fresh = false;
   const result = await sc.get();
-  t.deepEqual(result, {});
+  t.assert.deepStrictEqual(result, {});
 });
 
 test('set/get function -- encrypt 2', async t => {
   const SessionCookie = getSessionCookie();
   const sc = new SessionCookie(undefined,defaultCtx);
-  t.deepEqual(sc instanceof SessionCookie,true)
+  t.assert.deepStrictEqual(sc instanceof SessionCookie,true)
 });
 
 test('set/get function -- encrypt 3', t => {
@@ -192,7 +192,7 @@ test('set/get function -- encrypt 3', t => {
   };
   const SessionCookie = getSessionCookie();
   const sc = new SessionCookie({}, ctx, options);
-  t.deepEqual(sc.data, cpData);
+  t.assert.deepStrictEqual(sc.data, cpData);
 });
 
 test('set/get function -- encrypt', t => {
@@ -212,7 +212,7 @@ test('set/get function -- encrypt', t => {
   };
   const SessionCookie = getSessionCookie();
   const sc = new SessionCookie({}, ctx, options);
-  t.deepEqual(sc.data, {});
+  t.assert.deepStrictEqual(sc.data, {});
 });
 
 test('delete function', async t => {
@@ -224,10 +224,10 @@ test('delete function', async t => {
   await sc.set('username','thinkjs');
   let val = await sc.get('username');
 
-  t.deepEqual(val, 'thinkjs');
+  t.assert.deepStrictEqual(val, 'thinkjs');
   await sc.delete();
   val = await sc.get('username');
-  t.deepEqual(val, undefined);
+  t.assert.deepStrictEqual(val, undefined);
 });
 
 test('delete function #2', async t => {
@@ -239,11 +239,11 @@ test('delete function #2', async t => {
   await sc.set('username','thinkjs');
   let val = await sc.get('username');
 
-  t.deepEqual(val, 'thinkjs');
+  t.assert.deepStrictEqual(val, 'thinkjs');
   sc.fresh = true;
   await sc.delete();
   val = await sc.get('username');
-  t.deepEqual(val, 'thinkjs');
+  t.assert.deepStrictEqual(val, 'thinkjs');
 });
 
 test('encrypt function', t => {
@@ -263,7 +263,7 @@ test('encrypt function', t => {
   const data = JSON.stringify('a');
   let result = kg.encrypt(data,iv,key);
 
-  t.deepEqual(result instanceof Buffer,true);
+  t.assert.deepStrictEqual(result instanceof Buffer,true);
   let value = kg.decrypt(result,iv,key)
-  t.deepEqual(value instanceof Buffer,true);
+  t.assert.deepStrictEqual(value instanceof Buffer,true);
 });

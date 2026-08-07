@@ -1,8 +1,8 @@
 const sessionMysql = require('../index');
-const {default: test} = require('ava');
+const {test} = require('node:test');
 
 test('init', t => {
-  t.is(1, 1)
+  t.assert.strictEqual(1, 1)
 })
 
 // try {

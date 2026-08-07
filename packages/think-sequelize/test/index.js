@@ -4,10 +4,10 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2017-12-20 10:56:17
 */
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const index = require('../index.js');
 const helper = require('think-helper');
 
 test('index is a function', t => {
-  t.is(helper.isFunction(index), true);
+  t.assert.strictEqual(helper.isFunction(index), true);
 })

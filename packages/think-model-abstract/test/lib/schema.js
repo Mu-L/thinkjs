@@ -1,2 +1,2 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 test.todo('todo');

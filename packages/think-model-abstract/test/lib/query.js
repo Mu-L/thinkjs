@@ -1,11 +1,11 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const helper = require('think-helper');
 const Base = require('../../lib/query');
 const Parser = require('../../lib/parser');
 
 test('get instance', t => {
   const instance = new Base();
-  t.is(instance.lastInsertId, 0);
+  t.assert.strictEqual(instance.lastInsertId, 0);
 });
 
 test('add data', async t => {
@@ -27,7 +27,7 @@ test('add data', async t => {
   }, {
     table: 'think_user'
   });
-  t.is(instance.lastSql, "INSERT INTO think_user (name,title,key,admin) VALUES ('lizheming','suredy',1111,1)");
+  t.assert.strictEqual(instance.lastSql, "INSERT INTO think_user (name,title,key,admin) VALUES ('lizheming','suredy',1111,1)");
 });
 
 test('add with update boolean', async t => {
@@ -36,7 +36,7 @@ test('add with update boolean', async t => {
   const instance = new Base();
   class NewParser extends Parser {
     buildInsertSql(options) {
-      t.deepEqual(options.update, ['name', 'title', 'key']);
+      t.assert.deepStrictEqual(options.update, ['name', 'title', 'key']);
       return super.buildInsertSql(options);
     }
   }
@@ -55,7 +55,7 @@ test('add with update boolean', async t => {
     table: 'think_user',
     update: true
   });
-  t.is(instance.lastSql, "INSERT INTO think_user (name,title,key) VALUES ('lizheming','suredy',1111)");
+  t.assert.strictEqual(instance.lastSql, "INSERT INTO think_user (name,title,key) VALUES ('lizheming','suredy',1111)");
 });
 
 test('add with update array', async t => {
@@ -64,7 +64,7 @@ test('add with update array', async t => {
   const instance = new Base();
   class NewParser extends Parser {
     buildInsertSql(options) {
-      t.deepEqual(options.update, ['name', 'title', 'key']);
+      t.assert.deepStrictEqual(options.update, ['name', 'title', 'key']);
       return super.buildInsertSql(options);
     }
   }
@@ -83,7 +83,7 @@ test('add with update array', async t => {
     table: 'think_user',
     update: ['name', 'title', 'key', 'hello']
   });
-  t.is(instance.lastSql, "INSERT INTO think_user (name,title,key) VALUES ('lizheming','suredy',1111)");
+  t.assert.strictEqual(instance.lastSql, "INSERT INTO think_user (name,title,key) VALUES ('lizheming','suredy',1111)");
 });
 
 test('add with update object', async t => {
@@ -92,7 +92,7 @@ test('add with update object', async t => {
   const instance = new Base();
   class NewParser extends Parser {
     buildInsertSql(options) {
-      t.deepEqual(options.update, {
+      t.assert.deepStrictEqual(options.update, {
         name: 3,
         title: 4
       });
@@ -118,7 +118,7 @@ test('add with update object', async t => {
       hello: 5
     }
   });
-  t.is(instance.lastSql, "INSERT INTO think_user (name,title,key) VALUES ('lizheming','suredy',1111)");
+  t.assert.strictEqual(instance.lastSql, "INSERT INTO think_user (name,title,key) VALUES ('lizheming','suredy',1111)");
 });
 
 test('add many', async t => {
@@ -147,8 +147,8 @@ test('add many', async t => {
   }], {
     table: 'think_user'
   });
-  t.deepEqual(ret, [0, 0]);
-  t.is(instance.lastSql, "INSERT INTO think_user (name,title,key,admin,hello) VALUES ('lizheming','suredy',1111,1),('lizheming2','suredy2',222,0)");
+  t.assert.deepStrictEqual(ret, [0, 0]);
+  t.assert.strictEqual(instance.lastSql, "INSERT INTO think_user (name,title,key,admin,hello) VALUES ('lizheming','suredy',1111,1),('lizheming2','suredy2',222,0)");
 });
 
 test('add many with lastInsertId', async t => {
@@ -178,8 +178,8 @@ test('add many with lastInsertId', async t => {
   }], {
     table: 'think_user'
   });
-  t.deepEqual(ret, [30, 31]);
-  t.is(instance.lastSql, "INSERT INTO think_user (name,title,key,admin,hello) VALUES ('lizheming','suredy',1111,1),('lizheming2','suredy2',222,0)");
+  t.assert.deepStrictEqual(ret, [30, 31]);
+  t.assert.strictEqual(instance.lastSql, "INSERT INTO think_user (name,title,key,admin,hello) VALUES ('lizheming','suredy',1111,1),('lizheming2','suredy2',222,0)");
 });
 
 test('add many with update boolean', async t => {
@@ -188,7 +188,7 @@ test('add many with update boolean', async t => {
   const instance = new Base();
   class NewParser extends Parser {
     buildInsertSql(options) {
-      t.deepEqual(options.update, ['name', 'title', 'key']);
+      t.assert.deepStrictEqual(options.update, ['name', 'title', 'key']);
       return super.buildInsertSql(options);
     }
   }
@@ -211,7 +211,7 @@ test('add many with update boolean', async t => {
     table: 'think_user',
     update: true
   });
-  t.is(instance.lastSql, "INSERT INTO think_user (name,title,key) VALUES ('lizheming','suredy',1111),('lizheming2','suredy2',222)");
+  t.assert.strictEqual(instance.lastSql, "INSERT INTO think_user (name,title,key) VALUES ('lizheming','suredy',1111),('lizheming2','suredy2',222)");
 });
 
 test('add many with update array', async t => {
@@ -220,7 +220,7 @@ test('add many with update array', async t => {
   const instance = new Base();
   class NewParser extends Parser {
     buildInsertSql(options) {
-      t.deepEqual(options.update, ['name', 'title', 'key']);
+      t.assert.deepStrictEqual(options.update, ['name', 'title', 'key']);
       return super.buildInsertSql(options);
     }
   }
@@ -243,7 +243,7 @@ test('add many with update array', async t => {
     table: 'think_user',
     update: ['name', 'title', 'key', 'hello']
   });
-  t.is(instance.lastSql, "INSERT INTO think_user (name,title,key) VALUES ('lizheming','suredy',1111),('lizheming2','suredy2',222)");
+  t.assert.strictEqual(instance.lastSql, "INSERT INTO think_user (name,title,key) VALUES ('lizheming','suredy',1111),('lizheming2','suredy2',222)");
 });
 
 test('add many with update object', async t => {
@@ -252,7 +252,7 @@ test('add many with update object', async t => {
   const instance = new Base();
   class NewParser extends Parser {
     buildInsertSql(options) {
-      t.deepEqual(options.update, {
+      t.assert.deepStrictEqual(options.update, {
         name: ['EXP', 'VALUES(name)']
       });
       return super.buildInsertSql(options);
@@ -280,7 +280,7 @@ test('add many with update object', async t => {
       hello: 3
     }
   });
-  t.is(instance.lastSql, "INSERT INTO think_user (name,title,key) VALUES ('lizheming','suredy',1111),('lizheming2','suredy2',222)");
+  t.assert.strictEqual(instance.lastSql, "INSERT INTO think_user (name,title,key) VALUES ('lizheming','suredy',1111),('lizheming2','suredy2',222)");
 });
 
 test('select add', async t => {
@@ -296,7 +296,7 @@ test('select add', async t => {
     where: { name: 'lizheming' },
     limit: 30
   });
-  t.is(data, "INSERT INTO suredy (name,title) SELECT * FROM think_other WHERE ( name = 'lizheming' ) LIMIT 30");
+  t.assert.strictEqual(data, "INSERT INTO suredy (name,title) SELECT * FROM think_other WHERE ( name = 'lizheming' ) LIMIT 30");
 });
 
 test('select add, fields is array', async t => {
@@ -312,7 +312,7 @@ test('select add, fields is array', async t => {
     where: { name: 'lizheming' },
     limit: 30
   });
-  t.is(data, "INSERT INTO suredy (name,title) SELECT * FROM think_other WHERE ( name = 'lizheming' ) LIMIT 30");
+  t.assert.strictEqual(data, "INSERT INTO suredy (name,title) SELECT * FROM think_other WHERE ( name = 'lizheming' ) LIMIT 30");
 });
 
 test('select add, options is empty', async t => {
@@ -324,7 +324,7 @@ test('select add, options is empty', async t => {
     return Promise.resolve(sql);
   };
   const data = await instance.selectAdd(['name', 'title'], 'suredy');
-  t.is(data, 'INSERT INTO suredy (name,title) SELECT * FROM ');
+  t.assert.strictEqual(data, 'INSERT INTO suredy (name,title) SELECT * FROM ');
 });
 
 test('delete', async t => {
@@ -340,7 +340,7 @@ test('delete', async t => {
     where: { name: 'lizheming' },
     comment: 'lizheming'
   });
-  t.is(data, "DELETE FROM think_user WHERE ( name = 'lizheming' ) /*lizheming*/");
+  t.assert.strictEqual(data, "DELETE FROM think_user WHERE ( name = 'lizheming' ) /*lizheming*/");
 });
 
 test('update', async t => {
@@ -359,7 +359,7 @@ test('update', async t => {
     where: { name: 'lizheming' },
     comment: 'lizheming'
   });
-  t.is(data, "UPDATE think_user SET name='lizheming',title='title' WHERE ( name = 'lizheming' ) /*lizheming*/");
+  t.assert.strictEqual(data, "UPDATE think_user SET name='lizheming',title='title' WHERE ( name = 'lizheming' ) /*lizheming*/");
 });
 
 test('select', async t => {
@@ -375,7 +375,7 @@ test('select', async t => {
     where: { name: 'lizheming' },
     comment: 'lizheming'
   });
-  t.is(data, "SELECT * FROM think_user WHERE ( name = 'lizheming' ) /*lizheming*/");
+  t.assert.strictEqual(data, "SELECT * FROM think_user WHERE ( name = 'lizheming' ) /*lizheming*/");
 });
 
 test('select with sql', async t => {
@@ -392,7 +392,7 @@ test('select with sql', async t => {
     where: { name: 'lizheming' },
     comment: 'lizheming'
   });
-  t.is(data, 'hello world');
+  t.assert.strictEqual(data, 'hello world');
 });
 
 test('select, cache with key', async t => {
@@ -410,13 +410,13 @@ test('select, cache with key', async t => {
       key: 'hello',
       handle: class {
         get(key) {
-          t.is(key, 'hello');
+          t.assert.strictEqual(key, 'hello');
           return Promise.resolve('hello data');
         }
       }
     }
   });
-  t.is(data, 'hello data');
+  t.assert.strictEqual(data, 'hello data');
 });
 
 test('select, no cache with key', async t => {
@@ -437,18 +437,18 @@ test('select, no cache with key', async t => {
       key: 'hello',
       handle: class {
         get(key) {
-          t.is(key, 'hello');
+          t.assert.strictEqual(key, 'hello');
           return Promise.resolve();
         }
         set(key, data) {
-          t.is(key, 'hello');
-          t.is(data, "SELECT * FROM think_user WHERE ( name = 'lizheming' ) /*lizheming*/");
+          t.assert.strictEqual(key, 'hello');
+          t.assert.strictEqual(data, "SELECT * FROM think_user WHERE ( name = 'lizheming' ) /*lizheming*/");
           return Promise.resolve();
         }
       }
     }
   });
-  t.is(data, "SELECT * FROM think_user WHERE ( name = 'lizheming' ) /*lizheming*/");
+  t.assert.strictEqual(data, "SELECT * FROM think_user WHERE ( name = 'lizheming' ) /*lizheming*/");
 });
 
 test('select, cache', async t => {
@@ -467,13 +467,13 @@ test('select, cache', async t => {
     cache: {
       handle: class {
         get(key) {
-          t.is(key, helper.md5("SELECT * FROM think_user WHERE ( name = 'lizheming' ) /*lizheming*/"));
+          t.assert.strictEqual(key, helper.md5("SELECT * FROM think_user WHERE ( name = 'lizheming' ) /*lizheming*/"));
           return Promise.resolve('md5 data');
         }
       }
     }
   });
-  t.is(data, 'md5 data');
+  t.assert.strictEqual(data, 'md5 data');
 });
 
 test('select, string', async t => {
@@ -482,20 +482,20 @@ test('select, string', async t => {
     return Promise.resolve(sql);
   };
   const data = await instance.select("SELECT * FROM think_user WHERE ( name = 'lizheming' ) /*lizheming*/");
-  t.is(data, "SELECT * FROM think_user WHERE ( name = 'lizheming' ) /*lizheming*/");
+  t.assert.strictEqual(data, "SELECT * FROM think_user WHERE ( name = 'lizheming' ) /*lizheming*/");
 });
 
 test('query is function', async t => {
   const instance = new Base();
-  t.is(helper.isFunction(instance.query), true);
+  t.assert.strictEqual(helper.isFunction(instance.query), true);
 });
 
 test('query 1', async t => {
   const instance = new Base();
   let flag = false;
   instance.socket = sql => {
-    t.is(sql, 'SELECT * FROM user');
-    t.is(instance.lastSql, 'SELECT * FROM user');
+    t.assert.strictEqual(sql, 'SELECT * FROM user');
+    t.assert.strictEqual(instance.lastSql, 'SELECT * FROM user');
     return {
       query: (sqlOptions, connection) => {
         flag = true;
@@ -503,32 +503,32 @@ test('query 1', async t => {
     };
   };
   instance.query('SELECT * FROM user');
-  t.is(flag, true);
+  t.assert.strictEqual(flag, true);
 });
 
 test('query 2', async t => {
   const instance = new Base();
   let flag = false;
   instance.socket = sql => {
-    t.is(sql, 'SELECT * FROM user2');
-    t.is(instance.lastSql, 'SELECT * FROM user2');
+    t.assert.strictEqual(sql, 'SELECT * FROM user2');
+    t.assert.strictEqual(instance.lastSql, 'SELECT * FROM user2');
     return {
       query: (sqlOptions, connection) => {
-        t.is(sqlOptions.a, 'b');
+        t.assert.strictEqual(sqlOptions.a, 'b');
         flag = true;
       }
     };
   };
   instance.query({ sql: 'SELECT * FROM user2', a: 'b' });
-  t.is(flag, true);
+  t.assert.strictEqual(flag, true);
 });
 
 test('execute 1', async t => {
   const instance = new Base();
   let flag = false;
   instance.socket = sql => {
-    t.is(sql, 'SELECT * FROM user');
-    t.is(instance.lastSql, 'SELECT * FROM user');
+    t.assert.strictEqual(sql, 'SELECT * FROM user');
+    t.assert.strictEqual(instance.lastSql, 'SELECT * FROM user');
     return {
       execute: (sqlOptions, connection) => {
         flag = true;
@@ -536,24 +536,24 @@ test('execute 1', async t => {
     };
   };
   instance.execute('SELECT * FROM user');
-  t.is(flag, true);
+  t.assert.strictEqual(flag, true);
 });
 
 test('execute 2', async t => {
   const instance = new Base();
   let flag = false;
   instance.socket = sql => {
-    t.is(sql, 'SELECT * FROM user2');
-    t.is(instance.lastSql, 'SELECT * FROM user2');
+    t.assert.strictEqual(sql, 'SELECT * FROM user2');
+    t.assert.strictEqual(instance.lastSql, 'SELECT * FROM user2');
     return {
       execute: (sqlOptions, connection) => {
-        t.is(sqlOptions.a, 'b');
+        t.assert.strictEqual(sqlOptions.a, 'b');
         flag = true;
       }
     };
   };
   instance.execute({ sql: 'SELECT * FROM user2', a: 'b' });
-  t.is(flag, true);
+  t.assert.strictEqual(flag, true);
 });
 
 test('socket 1', async t => {
@@ -563,25 +563,25 @@ test('socket 1', async t => {
       return 1;
     }
   });
-  t.is(result, 1);
+  t.assert.strictEqual(result, 1);
 });
 
 test('socket 2', async t => {
   const instance = new Base({
     c: 2,
     parser: function(sql) {
-      t.is(sql, 'SQL');
+      t.assert.strictEqual(sql, 'SQL');
       return { a: 'b' };
     }
   });
   const result = instance.socket('SQL', {
     getInstance: function(config) {
-      t.is(config.a, 'b');
-      t.is(config.c, 2);
+      t.assert.strictEqual(config.a, 'b');
+      t.assert.strictEqual(config.c, 2);
       return 2;
     }
   });
-  t.is(result, 2);
+  t.assert.strictEqual(result, 2);
 });
 
 test('socket 3', async t => {
@@ -590,14 +590,14 @@ test('socket 3', async t => {
   });
   const result = instance.socket('SQL', {
     getInstance: function(config) {
-      t.is(config.c, 2);
+      t.assert.strictEqual(config.c, 2);
       return 2;
     }
   });
-  t.is(result, 2);
+  t.assert.strictEqual(result, 2);
 
   const result2 = instance.socket('SQL');
-  t.is(result2, 2);
+  t.assert.strictEqual(result2, 2);
 });
 
 test('startTrans', async t => {
@@ -612,8 +612,8 @@ test('startTrans', async t => {
     };
   };
   instance.startTrans({ a: 1 }).then(data => {
-    t.is(instance.connection.a, 1);
-    t.is(flag, true);
+    t.assert.strictEqual(instance.connection.a, 1);
+    t.assert.strictEqual(flag, true);
   });
 });
 
@@ -624,13 +624,13 @@ test('commit 1', async t => {
     return {
       commit: connection => {
         flag = true;
-        t.is(connection.a, 1);
+        t.assert.strictEqual(connection.a, 1);
         return Promise.resolve(connection);
       }
     };
   };
   instance.commit({ a: 1 }).then(data => {
-    t.is(flag, true);
+    t.assert.strictEqual(flag, true);
   });
 });
 
@@ -641,14 +641,14 @@ test('commit 2', async t => {
     return {
       commit: connection => {
         flag = true;
-        t.is(connection.a, 1);
+        t.assert.strictEqual(connection.a, 1);
         return Promise.resolve(connection);
       }
     };
   };
   instance.connection = { a: 1 };
   instance.commit().then(data => {
-    t.is(flag, true);
+    t.assert.strictEqual(flag, true);
   });
 });
 
@@ -659,13 +659,13 @@ test('rollback 1', async t => {
     return {
       rollback: connection => {
         flag = true;
-        t.is(connection.a, 1);
+        t.assert.strictEqual(connection.a, 1);
         return Promise.resolve(connection);
       }
     };
   };
   instance.rollback({ a: 1 }).then(data => {
-    t.is(flag, true);
+    t.assert.strictEqual(flag, true);
   });
 });
 
@@ -676,14 +676,14 @@ test('rollback 2', async t => {
     return {
       rollback: connection => {
         flag = true;
-        t.is(connection.a, 1);
+        t.assert.strictEqual(connection.a, 1);
         return Promise.resolve(connection);
       }
     };
   };
   instance.connection = { a: 1 };
   instance.rollback().then(data => {
-    t.is(flag, true);
+    t.assert.strictEqual(flag, true);
   });
 });
 
@@ -694,7 +694,7 @@ test('transaction 1', async t => {
     return {
       transaction: (fn, connection) => {
         flag = true;
-        t.is(fn(), 1);
+        t.assert.strictEqual(fn(), 1);
         return Promise.resolve(connection);
       }
     };
@@ -702,6 +702,6 @@ test('transaction 1', async t => {
   instance.transaction(function() {
     return 1;
   }).then(data => {
-    t.is(flag, true);
+    t.assert.strictEqual(flag, true);
   });
 });

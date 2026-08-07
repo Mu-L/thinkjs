@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const helper = require('think-helper');
 const mock = require('mock-require');
 const mockie = require('../../lib/mockie');
@@ -101,81 +101,81 @@ app.run();
 
 test('get/set body', async t => {
   const body = 'hello thinkjs again';
-  t.is(controller.body, ctx.body);
+  t.assert.strictEqual(controller.body, ctx.body);
   controller.body = body;
-  t.is(controller.body, body);
+  t.assert.strictEqual(controller.body, body);
 });
 
 test('get/set status', async t => {
   const status = 200;
-  t.is(controller.status, ctx.status);
+  t.assert.strictEqual(controller.status, ctx.status);
   controller.status = status;
-  t.is(controller.status, status);
+  t.assert.strictEqual(controller.status, status);
 });
 
 test('get/set type', async t => {
   const contentType = 'some content type';
-  t.is(controller.type, ctx.type);
+  t.assert.strictEqual(controller.type, ctx.type);
   controller.type = contentType;
-  t.is(controller.type, contentType);
+  t.assert.strictEqual(controller.type, contentType);
 });
 
 test('get ip', async t => {
-  t.is(controller.ip, ctx.ip);
+  t.assert.strictEqual(controller.ip, ctx.ip);
 });
 
 test('get ips', async t => {
-  t.is(controller.ips, ctx.ips);
+  t.assert.strictEqual(controller.ips, ctx.ips);
 });
 
 test('config function', async t => {
-  t.is(controller.config('port'), 8360);
+  t.assert.strictEqual(controller.config('port'), 8360);
   controller.config('port', 8361, ctx.module);
-  t.is(controller.config('port'), 8361);
+  t.assert.strictEqual(controller.config('port'), 8361);
 });
 
 test('get method', async t => {
-  t.is(controller.method, ctx.method);
+  t.assert.strictEqual(controller.method, ctx.method);
 });
 
 test('isMethod method', async t => {
-  t.is(controller.isMethod(ctx.method), true);
+  t.assert.strictEqual(controller.isMethod(ctx.method), true);
 });
 
 test('get isGet', async t => {
-  t.is(controller.isGet, true);
+  t.assert.strictEqual(controller.isGet, true);
 });
 
 test('get isPost', async t => {
-  t.is(controller.isPost, false);
+  t.assert.strictEqual(controller.isPost, false);
 });
 
 test('isCli method', async t => {
-  t.is(controller.isCli, true);
+  t.assert.strictEqual(controller.isCli, true);
 });
 
 test('isAjax method', async t => {
-  t.is(controller.isAjax('GET'), true);
+  t.assert.strictEqual(controller.isAjax('GET'), true);
 });
 
 test('jsonp method', async t => {
-  t.is(controller.jsonp('callback'), 'callback');
+  t.assert.strictEqual(controller.jsonp('callback'), 'callback');
 });
 
 test('isJsonp method', async t => {
-  t.is(controller.isJsonp('callback'), 'callback');
+  t.assert.strictEqual(controller.isJsonp('callback'), 'callback');
 });
 
 test('json method', async t => {
   const obj = {
     name: 'thinkjs'
   };
-  t.deepEqual(controller.json(JSON.stringify(obj)), obj);
+  t.assert.deepStrictEqual(controller.json(JSON.stringify(obj)), obj);
 });
 
 test('success method', async t => {
   const data = {name: 'thinkjs'};
-  t.deepEqual(controller.success(data).data, data);
+  t.assert.deepStrictEqual(controller.success(data).data, data);
 });
 
 test('fail method', async t => {
@@ -184,59 +184,59 @@ test('fail method', async t => {
     errmsg: 'error',
     data: []
   };
-  t.deepEqual(controller.fail(data), data);
+  t.assert.deepStrictEqual(controller.fail(data), data);
 });
 
 test('expires method', async t => {
-  t.deepEqual(controller.expires(20000), 20000);
+  t.assert.deepStrictEqual(controller.expires(20000), 20000);
 });
 
 test('get method #2', async t => {
-  t.deepEqual(controller.get('name'), 'thinkjs');
+  t.assert.deepStrictEqual(controller.get('name'), 'thinkjs');
 });
 
 test('query method', async t => {
-  t.deepEqual(controller.query('test', 'test'), 'test');
+  t.assert.deepStrictEqual(controller.query('test', 'test'), 'test');
 });
 
 test('post method', async t => {
-  t.deepEqual(controller.post('test', 'test'), 'test');
+  t.assert.deepStrictEqual(controller.post('test', 'test'), 'test');
 });
 
 test('file method', async t => {
-  t.deepEqual(controller.file('test', 'test'), 'test');
+  t.assert.deepStrictEqual(controller.file('test', 'test'), 'test');
 });
 
 test('cookie method', async t => {
-  t.deepEqual(controller.cookie('test', 'test'), 'test');
+  t.assert.deepStrictEqual(controller.cookie('test', 'test'), 'test');
 });
 
 test('header method', async t => {
-  t.is(controller.header('accept'), ctx.header.accept);
+  t.assert.strictEqual(controller.header('accept'), ctx.header.accept);
   controller.header('Connection', 'keep-alive');
-  t.is(controller.header('Connection'), 'keep-alive');
+  t.assert.strictEqual(controller.header('Connection'), 'keep-alive');
   controller.header({Host: 'thinkjs.org'});
-  t.is(controller.header('Host'), 'thinkjs.org');
+  t.assert.strictEqual(controller.header('Host'), 'thinkjs.org');
   ctx.res.headersSent = true;
-  t.is(controller.header('Connection', 'keep-alive'), undefined);
-  t.is(controller.header(), undefined);
+  t.assert.strictEqual(controller.header('Connection', 'keep-alive'), undefined);
+  t.assert.strictEqual(controller.header(), undefined);
 });
 
 test('userAgent method', async t => {
-  t.deepEqual(controller.userAgent, 'test');
+  t.assert.deepStrictEqual(controller.userAgent, 'test');
 });
 
 test('referrer method', async t => {
-  t.deepEqual(controller.referrer(true), true);
+  t.assert.deepStrictEqual(controller.referrer(true), true);
 });
 
 test('referer method', async t => {
-  t.deepEqual(controller.referer(true), true);
+  t.assert.deepStrictEqual(controller.referer(true), true);
 });
 
 test('redirect method', async t => {
   const url = 'https://thinkjs.org/';
-  t.deepEqual(controller.redirect(url), false);
+  t.assert.deepStrictEqual(controller.redirect(url), false);
 });
 
 test('controller method', async t => {
@@ -245,7 +245,7 @@ test('controller method', async t => {
       test: class TestController {}
     }
   };
-  t.is(controller.controller('test') instanceof think.app.controllers.test, true);
+  t.assert.strictEqual(controller.controller('test') instanceof think.app.controllers.test, true);
 });
 
 test('controller method in modules', async t => {
@@ -257,10 +257,10 @@ test('controller method in modules', async t => {
     }
   };
   ctx.app.modules = ['test'];
-  t.is(controller.controller('test') instanceof think.app.controllers.common.test, true);
+  t.assert.strictEqual(controller.controller('test') instanceof think.app.controllers.common.test, true);
 });
 
-test.serial('service method with modules', async t => {
+test('service method with modules', async t => {
   think.app = {
     services: {
       common: {
@@ -270,10 +270,10 @@ test.serial('service method with modules', async t => {
     modules: ['test', 'common']
   };
   const ins = controller.service('test');
-  t.is(ins instanceof think.app.services.common.test, true);
+  t.assert.strictEqual(ins instanceof think.app.services.common.test, true);
 });
 
-test.serial('service method with autocomplete modules', async t => {
+test('service method with autocomplete modules', async t => {
   t.plan(2);
   think.app = {
     services: {
@@ -291,13 +291,13 @@ test.serial('service method with autocomplete modules', async t => {
 
   const newController = new think.Controller(newCtx);
   const insA = newController.service('home_test', 'home');
-  t.true(insA instanceof think.app.services.home.home_test);
+  t.assert.strictEqual(insA instanceof think.app.services.home.home_test, true);
 
   const insB = newController.service('home_test');
-  t.true(insB instanceof think.app.services.home.home_test);
+  t.assert.strictEqual(insB instanceof think.app.services.home.home_test, true);
 });
 
-test.serial('service method', async t => {
+test('service method', async t => {
   think.app = {
     services: {
       test: {}
@@ -305,14 +305,15 @@ test.serial('service method', async t => {
     modules: []
   };
   const ins = controller.service('test');
-  t.deepEqual(ins, think.app.services.test);
+  t.assert.deepStrictEqual(ins, think.app.services.test);
 });
 
 test('download method', async t => {
-  t.deepEqual(controller.download(), true);
+  t.assert.deepStrictEqual(controller.download(), true);
 });
 
-test.serial('action method', async t => {
+test('action method', async t => {
+  ctx.app.modules = [];
   let runAction = false;
   let runCallAction = false;
   let runAfterAction = false;
@@ -332,13 +333,13 @@ test.serial('action method', async t => {
     }
   };
   await controller.action('test', 'test');
-  t.is(runAction, true);
+  t.assert.strictEqual(runAction, true);
   await controller.action('test', 'none');
-  t.is(runCallAction, true);
-  t.is(runAfterAction, true);
+  t.assert.strictEqual(runCallAction, true);
+  t.assert.strictEqual(runAfterAction, true);
 });
 
-test.serial('action with __before and return false', async t => {
+test('action with __before and return false', async t => {
   let runAction = false;
   think.app = {
     controllers: {
@@ -353,10 +354,10 @@ test.serial('action with __before and return false', async t => {
     }
   };
   await controller.action('test', 'test');
-  t.is(runAction, false);
+  t.assert.strictEqual(runAction, false);
 });
 
-test.serial('action with __before', async t => {
+test('action with __before', async t => {
   const runAction = false;
   think.app = {
     controllers: {
@@ -368,5 +369,5 @@ test.serial('action with __before', async t => {
     }
   };
   await controller.action('test', 'test');
-  t.is(runAction, false);
+  t.assert.strictEqual(runAction, false);
 });

@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const mock = require('mock-require');
 
 function createLoader(modules = 'modules') {
@@ -11,42 +11,42 @@ function createLoader(modules = 'modules') {
 test('loadConfig will pass the right params and return', t => {
   mock('../loader/config.js', class config {
     load(a, b, c) {
-      t.is(a, 'apppath');
-      t.is(b, 'env');
-      t.is(c, 'modules');
+      t.assert.strictEqual(a, 'apppath');
+      t.assert.strictEqual(b, 'env');
+      t.assert.strictEqual(c, 'modules');
       return 'config';
     }
   });
 
   var loader = createLoader();
-  t.is(loader.loadConfig('env'), 'config');
+  t.assert.strictEqual(loader.loadConfig('env'), 'config');
 });
 
 test('loadBootstrap will pass the right params and return', t => {
   mock('../loader/bootstrap', function(a, b) {
-    t.is(a, 'apppath');
-    t.is(b, 'modules');
+    t.assert.strictEqual(a, 'apppath');
+    t.assert.strictEqual(b, 'modules');
     return 'bootstrap';
   });
   var loader = createLoader();
-  t.is(loader.loadBootstrap(), 'bootstrap');
+  t.assert.strictEqual(loader.loadBootstrap(), 'bootstrap');
 });
 
 function testCommon(method, name, para) {
   return t => {
     mock('../loader/common.js', {
       load(a, b, c) {
-        t.is(a, 'apppath');
-        t.is(b, name);
-        t.is(c, 'modules');
+        t.assert.strictEqual(a, 'apppath');
+        t.assert.strictEqual(b, name);
+        t.assert.strictEqual(c, 'modules');
         return name;
       }
     });
     var loader = createLoader();
     if (para) {
-      t.is(loader[method](para), name);
+      t.assert.strictEqual(loader[method](para), name);
     } else {
-      t.is(loader[method](), name);
+      t.assert.strictEqual(loader[method](), name);
     }
   };
 }
@@ -63,24 +63,24 @@ test('loadCommon will pass the right params and return', testCommon('loadCommon'
 test('loadMiddleware will pass the right params and return', t => {
   mock('../loader/middleware.js', class middleware {
     load(a, b, c) {
-      t.is(a, 'apppath');
-      t.is(b, 'modules');
-      t.is(c, 'app');
+      t.assert.strictEqual(a, 'apppath');
+      t.assert.strictEqual(b, 'modules');
+      t.assert.strictEqual(c, 'app');
       return 'middleware';
     }
   });
   var loader = createLoader();
-  t.is(loader.loadMiddleware('app'), 'middleware');
+  t.assert.strictEqual(loader.loadMiddleware('app'), 'middleware');
 });
 
 test('loadRouter will pass the right params and return', t => {
   mock('../loader/router.js', {
     load: function(a, b) {
-      t.is(a, 'apppath');
-      t.is(b, 'modules');
+      t.assert.strictEqual(a, 'apppath');
+      t.assert.strictEqual(b, 'modules');
       return 'router';
     }
   });
   var loader = createLoader();
-  t.is(loader.loadRouter(), 'router');
+  t.assert.strictEqual(loader.loadRouter(), 'router');
 });

@@ -1,7 +1,7 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 require('../../lib/think');
 
 
-test.serial('service method', t => {
+test('service method', t => {
   
 });

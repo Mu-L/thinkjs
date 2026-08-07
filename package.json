@@ -11,8 +11,7 @@
     "@eslint/js": "^10.0.1",
     "eslint": "^10.8.0",
     "globals": "^17.9.0",
-    "pre-commit": "^1.2.2",
-    "ava": "^8.0.1"
+    "pre-commit": "^1.2.2"
   },
   "engines": {
     "node": ">=20.19.0"

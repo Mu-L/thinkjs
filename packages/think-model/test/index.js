@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const events = require('events');
 const Model = require('../index.js');
 
@@ -12,7 +12,7 @@ test('filterParam 1', t => {
   };
   Model(app);
   app.emit('filterParam', data);
-  t.deepEqual(data, {name: ['EXP ', 2]});
+  t.assert.deepStrictEqual(data, {name: ['EXP ', 2]});
 });
 
 test('filterParam 2', t => {
@@ -21,7 +21,7 @@ test('filterParam 2', t => {
   };
   Model(app);
   app.emit('filterParam', data);
-  t.deepEqual(data, {name: ['EXP2', 2]});
+  t.assert.deepStrictEqual(data, {name: ['EXP2', 2]});
 });
 
 
@@ -31,7 +31,7 @@ test('filterParam 3', t => {
   };
   Model(app);
   app.emit('filterParam', data);
-  t.deepEqual(data, {name: {'EXP ': 2}});
+  t.assert.deepStrictEqual(data, {name: {'EXP ': 2}});
 });
 
 test('filterParam 4', t => {
@@ -40,5 +40,5 @@ test('filterParam 4', t => {
   };
   Model(app);
   app.emit('filterParam', data);
-  t.deepEqual(data, {name: {'EXP2': 2}});
+  t.assert.deepStrictEqual(data, {name: {'EXP2': 2}});
 });

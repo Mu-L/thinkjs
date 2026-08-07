@@ -20,12 +20,10 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
-    "ava": "^8.0.1",
     "babel-core": "^6.22.1",
     "codecov": "^1.0.1",
     "coveralls": "^2.11.16",
-    "eslint": "^10.8.0",
-    "nyc": "^18.0.0"
+    "eslint": "^10.8.0"
   },
   "keywords": [],
   "repository": {
@@ -39,10 +37,5 @@
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/thinkjs/think-pm2/issues"
-  },
-  "ava": {
-    "failWithoutAssertions": false,
-    "serial": true,
-    "timeout": "60s"
   }
 }

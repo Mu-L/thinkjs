@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const path = require('path');
 
 test('config_load_adapter will load adapter and build cache', t => {
@@ -10,7 +10,7 @@ test('config_load_adapter will load adapter and build cache', t => {
 
   const helper = require('think-helper');
   helper.getdirFiles = function(p) {
-    t.is(p, 'adapterPath');
+    t.assert.strictEqual(p, 'adapterPath');
     return [
       'a.js',
       path.join('session', 'b.js'),
@@ -20,7 +20,7 @@ test('config_load_adapter will load adapter and build cache', t => {
 
   const Instance = require('../loader/config');
   var result = (new Instance()).loadAdapter('adapterPath');
-  t.deepEqual(result, {
+  t.assert.deepStrictEqual(result, {
     session: {b: {b: 2}}
   });
 });

@@ -1,12 +1,12 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const Relation = require('../../lib/relation/base');
 test('instance normal', t => {
   t.plan(3);
 
   const relation = new Relation(1, 2, 3);
-  t.is(relation.data, 1);
-  t.is(relation.options, 2);
-  t.is(relation.model, 3);
+  t.assert.strictEqual(relation.data, 1);
+  t.assert.strictEqual(relation.options, 2);
+  t.assert.strictEqual(relation.model, 3);
 });
 
 test('relation where parse data object empty key', t => {
@@ -17,7 +17,7 @@ test('relation where parse data object empty key', t => {
     key: 'id',
     fkey: 'post_id'
   }, []);
-  t.false(relation.parseRelationWhere());
+  t.assert.strictEqual(relation.parseRelationWhere(), false);
 });
 
 test('relation where parse data object', t => {
@@ -29,7 +29,7 @@ test('relation where parse data object', t => {
     key: 'id',
     fKey: 'post_id'
   }, []);
-  t.deepEqual(relation.parseRelationWhere(), {post_id: 3});
+  t.assert.deepStrictEqual(relation.parseRelationWhere(), {post_id: 3});
 });
 
 test('relation where parse data arr', t => {
@@ -45,7 +45,7 @@ test('relation where parse data arr', t => {
     key: 'id',
     fKey: 'post_id'
   }, []);
-  t.deepEqual(relation.parseRelationWhere(), {post_id: ['IN', [3]]});
+  t.assert.deepStrictEqual(relation.parseRelationWhere(), {post_id: ['IN', [3]]});
 });
 
 test('relation where parse data arr empty', t => {
@@ -61,7 +61,7 @@ test('relation where parse data arr empty', t => {
     key: 'id',
     fKey: 'post_id'
   }, []);
-  t.false(relation.parseRelationWhere());
+  t.assert.strictEqual(relation.parseRelationWhere(), false);
 });
 
 test('relation data object', t => {
@@ -74,7 +74,7 @@ test('relation data object', t => {
     name: 'user'
   }, []);
 
-  t.deepEqual(
+  t.assert.deepStrictEqual(
     relation.parseRelationData([{name: 'lizheming'}], true),
     {
       title: 'hello1',
@@ -82,7 +82,7 @@ test('relation data object', t => {
       user: [{name: 'lizheming'}]
     }
   );
-  t.deepEqual(
+  t.assert.deepStrictEqual(
     relation.parseRelationData([{name: 'lizheming'}], false),
     {
       title: 'hello1',
@@ -90,7 +90,7 @@ test('relation data object', t => {
       user: {name: 'lizheming'}
     }
   );
-  t.deepEqual(
+  t.assert.deepStrictEqual(
     relation.parseRelationData({name: 'lizheming'}, false),
     {
       title: 'hello1',
@@ -117,7 +117,7 @@ test('relation data arr', t => {
     name: 'user'
   }, []);
 
-  t.deepEqual(relation.parseRelationData([
+  t.assert.deepStrictEqual(relation.parseRelationData([
     {name: 'lizheming', post_id: 10},
     {name: 'lizheming1', post_id: 10},
     {name: 'lizheming', post_id: 3}
@@ -141,7 +141,7 @@ test('relation data arr', t => {
     }
   ]);
 
-  t.deepEqual(relation.parseRelationData([
+  t.assert.deepStrictEqual(relation.parseRelationData([
     {name: 'lizheming', post_id: 10},
     {name: 'lizheming1', post_id: 10},
     {name: 'lizheming', post_id: 3}

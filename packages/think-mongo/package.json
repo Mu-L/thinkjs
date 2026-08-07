@@ -6,11 +6,11 @@
     "watch": "babel ./src --out-dir ./lib --watch",
     "compile": "babel ./src --out-dir ./lib",
     "test": "pnpm run lint && pnpm run test-cov",
-    "test-cov": "nyc ava test/ && nyc report --reporter=html",
+    "test-cov": "node --test --test-concurrency=1 --experimental-test-coverage test/index.js test/parse.js test/socket.js",
     "lint": "eslint ./src",
     "lint-fix": "eslint --fix ./src",
     "prepublish": "pnpm test && pnpm run compile",
-    "coverage": "nyc report --reporter=html"
+    "coverage": "node --test --test-concurrency=1 --experimental-test-coverage test/index.js test/parse.js test/socket.js"
   },
   "repository": {
     "type": "git",
@@ -37,13 +37,11 @@
     "think-instance": "^1.0.2"
   },
   "devDependencies": {
-    "ava": "^8.0.1",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
     "babel-preset-think-node": "^1.0.2",
     "eslint": "^10.8.0",
-    "muk": "^0.5.3",
-    "nyc": "^18.0.0"
+    "muk": "^0.5.3"
   },
   "babel": {
     "presets": [
@@ -52,10 +50,5 @@
   },
   "engines": {
     "node": ">=20.19.0"
-  },
-  "ava": {
-    "failWithoutAssertions": false,
-    "serial": true,
-    "timeout": "60s"
   }
 }

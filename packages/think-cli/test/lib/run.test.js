@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test, before, after} = require('node:test');
 const path = require('path')
 const inquirer = require('inquirer')
 const helper = require('think-helper')
@@ -15,7 +15,7 @@ const answers = {
   defaultModule: 'home'
 }
 
-test.before(() => {
+before(() => {
   inquirer.prompt = (questions) => {
     const _answers = {}
     for (var i = 0; i < questions.length; i++) {
@@ -46,7 +46,7 @@ test('should generate project ', async t => {
           reject(error);
           return;
         }
-        t.true(validateFiles(Object.keys(files), options.maps));
+        t.assert.strictEqual(validateFiles(Object.keys(files), options.maps), true);
         resolve();
       }
     });
@@ -54,7 +54,7 @@ test('should generate project ', async t => {
   });
 })
 
-test.after(t => {
+after(t => {
   return helper
     .rmdir(cachePath)
     .then(_ => helper.rmdir(appPath))

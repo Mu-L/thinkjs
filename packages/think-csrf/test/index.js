@@ -1,12 +1,12 @@
 const path = require('path');
-const {default: test} = require('ava');
+const {test, before, after} = require('node:test');
 const request = require('supertest');
 const helper = require('think-helper');
 const Koa = require('koa');
 const app = new Koa();
 
 // Simulation execution environment
-test.before(t => {
+before(t => {
   const payload = require('think-payload');
   const session = require('think-session');
   const fileSession = require('think-session-file');
@@ -66,7 +66,7 @@ test('should return token', async t => {
     .get('/')
     .set('Content-Type', 'text/plain')
     .expect(200);
-  t.is(typeof response.text, 'string');
+  t.assert.strictEqual(typeof response.text, 'string');
 });
 
 test('should intercept request', async t => {
@@ -74,7 +74,7 @@ test('should intercept request', async t => {
     .post('/')
     .set('Content-Type', 'text/plain')
     .expect(403);
-  t.is(response.text, 'invalid csrf token');
+  t.assert.strictEqual(response.text, 'invalid csrf token');
 });
 
 test('should not being intercepted 1', async t => {
@@ -91,7 +91,7 @@ test('should not being intercepted 1', async t => {
   .send({_csrf_: token})
   .expect(200);
 
-  t.is(result.text, 'ok');
+  t.assert.strictEqual(result.text, 'ok');
 });
 
 test('should not being intercepted 2', async t => {
@@ -108,9 +108,9 @@ test('should not being intercepted 2', async t => {
   .set('x-csrf-token', token)
   .expect(200);
 
-  t.is(result.text, 'ok');
+  t.assert.strictEqual(result.text, 'ok');
 });
 
-test.after(t => {
+after(t => {
   helper.rmdir(path.join(__dirname, 'session'));
 });

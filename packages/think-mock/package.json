@@ -8,14 +8,6 @@
     "test": "pnpm run lint",
     "coverage": "pnpm run test"
   },
-  "ava": {
-    "files": [
-      "test/*.js"
-    ],
-    "failWithoutAssertions": false,
-    "serial": true,
-    "timeout": "60s"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/thinkjs/thinkjs",
@@ -40,10 +32,8 @@
   },
   "homepage": "https://github.com/thinkjs/think-mock#readme",
   "devDependencies": {
-    "ava": "^8.0.1",
     "coveralls": "~2.11.16",
-    "eslint": "^10.8.0",
-    "nyc": "^18.0.0"
+    "eslint": "^10.8.0"
   },
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.4.0",

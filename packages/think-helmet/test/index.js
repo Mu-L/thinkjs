@@ -1,6 +1,6 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const helmet = require('../index.js');
 
 test('helmet', t => {
-  t.is(typeof helmet === 'function', true);
+  t.assert.strictEqual(typeof helmet === 'function', true);
 });
