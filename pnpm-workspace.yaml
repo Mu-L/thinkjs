@@ -3,9 +3,6 @@ packages:
 linkWorkspacePackages: true
 preferWorkspacePackages: true
 saveWorkspaceProtocol: false
-overrides:
-  # Keep this dist-tag dependency on the registry; update when refreshing latest.
-  "think-resource>think-helper": "1.1.5"
 allowBuilds:
   better-sqlite3: true
   core-js: true
