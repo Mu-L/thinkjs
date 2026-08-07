@@ -12,11 +12,6 @@
     "test": "pnpm run lint",
     "coverage": "pnpm run test"
   },
-  "ava": {
-    "failWithoutAssertions": false,
-    "serial": true,
-    "timeout": "60s"
-  },
   "contributors": [],
   "main": "index.js",
   "dependencies": {
@@ -37,9 +32,7 @@
     "thinkjs": "^3.0.0"
   },
   "devDependencies": {
-    "ava": "^8.0.1",
     "eslint": "^10.8.0",
-    "nyc": "^18.0.0",
     "think-inspect": "0.0.2",
     "think-babel": "^1.0.3"
   },

@@ -4,7 +4,7 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2017-03-27 17:16:32
 */
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const helper = require('think-helper');
 const path = require('path');
 const assert = require('assert');
@@ -22,30 +22,30 @@ const viewData = {title: 'thinkjs'};
 njk.configure(path.join(__dirname, 'views'), defaultOptions);
 let resp1 = njk.render('home.njk', viewData);
 
-test.serial('nunjucks absolute path', async t => {
+test('nunjucks absolute path', async t => {
   let viewFile = path.join(viewBasePath, 'home.njk');
   let nunjucks = new Nunjucks(viewFile, viewData, {viewPath: viewBasePath});
   let ret = await nunjucks.render();
 
-  t.is(ret, resp1);
+  t.assert.strictEqual(ret, resp1);
 });
 
-test.serial('nunjucks not in absolute path', async t => {
+test('nunjucks not in absolute path', async t => {
   let nunjucks = new Nunjucks(path.join(viewBasePath, 'home.njk'), viewData, {viewPath: '/User/lushijie/home/'});
   let ret = await nunjucks.render();
 
-  t.is(ret, resp1);
+  t.assert.strictEqual(ret, resp1);
 });
 
-test.serial('nunjucks releative path', async t => {
+test('nunjucks releative path', async t => {
   let viewFile = path.join(viewBasePath, 'home.njk');
   let nunjucks = new Nunjucks(viewFile, viewData, {viewPath: viewBasePath});
   let ret = await nunjucks.render();
 
-  t.is(ret, resp1);
+  t.assert.strictEqual(ret, resp1);
 });
 
-test.serial('nunjucks beforeRender', async t => {
+test('nunjucks beforeRender', async t => {
   let shortenFn = str =>{
     return str.slice(0, 5);
   };
@@ -61,15 +61,15 @@ test.serial('nunjucks beforeRender', async t => {
   env.addFilter('shorten', shortenFn);
   let resp2 = env.render('admin.njk', viewData);
 
-  t.is(ret, resp2);
+  t.assert.strictEqual(ret, resp2);
 });
 
-test.serial('nunjucks file not found cause reject', async t => {
+test('nunjucks file not found cause reject', async t => {
   let viewFile = path.join(viewBasePath, 'error.njk');
   let nunjucks = new Nunjucks(viewFile, viewData, {viewPath: viewBasePath});
   try {
     let ret = await nunjucks.render();
   }catch(e) {
-    t.pass();
+    t.assert.ok(true);
   }
 });

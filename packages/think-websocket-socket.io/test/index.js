@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const http = require('http');
 const helper = require('think-helper');
 const exec = require('child_process').exec;
@@ -72,7 +72,7 @@ test('socketio', t => {
   socketioInst.run();
   socketioInst.emit(event, data, socket);
   socketioInst.broadcast(event, data, socket);
-  t.true(true);
+  t.assert.strictEqual(true, true);
 });
 
 
@@ -91,7 +91,7 @@ test('socketio #2', t => {
   socketioInst.run();
   socketioInst.emit(event, data, socket);
   socketioInst.broadcast(event, data, socket);
-  t.true(true);
+  t.assert.strictEqual(true, true);
 });
 
 
@@ -118,5 +118,5 @@ test('socketio #4', t => {
   socketioInst.run();
   socketioInst.emit(event, data, socket);
   socketioInst.broadcast(event, data, socket);
-  t.true(true);
+  t.assert.strictEqual(true, true);
 });

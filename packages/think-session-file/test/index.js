@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test, beforeEach, afterEach} = require('node:test');
 const path = require('path');
 const mock = require('mock-require');
 
@@ -72,13 +72,13 @@ function sleep(dur) {
   });
 }
 
-test.beforeEach(t => {
+beforeEach(t => {
   var fs = require('fs');
   fs.__readFile = fs.readFile;
   fs.__unlink = fs.unlink;
 });
 
-test.serial('1. set and get session data without maxAge', t => {
+test('1. set and get session data without maxAge', t => {
   const cookieName = fileList[0];
   return new Promise(async (resolve, reject) => {
     const options = {
@@ -100,18 +100,18 @@ test.serial('1. set and get session data without maxAge', t => {
     }
     const fileSession = new FileSession(options, ctx);
     await fileSession.set('abc', '123');
-    t.deepEqual(fileSession.data, {
+    t.assert.deepStrictEqual(fileSession.data, {
       'abc': '123'
     });
    
     await sleep(100);
     const fileSession1 = new FileSession(options, ctx);
     const data = await fileSession1.get('abc');
-    t.is(data, undefined);// session expired, so data is deleted;
-    t.is(fileSession1.status, -1);
+    t.assert.strictEqual(data, undefined);// session expired, so data is deleted;
+    t.assert.strictEqual(fileSession1.status, -1);
     
     const data1 = await fileSession1.get();
-    t.deepEqual(data1, {});
+    t.assert.deepStrictEqual(data1, {});
 
    
     const fileSession2 = new FileSession(options, ctx);
@@ -119,12 +119,12 @@ test.serial('1. set and get session data without maxAge', t => {
     fileSession2.get('abc');//just for covering line 45
 
     fileSession1.gc();
-    t.deepEqual(param, [sessionPath]);
+    t.assert.deepStrictEqual(param, [sessionPath]);
     resolve();
   });
 });
 
-test.serial('2. set and get session data with maxAge', t => {
+test('2. set and get session data with maxAge', t => {
   const cookieName = fileList[1];
   return new Promise(async (resolve, reject) => {
     const options = {
@@ -147,23 +147,23 @@ test.serial('2. set and get session data with maxAge', t => {
     }
     const fileSession = new FileSession(options, ctx);
     await fileSession.set('abc', '123');
-    t.deepEqual(fileSession.data, {
+    t.assert.deepStrictEqual(fileSession.data, {
       'abc': '123'
     });
    
     await sleep(100);
     const fileSession1 = new FileSession(options, ctx);
     const data = await fileSession1.get('abc');
-    t.is(data, '123');// Session data is still accessible.
+    t.assert.strictEqual(data, '123');// Session data is still accessible.
 
-    t.is(fileSession1.status, 0);
+    t.assert.strictEqual(fileSession1.status, 0);
    
     fileSession1.gc();
-    t.deepEqual(param, [sessionPath]);
+    t.assert.deepStrictEqual(param, [sessionPath]);
     resolve();
   });
 });
-test.serial('3. set and get session data 2', t => {
+test('3. set and get session data 2', t => {
   const cookieName = fileList[2];
   return new Promise(async (resolve, reject) => {
     const options = {
@@ -185,22 +185,22 @@ test.serial('3. set and get session data 2', t => {
     }
     const fileSession = new FileSession(options, ctx);
     await fileSession.set('abc', '123');
-    t.deepEqual(fileSession.data, {
+    t.assert.deepStrictEqual(fileSession.data, {
       'abc': '123'
     });
    
     await sleep(100);
     const fileSession1 = new FileSession(options, ctx);
     const data = await fileSession1.get('abc');
-    t.is(data, undefined);// Session data is still accessible.
+    t.assert.strictEqual(data, undefined);// Session data is still accessible.
 
-    t.is(fileSession1.status, -1);
+    t.assert.strictEqual(fileSession1.status, -1);
    
    
     resolve();
   });
 });
-test.serial('4. set and gc when content empty', t => {
+test('4. set and gc when content empty', t => {
   const cookieName = fileList[3];
   return new Promise(async (resolve, reject) => {
     const options = {
@@ -224,7 +224,7 @@ test.serial('4. set and gc when content empty', t => {
     fileStoreData[path.join(sessionPath, cookieName)] = '{}';
     const fileSession = new FileSession(options, ctx);
     await fileSession.set('abc', '123');
-    t.deepEqual(fileSession.data, {
+    t.assert.deepStrictEqual(fileSession.data, {
       'abc': '123'
     });
    
@@ -238,12 +238,12 @@ test.serial('4. set and gc when content empty', t => {
     });
     const fileSession1 = new FileSession(options, ctx);
     await fileSession1.get('abc');
-    t.deepEqual(fileSession1.data, {});
+    t.assert.deepStrictEqual(fileSession1.data, {});
 
     resolve();
   });
 });
-test.afterEach(t => {
+afterEach(t => {
   var fs = require('fs');
   fs.readFile = fs.__readFile;
   fs.unlink = fs.__unlink;

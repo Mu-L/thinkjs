@@ -199,11 +199,9 @@ module.exports = class Application {
      */
     const runInJest = JEST_WORKER_ID !== undefined;
     /**
-     * https://github.com/avajs/ava/blob/master/docs/01-writing-tests.md
-     * AVA will set process.env.NODE_ENV to test, unless the
-     * NODE_ENV environment variable has been set.
+     * Test runners and user scripts can identify the test environment through NODE_ENV.
      */
-    const runInAva = NODE_ENV === 'test';
+    const runInTestEnvironment = NODE_ENV === 'test';
 
     /**
      * https://github.com/AndreasPizsa/detect-mocha/blob/master/index.js
@@ -221,7 +219,7 @@ module.exports = class Application {
      * Other Test framework we can't detect should add environment * by user
      */
     const runInUserDefine = !!THINK_UNIT_TEST;
-    return runInJest || runInAva || runInMocha || runInUserDefine;
+    return runInJest || runInTestEnvironment || runInMocha || runInUserDefine;
   }
   /**
    * run

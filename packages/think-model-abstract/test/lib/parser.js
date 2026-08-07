@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const helper = require('think-helper');
 const Parser = require('../../lib/parser');
 
@@ -21,20 +21,20 @@ test('init', ('init', t => {
   const instance = getParserInstance();
   // const keys = Object.keys(instance.comparison).sort();
   // t.deepEqual(keys, [ '<>', 'EGT', 'ELT', 'EQ', 'GT', 'ILIKE', 'IN', 'LIKE', 'LT', 'NEQ', 'NOTILIKE', 'NOTIN', 'NOTLIKE' ]);
-  t.is(instance.selectSql, undefined);
-  t.is(instance.comparison, undefined);
+  t.assert.strictEqual(instance.selectSql, undefined);
+  t.assert.strictEqual(instance.comparison, undefined);
 }));
 
 test('parseExplain', t => {
   const instance = getParserInstance();
   const data = instance.parseExplain();
-  t.is(data, '');
+  t.assert.strictEqual(data, '');
 });
 
 test('parseExplain true', t => {
   const instance = getParserInstance();
   const data = instance.parseExplain(true);
-  t.is(data, 'EXPLAIN ');
+  t.assert.strictEqual(data, 'EXPLAIN ');
 });
 
 test('parseSet', t => {
@@ -42,7 +42,7 @@ test('parseSet', t => {
   const data = instance.parseSet({
     name: 'lizheming'
   });
-  t.is(data, " SET `name`='lizheming'");
+  t.assert.strictEqual(data, " SET `name`='lizheming'");
 });
 
 test('parseSet, has extra value', t => {
@@ -51,99 +51,99 @@ test('parseSet, has extra value', t => {
     name: 'lizheming',
     value: ['array']
   });
-  t.is(data, " SET `name`='lizheming'");
+  t.assert.strictEqual(data, " SET `name`='lizheming'");
 });
 
 test('parseSet, empty', t => {
   const instance = getParserInstance();
   const data = instance.parseSet();
-  t.is(data, '');
+  t.assert.strictEqual(data, '');
 });
 
 test('parseKey is function', t => {
   const instance = getParserInstance();
   const key = instance.parseKey('key');
-  t.is(key, '`key`');
+  t.assert.strictEqual(key, '`key`');
 });
 
 test('parseKey is function 2', t => {
   const instance = getParserInstance();
   const key = instance.parseKey('key()');
-  t.is(key, 'key()');
+  t.assert.strictEqual(key, 'key()');
 });
 
 test('parseValue, string', t => {
   const instance = getParserInstance();
   const key = instance.parseValue('key');
-  t.is(key, "'key'");
+  t.assert.strictEqual(key, "'key'");
 });
 
 test('parseValue, array, exp', t => {
   const instance = getParserInstance();
   const key = instance.parseValue(['exp', 'lizheming']);
-  t.is(key, 'lizheming');
+  t.assert.strictEqual(key, 'lizheming');
 });
 
 test('parseValue, array, exp #2', t => {
   const instance = getParserInstance();
   const key = instance.parseValue(['exp', 'lizhemi()ng']);
-  t.is(key, 'lizhemi()ng');
+  t.assert.strictEqual(key, 'lizhemi()ng');
 });
 
 test('parseValue, null', t => {
   const instance = getParserInstance();
   const key = instance.parseValue(null);
-  t.is(key, 'null');
+  t.assert.strictEqual(key, 'null');
 });
 
 test('parseValue, boolean, true', t => {
   const instance = getParserInstance();
   const key = instance.parseValue(true);
-  t.is(key, '1');
+  t.assert.strictEqual(key, '1');
 });
 
 test('parseValue, boolean, false', t => {
   const instance = getParserInstance();
   const key = instance.parseValue(false);
-  t.is(key, '0');
+  t.assert.strictEqual(key, '0');
 });
 
 test('parseValue, object', t => {
   const instance = getParserInstance();
   const key = instance.parseValue({});
-  t.deepEqual(key, {});
+  t.assert.deepStrictEqual(key, {});
 });
 
 test('parseValue, buffer', t => {
   const instance = getParserInstance();
   const key = instance.parseValue(Buffer.from([1, 2, 3, 4, 255]));
-  t.is(key, "X'01020304ff'");
+  t.assert.strictEqual(key, "X'01020304ff'");
 });
 
 test('parseField, empty', t => {
   const instance = getParserInstance();
   const key = instance.parseField();
-  t.deepEqual(key, '*');
+  t.assert.deepStrictEqual(key, '*');
 });
 
 test('parseField, empty array', t => {
   const instance = getParserInstance();
   const key = instance.parseField([]);
-  t.deepEqual(key, '*');
+  t.assert.deepStrictEqual(key, '*');
 });
 
 
 test('parseField, empty object', t => {
   const instance = getParserInstance();
   const key = instance.parseField({});
-  t.deepEqual(key, '*');
+  t.assert.deepStrictEqual(key, '*');
 });
 
 
 test('parseField, single field', t => {
   const instance = getParserInstance();
   const key = instance.parseField('name');
-  t.deepEqual(key, '`name`');
+  t.assert.deepStrictEqual(key, '`name`');
 });
 
 test('parseField, string field with alias', t => {
@@ -151,31 +151,31 @@ test('parseField, string field with alias', t => {
   const key = instance.parseField('name', {
     alias: 'u'
   });
-  t.deepEqual(key, '`u`.`name`');
+  t.assert.deepStrictEqual(key, '`u`.`name`');
 });
 
 test('parseField, single field with ()', t => {
   const instance = getParserInstance();
   const key = instance.parseField('(name)');
-  t.deepEqual(key, '(name)');
+  t.assert.deepStrictEqual(key, '(name)');
 });
 
 test('parseField, multi field', t => {
   const instance = getParserInstance();
   const key = instance.parseField('name,title');
-  t.deepEqual(key, '`name`,`title`');
+  t.assert.deepStrictEqual(key, '`name`,`title`');
 });
 
 test('parseField, multi field #2', t => {
   const instance = getParserInstance();
   const key = instance.parseField('name, title');
-  t.deepEqual(key, '`name`,`title`');
+  t.assert.deepStrictEqual(key, '`name`,`title`');
 });
 
 test('parseField, array', t => {
   const instance = getParserInstance();
   const key = instance.parseField(['name', 'title'], { alias: 'u' });
-  t.deepEqual(key, '`u`.`name`,`u`.`title`');
+  t.assert.deepStrictEqual(key, '`u`.`name`,`u`.`title`');
 });
 
 test('parseField, object', t => {
@@ -184,31 +184,31 @@ test('parseField, object', t => {
     name: 'name',
     title1: 'title'
   });
-  t.deepEqual(key, '`name` AS `name`,`title1` AS `title`');
+  t.assert.deepStrictEqual(key, '`name` AS `name`,`title1` AS `title`');
 });
 
 test('parseTable, empty', t => {
   const instance = getParserInstance();
   const key = instance.parseTable();
-  t.deepEqual(key, '');
+  t.assert.deepStrictEqual(key, '');
 });
 
 test('parseTable, string', t => {
   const instance = getParserInstance();
   const key = instance.parseTable('user');
-  t.deepEqual(key, '`user`');
+  t.assert.deepStrictEqual(key, '`user`');
 });
 
 test('parseTable, string with alias', t => {
   const instance = getParserInstance();
   const key = instance.parseTable('user', { alias: 'u' });
-  t.deepEqual(key, '`user` AS u');
+  t.assert.deepStrictEqual(key, '`user` AS u');
 });
 
 test('parseTable, string, multi', t => {
   const instance = getParserInstance();
   const key = instance.parseTable('user, group');
-  t.deepEqual(key, '`user`,`group`');
+  t.assert.deepStrictEqual(key, '`user`,`group`');
 });
 
 test('parseTable, object', t => {
@@ -217,13 +217,13 @@ test('parseTable, object', t => {
     user: 'user1',
     group: 'group1'
   });
-  t.deepEqual(key, '`user` AS `user1`,`group` AS `group1`');
+  t.assert.deepStrictEqual(key, '`user` AS `user1`,`group` AS `group1`');
 });
 
 test('getLogic', t => {
   const instance = getParserInstance();
   const key = instance.getLogic({});
-  t.deepEqual(key, 'AND');
+  t.assert.deepStrictEqual(key, 'AND');
 });
 
 test('getLogic, has _logic', t => {
@@ -231,7 +231,7 @@ test('getLogic, has _logic', t => {
   const key = instance.getLogic({
     _logic: 'OR'
   });
-  t.deepEqual(key, 'OR');
+  t.assert.deepStrictEqual(key, 'OR');
 });
 
 test('getLogic, has _logic, error', t => {
@@ -239,186 +239,186 @@ test('getLogic, has _logic, error', t => {
   const key = instance.getLogic({
     _logic: 'test'
   });
-  t.deepEqual(key, 'AND');
+  t.assert.deepStrictEqual(key, 'AND');
 });
 
 test('getLogic, default is OR', t => {
   const instance = getParserInstance();
   const key = instance.getLogic({}, 'OR');
-  t.deepEqual(key, 'OR');
+  t.assert.deepStrictEqual(key, 'OR');
 });
 
 test('getLogic, string', t => {
   const instance = getParserInstance();
   const key = instance.getLogic('AND', 'OR');
-  t.deepEqual(key, 'AND');
+  t.assert.deepStrictEqual(key, 'AND');
 });
 
 test('getLogic, string, lowercase', t => {
   const instance = getParserInstance();
   const key = instance.getLogic('and', 'OR');
-  t.deepEqual(key, 'AND');
+  t.assert.deepStrictEqual(key, 'AND');
 });
 
 test('escapeString is function', t => {
   const instance = getParserInstance();
-  t.true(helper.isFunction(instance.escapeString));
+  t.assert.strictEqual(helper.isFunction(instance.escapeString), true);
 });
 
 test('parseLock, empty', t => {
   const instance = getParserInstance();
   const data = instance.parseLock();
-  t.is(data, '');
+  t.assert.strictEqual(data, '');
 });
 
 test('parseLock, true', t => {
   const instance = getParserInstance();
   const data = instance.parseLock(true);
-  t.is(data, ' FOR UPDATE ');
+  t.assert.strictEqual(data, ' FOR UPDATE ');
 });
 
 test('parseDistinct, empty', t => {
   const instance = getParserInstance();
   const data = instance.parseDistinct();
-  t.is(data, '');
+  t.assert.strictEqual(data, '');
 });
 
 test('parseDistinct, true', t => {
   const instance = getParserInstance();
   const data = instance.parseDistinct(true);
-  t.is(data, ' DISTINCT');
+  t.assert.strictEqual(data, ' DISTINCT');
 });
 
 test('parseComment, empty', t => {
   const instance = getParserInstance();
   const data = instance.parseComment();
-  t.is(data, '');
+  t.assert.strictEqual(data, '');
 });
 
 test('parseComment, lizheming test', t => {
   const instance = getParserInstance();
   const data = instance.parseComment('lizheming test');
-  t.is(data, ' /*lizheming test*/');
+  t.assert.strictEqual(data, ' /*lizheming test*/');
 });
 
 test('parseHaving, empty', t => {
   const instance = getParserInstance();
   const data = instance.parseHaving();
-  t.is(data, '');
+  t.assert.strictEqual(data, '');
 });
 
 test('parseHaving, SUM(area)>1000000', t => {
   const instance = getParserInstance();
   const data = instance.parseHaving('SUM(area)>1000000');
-  t.is(data, ' HAVING SUM(area)>1000000');
+  t.assert.strictEqual(data, ' HAVING SUM(area)>1000000');
 });
 
 test('parseGroup, empty', t => {
   const instance = getParserInstance();
   const data = instance.parseGroup();
-  t.is(data, '');
+  t.assert.strictEqual(data, '');
 });
 
 test('parseGroup, name', t => {
   const instance = getParserInstance();
   const data = instance.parseGroup('name');
-  t.is(data, ' GROUP BY `name`');
+  t.assert.strictEqual(data, ' GROUP BY `name`');
 });
 
 test('parseGroup, name #2', t => {
   const instance = getParserInstance();
   const data = instance.parseGroup("date_format(create_time,'%Y-%m-%d')");
-  t.is(data, " GROUP BY date_format(create_time,'%Y-%m-%d')");
+  t.assert.strictEqual(data, " GROUP BY date_format(create_time,'%Y-%m-%d')");
 });
 
 test('parseGroup, name,title', t => {
   const instance = getParserInstance();
   const data = instance.parseGroup('name, title');
-  t.is(data, ' GROUP BY `name`,`title`');
+  t.assert.strictEqual(data, ' GROUP BY `name`,`title`');
 });
 
 test('parseGroup, user.name,title', t => {
   const instance = getParserInstance();
   const data = instance.parseGroup(['user.name', 'title']);
-  t.is(data, ' GROUP BY user.`name`,`title`');
+  t.assert.strictEqual(data, ' GROUP BY user.`name`,`title`');
 });
 
 test('parseOrder, empty', t => {
   const instance = getParserInstance();
   const data = instance.parseOrder();
-  t.is(data, '');
+  t.assert.strictEqual(data, '');
 });
 
 test('parseOrder, array', t => {
   const instance = getParserInstance();
   const data = instance.parseOrder(['name ASC', 'title DESC']);
-  t.is(data, ' ORDER BY name ASC,title DESC');
+  t.assert.strictEqual(data, ' ORDER BY name ASC,title DESC');
 });
 
 test('parseOrder, string', t => {
   const instance = getParserInstance();
   const data = instance.parseOrder('name ASC,title DESC');
-  t.is(data, ' ORDER BY name ASC,title DESC');
+  t.assert.strictEqual(data, ' ORDER BY name ASC,title DESC');
 });
 
 test('parseOrder, object', t => {
   const instance = getParserInstance();
   const data = instance.parseOrder({ name: 'ASC', 'title': 'DESC' });
-  t.is(data, ' ORDER BY `name` ASC,`title` DESC');
+  t.assert.strictEqual(data, ' ORDER BY `name` ASC,`title` DESC');
 });
 
 test('parseLimit, empty', t => {
   const instance = getParserInstance();
   const data = instance.parseLimit();
-  t.is(data, '');
+  t.assert.strictEqual(data, '');
 });
 
 test('parseLimit, 10', t => {
   const instance = getParserInstance();
   const data = instance.parseLimit('10');
-  t.is(data, ' LIMIT 10');
+  t.assert.strictEqual(data, ' LIMIT 10');
 });
 
 test('parseLimit, number', t => {
   const instance = getParserInstance();
   const data = instance.parseLimit(10);
-  t.is(data, ' LIMIT 10');
+  t.assert.strictEqual(data, ' LIMIT 10');
 });
 
 test('parseLimit, 10, 20', t => {
   const instance = getParserInstance();
   const data = instance.parseLimit('10, 20');
-  t.is(data, ' LIMIT 10,20');
+  t.assert.strictEqual(data, ' LIMIT 10,20');
 });
 
 test('parseLimit, 10, lizheming', t => {
   const instance = getParserInstance();
   const data = instance.parseLimit('10, lizheming');
-  t.is(data, ' LIMIT 10,0');
+  t.assert.strictEqual(data, ' LIMIT 10,0');
 });
 
 test('parseLimit, [20, 10]', t => {
   const instance = getParserInstance();
   const data = instance.parseLimit([20, 10]);
-  t.is(data, ' LIMIT 20,10');
+  t.assert.strictEqual(data, ' LIMIT 20,10');
 });
 
 test('parseJoin, empty', t => {
   const instance = getParserInstance();
   const data = instance.parseJoin();
-  t.is(data, '');
+  t.assert.strictEqual(data, '');
 });
 
 test('parseJoin, single string', t => {
   const instance = getParserInstance();
   const data = instance.parseJoin('meinv_cate ON meinv_group.cate_id=meinv_cate.id');
-  t.is(data, ' LEFT JOIN meinv_cate ON meinv_group.cate_id=meinv_cate.id');
+  t.assert.strictEqual(data, ' LEFT JOIN meinv_cate ON meinv_group.cate_id=meinv_cate.id');
 });
 
 test('parseJoin, multi string', t => {
   const instance = getParserInstance();
   const data = instance.parseJoin(['meinv_cate ON meinv_group.cate_id=meinv_cate.id', 'RIGHT JOIN meinv_tag ON meinv_group.tag_id=meinv_tag.id']);
-  t.is(data, ' LEFT JOIN meinv_cate ON meinv_group.cate_id=meinv_cate.id RIGHT JOIN meinv_tag ON meinv_group.tag_id=meinv_tag.id');
+  t.assert.strictEqual(data, ' LEFT JOIN meinv_cate ON meinv_group.cate_id=meinv_cate.id RIGHT JOIN meinv_tag ON meinv_group.tag_id=meinv_tag.id');
 });
 
 test('parseJoin, array', t => {
@@ -432,7 +432,7 @@ test('parseJoin, array', t => {
     tablePrefix: '',
     table: 'user'
   });
-  t.is(data, ' INNER JOIN `cate` AS `c` ON `user`.`cate_id` = `c`.`id`');
+  t.assert.strictEqual(data, ' INNER JOIN `cate` AS `c` ON `user`.`cate_id` = `c`.`id`');
 });
 
 test('parseJoin, array #2', t => {
@@ -449,7 +449,7 @@ test('parseJoin, array #2', t => {
     tablePrefix: '',
     table: 'user'
   });
-  t.is(data, ' INNER JOIN `cate` AS `c` ON (user.cate_id=`c`.`id` AND `user`.`cate_id` > 100)');
+  t.assert.strictEqual(data, ' INNER JOIN `cate` AS `c` ON (user.cate_id=`c`.`id` AND `user`.`cate_id` > 100)');
 });
 
 test('parseJoin, array, no on', t => {
@@ -462,7 +462,7 @@ test('parseJoin, array, no on', t => {
     tablePrefix: '',
     table: 'user'
   });
-  t.is(data, ' INNER JOIN `cate` AS `c`');
+  t.assert.strictEqual(data, ' INNER JOIN `cate` AS `c`');
 });
 
 test('parseJoin, array, no on table with .', t => {
@@ -475,7 +475,7 @@ test('parseJoin, array, no on table with .', t => {
     tablePrefix: '',
     table: 'user'
   });
-  t.is(data, ' INNER JOIN db2.cate AS `c`');
+  t.assert.strictEqual(data, ' INNER JOIN db2.cate AS `c`');
 });
 
 test('parseJoin, array, ignore not object', t => {
@@ -488,7 +488,7 @@ test('parseJoin, array, ignore not object', t => {
     tablePrefix: '',
     table: 'user'
   });
-  t.is(data, ' INNER JOIN `cate` AS `c`');
+  t.assert.strictEqual(data, ' INNER JOIN `cate` AS `c`');
 });
 
 test('parseJoin, array, multi', t => {
@@ -507,7 +507,7 @@ test('parseJoin, array, multi', t => {
     tablePrefix: '',
     table: 'user'
   });
-  t.is(data, ' LEFT JOIN `cate` AS `c` ON `user`.`cate_id` = `c`.`id` LEFT JOIN `group_tag` AS `d` ON `user`.`id` = `d`.`group_id`');
+  t.assert.strictEqual(data, ' LEFT JOIN `cate` AS `c` ON `user`.`cate_id` = `c`.`id` LEFT JOIN `group_tag` AS `d` ON `user`.`id` = `d`.`group_id`');
 });
 
 test('parseJoin, array, multi 1', t => {
@@ -528,7 +528,7 @@ test('parseJoin, array, multi 1', t => {
     table: 'user'
   });
 
-  t.is(data, ' LEFT JOIN `cate` AS `c` ON `user`.`id` = `c`.`id` LEFT JOIN `group_tag` AS `d` ON `user`.`id` = `d`.`group_id`');
+  t.assert.strictEqual(data, ' LEFT JOIN `cate` AS `c` ON `user`.`id` = `c`.`id` LEFT JOIN `group_tag` AS `d` ON `user`.`id` = `d`.`group_id`');
 });
 
 test('parseJoin, array, multi 2', t => {
@@ -544,7 +544,7 @@ test('parseJoin, array, multi 2', t => {
     tablePrefix: '',
     table: 'user'
   });
-  t.is(data, ' LEFT JOIN `cate` ON `user`.`id` = `cate`.`id` LEFT JOIN `group_tag` ON `user`.`id` = `group_tag`.`group_id`');
+  t.assert.strictEqual(data, ' LEFT JOIN `cate` ON `user`.`id` = `cate`.`id` LEFT JOIN `group_tag` ON `user`.`id` = `group_tag`.`group_id`');
 });
 
 test('parseJoin, array, multi 3', t => {
@@ -566,7 +566,7 @@ test('parseJoin, array, multi 3', t => {
     tablePrefix: '',
     table: 'user'
   });
-  t.is(data, ' LEFT JOIN `cate` ON `user`.`id` = `cate`.`id` LEFT JOIN `group_tag` ON `user`.`id` = `group_tag`.`group_id` LEFT JOIN `tag` ON (`user`.`id`=`tag`.`id` AND `user`.`title`=`tag`.`name`)');
+  t.assert.strictEqual(data, ' LEFT JOIN `cate` ON `user`.`id` = `cate`.`id` LEFT JOIN `group_tag` ON `user`.`id` = `group_tag`.`group_id` LEFT JOIN `tag` ON (`user`.`id`=`tag`.`id` AND `user`.`title`=`tag`.`name`)');
 });
 
 test('parseJoin, array, multi 4, on has table name', t => {
@@ -588,7 +588,7 @@ test('parseJoin, array, multi 4, on has table name', t => {
     tablePrefix: '',
     table: 'user'
   });
-  t.is(data, ' LEFT JOIN `cate` ON `user`.`id` = `cate`.`id` LEFT JOIN `group_tag` ON `user`.`id` = `group_tag`.`group_id` LEFT JOIN `tag` ON (`user`.`id`=`tag`.`id` AND `user`.`title`=tag.name)');
+  t.assert.strictEqual(data, ' LEFT JOIN `cate` ON `user`.`id` = `cate`.`id` LEFT JOIN `group_tag` ON `user`.`id` = `group_tag`.`group_id` LEFT JOIN `tag` ON (`user`.`id`=`tag`.`id` AND `user`.`title`=tag.name)');
 });
 
 test('parseJoin, array, multi 4, on has table name 1', t => {
@@ -610,7 +610,7 @@ test('parseJoin, array, multi 4, on has table name 1', t => {
     tablePrefix: '',
     table: 'user'
   });
-  t.is(data, ' LEFT JOIN `cate` ON `user`.`id` = `cate`.`id` LEFT JOIN `group_tag` ON `user`.`id` = `group_tag`.`group_id` LEFT JOIN `tag` ON (`user`.`id`=`tag`.`id` AND `user`.`title`=`tag`.`name`)');
+  t.assert.strictEqual(data, ' LEFT JOIN `cate` ON `user`.`id` = `cate`.`id` LEFT JOIN `group_tag` ON `user`.`id` = `group_tag`.`group_id` LEFT JOIN `tag` ON (`user`.`id`=`tag`.`id` AND `user`.`title`=`tag`.`name`)');
 });
 
 test('parseJoin, array, multi 4', t => {
@@ -632,7 +632,7 @@ test('parseJoin, array, multi 4', t => {
     tablePrefix: '',
     table: 'user'
   });
-  t.is(data, ' LEFT JOIN `cate` ON `user`.`id` = `cate`.`id` LEFT JOIN `group_tag` ON `user`.`id` = `group_tag`.`group_id` LEFT JOIN `tag` ON (`user`.`id`=`tag`.`id` AND u1.title=tag.name)');
+  t.assert.strictEqual(data, ' LEFT JOIN `cate` ON `user`.`id` = `cate`.`id` LEFT JOIN `group_tag` ON `user`.`id` = `group_tag`.`group_id` LEFT JOIN `tag` ON (`user`.`id`=`tag`.`id` AND u1.title=tag.name)');
 });
 
 test('parseJoin, array, table is sql', t => {
@@ -646,7 +646,7 @@ test('parseJoin, array, table is sql', t => {
     tablePrefix: '',
     table: 'user'
   });
-  t.is(data, ' LEFT JOIN (SELECT * FROM test WHERE 1=1) AS `temp` ON `user`.`id` = temp.team_id');
+  t.assert.strictEqual(data, ' LEFT JOIN (SELECT * FROM test WHERE 1=1) AS `temp` ON `user`.`id` = temp.team_id');
 });
 
 test('parseJoin, array, table is sql 1', t => {
@@ -660,7 +660,7 @@ test('parseJoin, array, table is sql 1', t => {
     tablePrefix: '',
     table: 'user'
   });
-  t.is(data, ' LEFT JOIN (SELECT * FROM test WHERE 1=1) AS `temp` ON u.id = temp.team_id');
+  t.assert.strictEqual(data, ' LEFT JOIN (SELECT * FROM test WHERE 1=1) AS `temp` ON u.id = temp.team_id');
 });
 
 test('parseJoin, array, table is sql 2', t => {
@@ -674,7 +674,7 @@ test('parseJoin, array, table is sql 2', t => {
     tablePrefix: '',
     table: 'user'
   });
-  t.is(data, ' LEFT JOIN (SELECT * FROM test WHERE 1=1) AS `temp` ON `user`.`id` = `temp`.`team_id`');
+  t.assert.strictEqual(data, ' LEFT JOIN (SELECT * FROM test WHERE 1=1) AS `temp` ON `user`.`id` = `temp`.`team_id`');
 });
 
 test('parseJoin, array, table is sql 3', t => {
@@ -688,191 +688,191 @@ test('parseJoin, array, table is sql 3', t => {
     tablePrefix: '',
     table: 'user'
   });
-  t.is(data, ' LEFT JOIN (SELECT * FROM test WHERE 1=1) AS `temp` ON `user`.`id` = `temp`.`team_id`');
+  t.assert.strictEqual(data, ' LEFT JOIN (SELECT * FROM test WHERE 1=1) AS `temp` ON `user`.`id` = `temp`.`team_id`');
 });
 
 test('parseThinkWhere, key is empty, ignore valud', t => {
   const instance = getParserInstance();
   const data = instance.parseThinkWhere('', 'SELECT * FROM user');
-  t.is(data, '');
+  t.assert.strictEqual(data, '');
 });
 
 test('parseThinkWhere, _string', t => {
   const instance = getParserInstance();
   const data = instance.parseThinkWhere('_string', 'SELECT * FROM user');
-  t.is(data, 'SELECT * FROM user');
+  t.assert.strictEqual(data, 'SELECT * FROM user');
 });
 
 test('parseThinkWhere, _query', t => {
   const instance = getParserInstance();
   const data = instance.parseThinkWhere('_query', 'name=lizheming&name1=suredy');
-  t.is(data, '`name` = \'lizheming\' AND `name1` = \'suredy\'');
+  t.assert.strictEqual(data, '`name` = \'lizheming\' AND `name1` = \'suredy\'');
 });
 
 test('parseThinkWhere, _query, with logic', t => {
   const instance = getParserInstance();
   const data = instance.parseThinkWhere('_query', 'name=lizheming&name1=suredy&_logic=OR');
-  t.is(data, '`name` = \'lizheming\' OR `name1` = \'suredy\'');
+  t.assert.strictEqual(data, '`name` = \'lizheming\' OR `name1` = \'suredy\'');
 });
 
 test('parseThinkWhere, _query, object', t => {
   const instance = getParserInstance();
   const data = instance.parseThinkWhere('_query', { name: 'lizheming', name1: 'suredy' });
-  t.is(data, '`name` = \'lizheming\' AND `name1` = \'suredy\'');
+  t.assert.strictEqual(data, '`name` = \'lizheming\' AND `name1` = \'suredy\'');
 });
 
 test('parseWhere, empty', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere();
-  t.is(data, '');
+  t.assert.strictEqual(data, '');
 });
 
 test('parseWhere, empty 1', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ _logic: 'AND' });
-  t.is(data, '');
+  t.assert.strictEqual(data, '');
 });
 
 test('parseWhere, 1=1', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ 1: 1 });
-  t.is(data, ' WHERE ( 1 = 1 )');
+  t.assert.strictEqual(data, ' WHERE ( 1 = 1 )');
 });
 
 test('parseWhere, key is not valid', t => {
   const instance = getParserInstance();
   try {
     instance.parseWhere({ '&*&*&*': 'title' });
-    t.fail('parseWhere fail without error when key is not valid');
+    t.assert.fail('parseWhere fail without error when key is not valid');
   } catch (e) {
-    t.pass();
+    t.assert.ok(true);
   }
 });
 
 test('parseWhere, string & object', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ title: 'lizheming', _string: 'status=1' });
-  t.is(data, ' WHERE ( `title` = \'lizheming\' ) AND ( status=1 )');
+  t.assert.strictEqual(data, ' WHERE ( `title` = \'lizheming\' ) AND ( status=1 )');
 });
 
 test('parseWhere, null', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ title: null });
-  t.is(data, ' WHERE ( `title` IS NULL )');
+  t.assert.strictEqual(data, ' WHERE ( `title` IS NULL )');
 });
 
 test('parseWhere, null 1', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ title: { '=': null } });
-  t.is(data, ' WHERE ( `title` IS NULL )');
+  t.assert.strictEqual(data, ' WHERE ( `title` IS NULL )');
 });
 
 test('parseWhere, null 2', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ title: ['=', null] });
-  t.is(data, ' WHERE ( `title` IS NULL )');
+  t.assert.strictEqual(data, ' WHERE ( `title` IS NULL )');
 });
 
 test('parseWhere, not null', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ title: { '!=': null } });
-  t.is(data, ' WHERE ( `title` IS NOT NULL )');
+  t.assert.strictEqual(data, ' WHERE ( `title` IS NOT NULL )');
 });
 
 test('parseWhere, not null 1', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ title: ['!=', null] });
-  t.is(data, ' WHERE ( `title` IS NOT NULL )');
+  t.assert.strictEqual(data, ' WHERE ( `title` IS NOT NULL )');
 });
 
 test('parseWhere, object', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ id: 10 });
-  t.is(data, ' WHERE ( `id` = 10 )');
+  t.assert.strictEqual(data, ' WHERE ( `id` = 10 )');
 });
 
 test('parseWhere, object IN number', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ id: { IN: [1, 2, 3] } });
-  t.is(data, ' WHERE ( `id` IN (1, 2, 3) )');
+  t.assert.strictEqual(data, ' WHERE ( `id` IN (1, 2, 3) )');
 });
 
 test('parseWhere, IN number string', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ id: [1, 2, 3] });
-  t.is(data, ' WHERE ( `id` IN ( 1, 2, 3 ) )');
+  t.assert.strictEqual(data, ' WHERE ( `id` IN ( 1, 2, 3 ) )');
 });
 
 test('parseWhere, object 1', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ id: [1, 10, 'string'] });
-  t.is(data, ' WHERE ( (`id` = 1) AND (`id` = 10) AND (`id` = \'string\') )');
+  t.assert.strictEqual(data, ' WHERE ( (`id` = 1) AND (`id` = 10) AND (`id` = \'string\') )');
 });
 
 test('parseWhere, IN number string #2', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ id: ['1', '2', '3'] });
-  t.is(data, ' WHERE ( `id` IN ( 1, 2, 3 ) )');
+  t.assert.strictEqual(data, ' WHERE ( `id` IN ( 1, 2, 3 ) )');
 });
 
 test('parseWhere, object IN number string', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ id: { IN: ['1', '2', '3'] } });
-  t.is(data, ' WHERE ( `id` IN (\'1\', \'2\', \'3\') )');
+  t.assert.strictEqual(data, ' WHERE ( `id` IN (\'1\', \'2\', \'3\') )');
 });
 
 test('parseWhere, object 1 #2', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ id: ['!=', 10] });
-  t.is(data, ' WHERE ( `id` != 10 )');
+  t.assert.strictEqual(data, ' WHERE ( `id` != 10 )');
 });
 
 test('parseWhere, string', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere('id = 10 OR id < 2');
-  t.is(data, ' WHERE id = 10 OR id < 2');
+  t.assert.strictEqual(data, ' WHERE id = 10 OR id < 2');
 });
 
 test('parseWhere, EXP', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ name: ['EXP', "='name'"] });
-  t.is(data, ' WHERE ( (`name` =\'name\') )');
+  t.assert.strictEqual(data, ' WHERE ( (`name` =\'name\') )');
 });
 
 test('parseWhere, EXP 1', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ view_nums: ['EXP', '=view_nums+1'] });
-  t.is(data, ' WHERE ( (`view_nums` =view_nums+1) )');
+  t.assert.strictEqual(data, ' WHERE ( (`view_nums` =view_nums+1) )');
 });
 
 test('parseWhere, LIKE', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ title: ['NOTLIKE', 'lizheming'] });
-  t.is(data, ' WHERE ( `title` NOT LIKE \'lizheming\' )');
+  t.assert.strictEqual(data, ' WHERE ( `title` NOT LIKE \'lizheming\' )');
 });
 
 test('parseWhere, LIKE 1', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ title: ['like', '%lizheming%'] });
-  t.is(data, ' WHERE ( `title` LIKE \'%lizheming%\' )');
+  t.assert.strictEqual(data, ' WHERE ( `title` LIKE \'%lizheming%\' )');
 });
 
 test('parseWhere, LIKE 2', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ title: ['like', ['lizheming', 'suredy']] });
-  t.is(data, ' WHERE ( (`title` LIKE \'lizheming\' OR `title` LIKE \'suredy\') )');
+  t.assert.strictEqual(data, ' WHERE ( (`title` LIKE \'lizheming\' OR `title` LIKE \'suredy\') )');
 });
 
 test('parseWhere, LIKE 3', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ title: ['like', ['lizheming', 'suredy'], 'AND'] });
-  t.is(data, ' WHERE ( (`title` LIKE \'lizheming\' AND `title` LIKE \'suredy\') )');
+  t.assert.strictEqual(data, ' WHERE ( (`title` LIKE \'lizheming\' AND `title` LIKE \'suredy\') )');
 });
 
 test('parseWhere, key has |', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ 'title|content': ['like', '%lizheming%'] });
-  t.is(data, ' WHERE ( (`title` LIKE \'%lizheming%\') OR (`content` LIKE \'%lizheming%\') )');
+  t.assert.strictEqual(data, ' WHERE ( (`title` LIKE \'%lizheming%\') OR (`content` LIKE \'%lizheming%\') )');
 });
 
 test('parseWhere, key has |, multi', t => {
@@ -883,7 +883,7 @@ test('parseWhere, key has |, multi', t => {
     ],
     _multi: true
   });
-  t.is(data, ' WHERE ( (`title` LIKE \'%title%\') OR (`content` = \'%content%\') )');
+  t.assert.strictEqual(data, ' WHERE ( (`title` LIKE \'%title%\') OR (`content` = \'%content%\') )');
 });
 
 test('parseWhere, key has |, multi #2', t => {
@@ -894,13 +894,13 @@ test('parseWhere, key has |, multi #2', t => {
     ],
     _multi: true
   });
-  t.is(data, ' WHERE ( (`title` LIKE \'%title%\') OR (`content` = \'%content%\') )');
+  t.assert.strictEqual(data, ' WHERE ( (`title` LIKE \'%title%\') OR (`content` = \'%content%\') )');
 });
 
 test('parseWhere, key has &', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ 'title&content': ['like', '%lizheming%'] });
-  t.is(data, ' WHERE ( (`title` LIKE \'%lizheming%\') AND (`content` LIKE \'%lizheming%\') )');
+  t.assert.strictEqual(data, ' WHERE ( (`title` LIKE \'%lizheming%\') AND (`content` LIKE \'%lizheming%\') )');
 });
 
 test('parseWhere, key has &, multi', t => {
@@ -912,85 +912,85 @@ test('parseWhere, key has &, multi', t => {
     ],
     _multi: true
   });
-  t.is(data, ' WHERE ( (`title` LIKE \'%lizheming%\') AND (`content` != \'%content%\') )');
+  t.assert.strictEqual(data, ' WHERE ( (`title` LIKE \'%lizheming%\') AND (`content` != \'%content%\') )');
 });
 
 test('parseWhere, IN', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ id: ['IN', '10,20'] });
-  t.is(data, ' WHERE ( `id` IN (\'10\',\'20\') )');
+  t.assert.strictEqual(data, ' WHERE ( `id` IN (\'10\',\'20\') )');
 });
 
 test('parseWhere, IN 1', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ id: ['IN', [10, 20]] });
-  t.is(data, ' WHERE ( `id` IN (10,20) )');
+  t.assert.strictEqual(data, ' WHERE ( `id` IN (10,20) )');
 });
 
 test('parseWhere, IN 2', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ id: ['NOTIN', [10, 20]] });
-  t.is(data, ' WHERE ( `id` NOT IN (10,20) )');
+  t.assert.strictEqual(data, ' WHERE ( `id` NOT IN (10,20) )');
 });
 
 test('parseWhere, NOT IN, only one', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ id: ['NOTIN', 10] });
-  t.is(data, ' WHERE ( `id` != 10 )');
+  t.assert.strictEqual(data, ' WHERE ( `id` != 10 )');
 });
 
 test('parseWhere, IN, only one', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ id: ['IN', 10] });
-  t.is(data, ' WHERE ( `id` = 10 )');
+  t.assert.strictEqual(data, ' WHERE ( `id` = 10 )');
 });
 
 test('parseWhere, IN, object', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ id: { IN: [1, 2, 3] } });
-  t.is(data, ' WHERE ( `id` IN (1, 2, 3) )');
+  t.assert.strictEqual(data, ' WHERE ( `id` IN (1, 2, 3) )');
 });
 
 test('parseWhere, IN, has exp', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ id: ['NOTIN', '(10,20,30)', 'exp'] });
-  t.is(data, ' WHERE ( `id` NOT IN (10,20,30) )');
+  t.assert.strictEqual(data, ' WHERE ( `id` NOT IN (10,20,30) )');
 });
 
 test('parseWhere, multi fields', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ id: 10, title: 'www' });
-  t.is(data, ' WHERE ( `id` = 10 ) AND ( `title` = \'www\' )');
+  t.assert.strictEqual(data, ' WHERE ( `id` = 10 ) AND ( `title` = \'www\' )');
 });
 
 test('parseWhere, multi fields 1', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ id: 10, title: 'www', _logic: 'OR' });
-  t.is(data, ' WHERE ( `id` = 10 ) OR ( `title` = \'www\' )');
+  t.assert.strictEqual(data, ' WHERE ( `id` = 10 ) OR ( `title` = \'www\' )');
 });
 
 test('parseWhere, multi fields 2', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ id: 10, title: 'www', _logic: 'XOR' });
-  t.is(data, ' WHERE ( `id` = 10 ) XOR ( `title` = \'www\' )');
+  t.assert.strictEqual(data, ' WHERE ( `id` = 10 ) XOR ( `title` = \'www\' )');
 });
 
 test('parseWhere, BETWEEN', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ id: ['BETWEEN', 1, 2] });
-  t.is(data, ' WHERE (  (`id` BETWEEN 1 AND 2) )');
+  t.assert.strictEqual(data, ' WHERE (  (`id` BETWEEN 1 AND 2) )');
 });
 
 test('parseWhere, BETWEEN #2', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ id: ['BETWEEN', '2017-04-13 00:00:00', '2017-04-19 00:00:00'] });
-  t.is(data, ' WHERE (  (`id` BETWEEN \'2017-04-13 00:00:00\' AND \'2017-04-19 00:00:00\') )');
+  t.assert.strictEqual(data, ' WHERE (  (`id` BETWEEN \'2017-04-13 00:00:00\' AND \'2017-04-19 00:00:00\') )');
 });
 
 test('parseWhere, BETWEEN #3', t => {
   const instance = getParserInstance();
   const data = instance.parseWhere({ id: ['between', '1,2'] });
-  t.is(data, ' WHERE (  (`id` BETWEEN \'1\' AND \'2\') )');
+  t.assert.strictEqual(data, ' WHERE (  (`id` BETWEEN \'1\' AND \'2\') )');
 });
 
 test('parseWhere, error', t => {
@@ -998,7 +998,7 @@ test('parseWhere, error', t => {
   const data = instance.parseWhere({
     id: ['not between', '1,2']
   });
-  t.is(data, ' WHERE (  (`id` NOT BETWEEN \'1\' AND \'2\') )');
+  t.assert.strictEqual(data, ' WHERE (  (`id` NOT BETWEEN \'1\' AND \'2\') )');
 });
 
 test('parseWhere, complex', t => {
@@ -1009,7 +1009,7 @@ test('parseWhere, complex', t => {
       '<': 20
     }
   });
-  t.is(data, ' WHERE ( `id` > 10 AND `id` < 20 )');
+  t.assert.strictEqual(data, ' WHERE ( `id` > 10 AND `id` < 20 )');
 });
 
 test('parseWhere, complex 1', t => {
@@ -1021,7 +1021,7 @@ test('parseWhere, complex 1', t => {
       _logic: 'OR'
     }
   });
-  t.is(data, ' WHERE ( `id` > 10 OR `id` < 20 )');
+  t.assert.strictEqual(data, ' WHERE ( `id` > 10 OR `id` < 20 )');
 });
 
 test('parseWhere, complex 2', t => {
@@ -1035,7 +1035,7 @@ test('parseWhere, complex 2', t => {
     date: ['>', '2014-08-12'],
     _logic: 'OR'
   });
-  t.is(data, ' WHERE ( `id` >= 10 AND `id` <= 20 ) OR ( `title` LIKE \'%lizheming%\' ) OR ( `date` > \'2014-08-12\' )');
+  t.assert.strictEqual(data, ' WHERE ( `id` >= 10 AND `id` <= 20 ) OR ( `title` LIKE \'%lizheming%\' ) OR ( `date` > \'2014-08-12\' )');
 });
 
 test('parseWhere, complex 3', t => {
@@ -1048,7 +1048,7 @@ test('parseWhere, complex 3', t => {
       _logic: 'or'
     }
   });
-  t.is(data, ' WHERE ( `title` = \'test\' ) AND (  ( `id` IN (1,2,3) ) OR ( `content` = \'www\' ) )');
+  t.assert.strictEqual(data, ' WHERE ( `title` = \'test\' ) AND (  ( `id` IN (1,2,3) ) OR ( `content` = \'www\' ) )');
 });
 
 test('parseWhere, complex 4', t => {
@@ -1079,7 +1079,7 @@ test('parseWhere, complex 4', t => {
       }
     ]
   });
-  t.is(data, ' WHERE (  ( `id` IN (1,2,3) ) OR ( `content` = \'www\' ) ) AND (  ( `name` = \'lizheming\' ) OR ( `email` = \'lizheming@163.com\' ) OR (  ( `admin` = 1 ) AND ( `status` = 0 ) ) OR (  ( `status` = 1 ) OR ( `ip` = \'127.0.0.1\' ) ) )');
+  t.assert.strictEqual(data, ' WHERE (  ( `id` IN (1,2,3) ) OR ( `content` = \'www\' ) ) AND (  ( `name` = \'lizheming\' ) OR ( `email` = \'lizheming@163.com\' ) OR (  ( `admin` = 1 ) AND ( `status` = 0 ) ) OR (  ( `status` = 1 ) OR ( `ip` = \'127.0.0.1\' ) ) )');
 });
 
 test('parseWhere, complex 5', t => {
@@ -1097,7 +1097,7 @@ test('parseWhere, complex 5', t => {
       }
     ]
   });
-  t.is(data, ' WHERE (  ( `start_date` <= \'2017-01-01\' ) AND ( `end_date` >= \'2017-01-01\' ) ) OR (  ( `start_date` <= \'2017-01-01\' ) AND ( `end_date` >= \'2017-01-01\' ) )');
+  t.assert.strictEqual(data, ' WHERE (  ( `start_date` <= \'2017-01-01\' ) AND ( `end_date` >= \'2017-01-01\' ) ) OR (  ( `start_date` <= \'2017-01-01\' ) AND ( `end_date` >= \'2017-01-01\' ) )');
 });
 
 test('parseWhere, other', t => {
@@ -1106,9 +1106,9 @@ test('parseWhere, other', t => {
     instance.parseWhere({
       title: ['OTHER', 'dd']
     });
-    t.fail('parseWhere fail without error when other data');
+    t.assert.fail('parseWhere fail without error when other data');
   } catch (e) {
-    t.pass();
+    t.assert.ok(true);
   }
 });
 
@@ -1119,7 +1119,7 @@ test('parseWhere, array', t => {
       ['exp', '= \'lizheming\'']
     ]
   });
-  t.is(data, ' WHERE ( (`title` = \'lizheming\') )');
+  t.assert.strictEqual(data, ' WHERE ( (`title` = \'lizheming\') )');
 });
 
 test('parseWhere, array, multi', t => {
@@ -1130,7 +1130,7 @@ test('parseWhere, array, multi', t => {
       ['=', 'suredy']
     ]
   });
-  t.is(data, ' WHERE ( (`title` = \'lizheming\') AND (`title` = \'suredy\') )');
+  t.assert.strictEqual(data, ' WHERE ( (`title` = \'lizheming\') AND (`title` = \'suredy\') )');
 });
 
 test('parseWhere, array, multi， or', t => {
@@ -1142,7 +1142,7 @@ test('parseWhere, array, multi， or', t => {
       'OR'
     ]
   });
-  t.is(data, ' WHERE ( (`title` = \'lizheming\') OR (`title` = \'suredy\') )');
+  t.assert.strictEqual(data, ' WHERE ( (`title` = \'lizheming\') OR (`title` = \'suredy\') )');
 });
 
 test('parseWhere, array, multi， or #2', t => {
@@ -1154,7 +1154,7 @@ test('parseWhere, array, multi， or #2', t => {
       'OR'
     ]
   });
-  t.is(data, ' WHERE ( (`title` = \'lizheming\') OR (`title` != \'suredy\') )');
+  t.assert.strictEqual(data, ' WHERE ( (`title` = \'lizheming\') OR (`title` != \'suredy\') )');
 });
 
 test('parseWhere, array, multi， or #3', t => {
@@ -1166,7 +1166,7 @@ test('parseWhere, array, multi， or #3', t => {
       'OR'
     ]
   });
-  t.is(data, ' WHERE ( (`title` = \'lizheming\') OR (`title` = \'suredy\') )');
+  t.assert.strictEqual(data, ' WHERE ( (`title` = \'lizheming\') OR (`title` = \'suredy\') )');
 });
 
 test('buildSelectSql', t => {
@@ -1183,43 +1183,43 @@ test('buildSelectSql', t => {
     limit: '10, 20',
     distinct: true
   });
-  t.is(data, "SELECT DISTINCT `name`,`title` FROM `user` WHERE ( `id` = 11 ) AND ( `title` = 'lizheming' ) GROUP BY `name` ORDER BY name DESC LIMIT 10,20");
+  t.assert.strictEqual(data, "SELECT DISTINCT `name`,`title` FROM `user` WHERE ( `id` = 11 ) AND ( `title` = 'lizheming' ) GROUP BY `name` ORDER BY name DESC LIMIT 10,20");
 });
 
 test('parseSql', t => {
   const instance = getParserInstance({ prefix: 'think_' });
   const data = instance.parseSql('SELECT * FROM __USER__ WHERE name=1');
-  t.is(data, 'SELECT * FROM `think_user` WHERE name=1');
+  t.assert.strictEqual(data, 'SELECT * FROM `think_user` WHERE name=1');
 });
 
 test('parseSql 1', t => {
   const instance = getParserInstance({ prefix: 'think_' });
   const data = instance.parseSql('SELECT * FROM __USER__ WHERE name=\'%TEST%\'');
-  t.is(data, 'SELECT * FROM `think_user` WHERE name=\'%TEST%\'');
+  t.assert.strictEqual(data, 'SELECT * FROM `think_user` WHERE name=\'%TEST%\'');
 });
 
 test('parseUnion, empty', t => {
   const instance = getParserInstance({ prefix: 'think_' });
   const data = instance.parseUnion();
-  t.is(data, '');
+  t.assert.strictEqual(data, '');
 });
 
 test('parseUnion, string', t => {
   const instance = getParserInstance({ prefix: 'think_' });
   const data = instance.parseUnion('SELECT * FROM meinv_pic2');
-  t.is(data, ' UNION (SELECT * FROM meinv_pic2)');
+  t.assert.strictEqual(data, ' UNION (SELECT * FROM meinv_pic2)');
 });
 
 test('parseUnion, object', t => {
   const instance = getParserInstance({ prefix: 'think_' });
   const data = instance.parseUnion({ table: 'meinv_pic2' });
-  t.is(data, ' UNION (SELECT * FROM `meinv_pic2`)');
+  t.assert.strictEqual(data, ' UNION (SELECT * FROM `meinv_pic2`)');
 });
 
 test('parseUnion, object #2', t => {
   const instance = new Parser({ prefix: 'think_' });
   const data = instance.parseUnion({ table: 'meinv_pic2' });
-  t.is(data, ' UNION (SELECT * FROM meinv_pic2)');
+  t.assert.strictEqual(data, ' UNION (SELECT * FROM meinv_pic2)');
 });
 
 test('parseUnion, array', t => {
@@ -1228,7 +1228,7 @@ test('parseUnion, array', t => {
     union: { table: 'meinv_pic2' },
     all: true
   }]);
-  t.is(data, ' UNION ALL (SELECT * FROM `meinv_pic2`)');
+  t.assert.strictEqual(data, ' UNION ALL (SELECT * FROM `meinv_pic2`)');
 });
 
 test('parseUnion, array #2', t => {
@@ -1236,7 +1236,7 @@ test('parseUnion, array #2', t => {
   const data = instance.parseUnion([{
     union: 'SELECT * FROM meinv_pic2'
   }]);
-  t.is(data, ' UNION (SELECT * FROM meinv_pic2)');
+  t.assert.strictEqual(data, ' UNION (SELECT * FROM meinv_pic2)');
 });
 
 test('buildInsertSql', t => {
@@ -1247,7 +1247,7 @@ test('buildInsertSql', t => {
     fields: 'id,name',
     replace: true
   });
-  t.is(sql, 'REPLACE INTO `user` (id,name) VALUES (1,lizheming)');
+  t.assert.strictEqual(sql, 'REPLACE INTO `user` (id,name) VALUES (1,lizheming)');
 });
 
 test('buildInsertSql 2', t => {
@@ -1258,7 +1258,7 @@ test('buildInsertSql 2', t => {
     fields: 'id,name',
     ignore: true
   });
-  t.is(sql, 'INSERT IGNORE INTO `user` (id,name) VALUES (1,lizheming)');
+  t.assert.strictEqual(sql, 'INSERT IGNORE INTO `user` (id,name) VALUES (1,lizheming)');
 });
 
 test('buildInsertSql 3', t => {
@@ -1270,5 +1270,5 @@ test('buildInsertSql 3', t => {
     replace: true,
     ignore: true
   });
-  t.is(sql, 'REPLACE INTO `user` (id,name) VALUES (1,lizheming)');
+  t.assert.strictEqual(sql, 'REPLACE INTO `user` (id,name) VALUES (1,lizheming)');
 });

@@ -4,7 +4,7 @@
   "description": "Mysql adapter for ThinkJS 3.x",
   "scripts": {
     "test": "pnpm run lint && pnpm run test-cov",
-    "test-cov": "nyc ava test/ && nyc report --reporter=html",
+    "test-cov": "node --test --test-concurrency=1 --experimental-test-coverage test/index.js test/lib/parser.js test/lib/query.js test/lib/schema.js",
     "lint": "eslint ./lib index.js",
     "prepublish": "pnpm test"
   },
@@ -33,17 +33,10 @@
     "think-mysql": "npm:think-mysql2@^2.0.0"
   },
   "devDependencies": {
-    "ava": "^8.0.1",
     "eslint": "^10.8.0",
-    "muk": "^0.5.3",
-    "nyc": "^18.0.0"
+    "muk": "^0.5.3"
   },
   "engines": {
     "node": ">=20.19.0"
-  },
-  "ava": {
-    "failWithoutAssertions": false,
-    "serial": true,
-    "timeout": "60s"
   }
 }

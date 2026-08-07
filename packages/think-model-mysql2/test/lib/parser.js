@@ -1,58 +1,58 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const helper = require('think-helper');
 const Base = require('../../lib/parser');
 
 test('escapeString is function', t => {
   const instance = new Base();
-  t.true(helper.isFunction(instance.escapeString));
+  t.assert.strictEqual(helper.isFunction(instance.escapeString), true);
 });
 
 test('escapeString, empty', t => {
   const instance = new Base();
   const data = instance.escapeString();
-  t.is(data, '');
+  t.assert.strictEqual(data, '');
 });
 
 test('escapeString, \\n', t => {
   const instance = new Base();
   const data = instance.escapeString('\n');
-  t.is(data, '\\n');
+  t.assert.strictEqual(data, '\\n');
 });
 
 test('escapeString, \\0', t => {
   const instance = new Base();
   const data = instance.escapeString('\0');
-  t.is(data, '\\0');
+  t.assert.strictEqual(data, '\\0');
 });
 
 test('escapeString, \\r', t => {
   const instance = new Base();
   const data = instance.escapeString('\r');
-  t.is(data, '\\r');
+  t.assert.strictEqual(data, '\\r');
 });
 
 test('escapeString, \\b', t => {
   const instance = new Base();
   const data = instance.escapeString('\b');
-  t.is(data, '\\b');
+  t.assert.strictEqual(data, '\\b');
 });
 
 test('escapeString, \\t', t => {
   const instance = new Base();
   const data = instance.escapeString('\t');
-  t.is(data, '\\t');
+  t.assert.strictEqual(data, '\\t');
 });
 
 test('escapeString, \\Z', t => {
   const instance = new Base();
   const data = instance.escapeString('\u001a');
-  t.is(data, '\\Z');
+  t.assert.strictEqual(data, '\\Z');
 });
 
 test('escapeString, \\"', t => {
   const instance = new Base();
   const data = instance.escapeString('"');
-  t.is(data, '\\"');
+  t.assert.strictEqual(data, '\\"');
 });
 
 test('parseKey is function', t => {
@@ -73,13 +73,13 @@ test('parseKey is function', t => {
   ];
   t.plan(cases.length);
   const instance = new Base();
-  cases.forEach(([param, expect]) => t.is(instance.parseKey(param), expect));
+  cases.forEach(([param, expect]) => t.assert.strictEqual(instance.parseKey(param), expect));
 });
 
 test('buildInsertSql with super', t => {
   const instance = new Base();
   instance.__proto__.__proto__.buildInsertSql = function() {
-    t.pass();
+    t.assert.ok(true);
     return 'lizheming';
   };
 
@@ -90,7 +90,7 @@ test('buildInsertSql with super', t => {
 
   t.plan(params.length * 2);
   params.forEach(param =>
-    t.is(instance.buildInsertSql.apply(instance, param), 'lizheming')
+    t.assert.strictEqual(instance.buildInsertSql.apply(instance, param), 'lizheming')
   );
 });
 
@@ -106,7 +106,7 @@ test('buildInsertSql with array update', t => {
   };
 
   instance.parseTable = function(table) {
-    t.is(table, options.table);
+    t.assert.strictEqual(table, options.table);
     return table;
   };
 
@@ -115,16 +115,16 @@ test('buildInsertSql with array update', t => {
   };
 
   instance.parseLock = function(lock) {
-    t.is(lock, 'lock');
+    t.assert.strictEqual(lock, 'lock');
     return '';
   };
 
   instance.parseComment = function(comment) {
-    t.is(comment, 'comment');
+    t.assert.strictEqual(comment, 'comment');
     return '';
   };
 
-  t.is(
+  t.assert.strictEqual(
     instance.buildInsertSql(options),
     'INSERT INTO user (id, name, email) VALUES (1, "lizheming", "i@imnerd.org") ON DUPLICATE KEY UPDATE $id$=VALUES($id$),$title$=VALUES($title$)'
   );
@@ -145,7 +145,7 @@ test('buildInsertSql with object update', t => {
   };
 
   instance.parseTable = function(table) {
-    t.is(table, options.table);
+    t.assert.strictEqual(table, options.table);
     return table;
   };
 
@@ -155,25 +155,25 @@ test('buildInsertSql with object update', t => {
 
   instance.parseValue = function(value) {
     if (typeof value === 'string') {
-      t.is(value, 'lizheming111');
+      t.assert.strictEqual(value, 'lizheming111');
       return '`' + value + '`';
     } else {
-      t.deepEqual(value, { a: 1 });
+      t.assert.deepStrictEqual(value, { a: 1 });
       return value;
     }
   };
 
   instance.parseLock = function(lock) {
-    t.is(lock, 'lock');
+    t.assert.strictEqual(lock, 'lock');
     return ' lock2';
   };
 
   instance.parseComment = function(comment) {
-    t.is(comment, 'comment');
+    t.assert.strictEqual(comment, 'comment');
     return ' comment2';
   };
 
-  t.is(
+  t.assert.strictEqual(
     instance.buildInsertSql(options),
     'INSERT INTO user (id, name, email) VALUES (1, "lizheming", "i@imnerd.org") ON DUPLICATE KEY UPDATE $name$=`lizheming111` lock2 comment2'
   );
@@ -195,7 +195,7 @@ test('buildInsertSql with empty update', t => {
 
   instance.parseLock = instance.parseComment = () => '';
 
-  t.is(
+  t.assert.strictEqual(
     instance.buildInsertSql(options),
     'INSERT INTO `user` (id, name, email) VALUES (1, "lizheming", "i@imnerd.org")'
   );

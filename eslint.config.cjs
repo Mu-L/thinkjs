@@ -6,7 +6,6 @@ module.exports = [
     ignores: [
       '**/node_modules/**',
       '**/coverage/**',
-      '**/.nyc_output/**',
       '**/runtime/**',
       '**/test/fixtures/**',
       '**/test/fixture/**'

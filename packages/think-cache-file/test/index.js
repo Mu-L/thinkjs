@@ -4,7 +4,7 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2017-03-24 15:55:58
 */
-const {default: test} = require('ava');
+const {test, afterEach} = require('node:test');
 const helper = require('think-helper');
 const path = require('path');
 const fs = require('fs');
@@ -21,14 +21,14 @@ function getCacheFilePath(key, config) {
   return path.join(__dirname, 'cache', cacheFileDir, helper.md5(key));
 }
 
-test.afterEach.always(async () => {
+afterEach(async () => {
   let cachePath = path.join(__dirname, 'cache');
   await helper.rmdir(cachePath, false).catch(error => {
     if (error.code !== 'ENOENT') throw error;
   });
 });
 
-test.serial('set key -> get key -> del key', async t => {
+test('set key -> get key -> del key', async t => {
   let key = 'name';
   let config = helper.extend({}, myConfig);
   let cacheInst = new FileCache(config);
@@ -37,20 +37,20 @@ test.serial('set key -> get key -> del key', async t => {
   await cacheInst.delete(key);
   let ret2 = await cacheInst.get(key);
 
-  t.true(ret1 === 'thinkjs' && ret2 === undefined);
+  t.assert.strictEqual(ret1 === 'thinkjs' && ret2 === undefined, true);
 });
 
-test.serial('get expired key', async t => {
+test('get expired key', async t => {
   let key = 'name1';
   let config = helper.extend({}, myConfig);
   let cacheInst = new FileCache(config);
   await cacheInst.set(key, 'thinkjs', -1000);
   let ret = await cacheInst.get(key);
 
-  t.true(ret === undefined);
+  t.assert.strictEqual(ret === undefined, true);
 });
 
-test.serial('get key with error', async t => {
+test('get key with error', async t => {
   let config = helper.extend({}, myConfig);
   let key = 'name1';
   let cacheInst = new FileCache(config);
@@ -61,10 +61,10 @@ test.serial('get key with error', async t => {
   fs.writeFileSync(cacheFilePath, 'Hello World');
 
   let ret = await cacheInst.get(key);
-  t.true(ret === undefined);
+  t.assert.strictEqual(ret === undefined, true);
 });
 
-test.serial('normal gc', async t => {
+test('normal gc', async t => {
   let key1 = 'name1';
   let key2 = 'name2';
   let config1 = helper.extend({}, myConfig);
@@ -74,7 +74,7 @@ test.serial('normal gc', async t => {
   cacheInst1.gc();
 });
 
-test.serial('gc content error', async t => {
+test('gc content error', async t => {
   let key1 = 'name11';
   let key2 = 'name22';
   let config1 = helper.extend({}, myConfig);

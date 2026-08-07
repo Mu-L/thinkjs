@@ -9,7 +9,7 @@
   "type": "index.d.ts",
   "scripts": {
     "test": "pnpm run test-cov",
-    "test-cov": "nyc ava test/ && nyc report --reporter=html",
+    "test-cov": "node --test --test-concurrency=1 --experimental-test-coverage test/index.js test/lib/utils.js",
     "lint": "eslint index.js lib"
   },
   "contributors": [
@@ -27,11 +27,9 @@
     "think-instance": "^1.0.2"
   },
   "devDependencies": {
-    "ava": "^8.0.1",
     "babel-core": "^6.22.1",
     "coveralls": "^2.12.0",
-    "eslint": "^10.8.0",
-    "nyc": "^18.0.0"
+    "eslint": "^10.8.0"
   },
   "keywords": [],
   "repository": {
@@ -45,10 +43,5 @@
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/thinkjs/think-sequelize/issue"
-  },
-  "ava": {
-    "failWithoutAssertions": false,
-    "serial": true,
-    "timeout": "60s"
   }
 }

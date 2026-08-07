@@ -4,10 +4,10 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2017-09-13 12:00:00
 */
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const MemcacheCache = require('../index');
 
-test.serial('set key -> get key -> del key', async t => {
+test('set key -> get key -> del key', async t => {
   let cachehInst = new MemcacheCache();
   let key = 'redisCache';
   let content = 'Thinkjs';
@@ -16,5 +16,5 @@ test.serial('set key -> get key -> del key', async t => {
   await cachehInst.delete(key);
   let g2 =await cachehInst.get(key);
 
-  t.true(g1 === content && g2 === void 0)
+  t.assert.strictEqual(g1 === content && g2 === void 0, true)
 });

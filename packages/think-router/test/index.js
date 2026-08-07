@@ -4,7 +4,7 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2017-09-14 14:27:49
 */
-const {default: test} = require('ava');
+const {test, beforeEach} = require('node:test');
 const mockery = require('mockery');
 const helper = require('think-helper');
 const next = () => Promise.resolve();
@@ -75,11 +75,11 @@ const defaultCtx = {
   status: 200
 };
 
-test.serial.beforeEach(t => {
+beforeEach(t => {
   RESULT = {};
 });
 
-test.serial('multiple modules2', t => {
+test('multiple modules2', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx);
   const app = helper.extend({}, defaultApp, {
@@ -96,7 +96,7 @@ test.serial('multiple modules2', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: 'admin',
       controller: 'article',
       action: 'list'
@@ -104,7 +104,7 @@ test.serial('multiple modules2', t => {
   });
 });
 
-test.serial('default options', t => {
+test('default options', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx);
   const app = helper.extend({}, defaultApp, {
@@ -127,7 +127,7 @@ test.serial('default options', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: '',
       controller: 'admin',
       action: 'article'
@@ -135,7 +135,7 @@ test.serial('default options', t => {
   });
 });
 
-test.serial('default options 2', t => {
+test('default options 2', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx);
   const app = helper.extend({}, defaultApp, {
@@ -155,7 +155,7 @@ test.serial('default options 2', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: '',
       controller: 'admin',
       action: 'article'
@@ -163,7 +163,7 @@ test.serial('default options 2', t => {
   });
 });
 
-test.serial('default options 3', t => {
+test('default options 3', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx);
   const app = helper.extend({}, defaultApp, {
@@ -183,7 +183,7 @@ test.serial('default options 3', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: '',
       controller: 'admin',
       action: 'article'
@@ -191,7 +191,7 @@ test.serial('default options 3', t => {
   });
 });
 
-test.serial('options with suffix is empty', t => {
+test('options with suffix is empty', t => {
   const options = helper.extend({}, defaultOptions, {
     suffix: []
   });
@@ -210,7 +210,7 @@ test.serial('options with suffix is empty', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: '',
       controller: 'admin',
       action: 'article'
@@ -218,7 +218,7 @@ test.serial('options with suffix is empty', t => {
   });
 });
 
-test.serial('options with suffix is string', t => {
+test('options with suffix is string', t => {
   const options = helper.extend({}, defaultOptions, {
     suffix: ['.html']
   });
@@ -239,7 +239,7 @@ test.serial('options with suffix is string', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: '',
       controller: 'admin',
       action: 'article'
@@ -247,7 +247,7 @@ test.serial('options with suffix is string', t => {
   });
 });
 
-test.serial('options with suffix is regexp', t => {
+test('options with suffix is regexp', t => {
   const options = helper.extend({}, defaultOptions, {
     suffix: [/\.html/]
   });
@@ -268,7 +268,7 @@ test.serial('options with suffix is regexp', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: '',
       controller: 'admin',
       action: 'article'
@@ -276,7 +276,7 @@ test.serial('options with suffix is regexp', t => {
   });
 });
 
-test.serial('options with prefix is string', t => {
+test('options with prefix is string', t => {
   const options = helper.extend({}, defaultOptions, {
     prefix: ['/thinkjs']
   });
@@ -297,7 +297,7 @@ test.serial('options with prefix is string', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: '',
       controller: 'admin',
       action: 'article'
@@ -305,7 +305,7 @@ test.serial('options with prefix is string', t => {
   });
 });
 
-test.serial('options with prefix is regexp', t => {
+test('options with prefix is regexp', t => {
   const options = helper.extend({}, defaultOptions, {
     prefix: [/\/thinkjs/]
   });
@@ -326,7 +326,7 @@ test.serial('options with prefix is regexp', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: '',
       controller: 'admin',
       action: 'article'
@@ -334,7 +334,7 @@ test.serial('options with prefix is regexp', t => {
   });
 });
 
-test.serial('options with prefix is regexp and not match', t => {
+test('options with prefix is regexp and not match', t => {
   const options = helper.extend({}, defaultOptions, {
     prefix: [/\/thinkjs/]
   });
@@ -355,7 +355,7 @@ test.serial('options with prefix is regexp and not match', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: '',
       controller: 'admin',
       action: 'article'
@@ -363,7 +363,7 @@ test.serial('options with prefix is regexp and not match', t => {
   });
 });
 
-test.serial('options without subdomainOffset', t => {
+test('options without subdomainOffset', t => {
   const options = helper.extend({}, defaultOptions, {
     subdomainOffset: 0
   });
@@ -382,7 +382,7 @@ test.serial('options without subdomainOffset', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: '',
       controller: 'admin',
       action: 'article'
@@ -390,7 +390,7 @@ test.serial('options without subdomainOffset', t => {
   });
 });
 
-test.serial('options with subdomain is an Object', t => {
+test('options with subdomain is an Object', t => {
   const options = {
     subdomain: {
       'm1,m2': 'admin'
@@ -416,7 +416,7 @@ test.serial('options with subdomain is an Object', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: '',
       controller: 'admin',
       action: 'article'
@@ -424,7 +424,7 @@ test.serial('options with subdomain is an Object', t => {
   });
 });
 
-test.serial('options with subdomain is an Array', t => {
+test('options with subdomain is an Array', t => {
   const options = {
     subdomain: ['admin'], // domain name equal module name
     prefix: ['/']
@@ -449,7 +449,7 @@ test.serial('options with subdomain is an Array', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: '',
       controller: 'admin',
       action: 'article'
@@ -457,7 +457,7 @@ test.serial('options with subdomain is an Array', t => {
   });
 });
 
-test.serial('options with subdomain not match ', t => {
+test('options with subdomain not match ', t => {
   const options = {
     subdomain: {
       'm2,m3': 'thinkjs'
@@ -483,7 +483,7 @@ test.serial('options with subdomain not match ', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: '',
       controller: 'admin',
       action: 'article'
@@ -491,7 +491,7 @@ test.serial('options with subdomain not match ', t => {
   });
 });
 
-test.serial('router\'s match is null & enableDefaultRouter is false', t => {
+test('router\'s match is null & enableDefaultRouter is false', t => {
   const options = helper.extend({}, defaultOptions, {
     enableDefaultRouter: false
   });
@@ -508,11 +508,11 @@ test.serial('router\'s match is null & enableDefaultRouter is false', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {});
+    t.assert.deepStrictEqual(RESULT, {});
   });
 });
 
-test.serial('method not equal ctxMethod', t => {
+test('method not equal ctxMethod', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx, {
     method: 'CLI'
@@ -531,7 +531,7 @@ test.serial('method not equal ctxMethod', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: '',
       controller: 'admin',
       action: 'article'
@@ -539,7 +539,7 @@ test.serial('method not equal ctxMethod', t => {
   });
 });
 
-test.serial('rules with specialMethods', t => {
+test('rules with specialMethods', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx);
   const app = helper.extend({}, defaultApp, {
@@ -556,7 +556,7 @@ test.serial('rules with specialMethods', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: '',
       controller: 'admin',
       action: 'article'
@@ -564,7 +564,7 @@ test.serial('rules with specialMethods', t => {
   });
 });
 
-test.serial('multiple modules', t => {
+test('multiple modules', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx);
   const app = helper.extend({}, defaultApp, {
@@ -592,7 +592,7 @@ test.serial('multiple modules', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: 'admin',
       controller: 'article',
       action: 'list',
@@ -603,7 +603,7 @@ test.serial('multiple modules', t => {
   });
 });
 
-test.serial('multiple modules #2', t => {
+test('multiple modules #2', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx);
   const app = helper.extend({}, defaultApp, {
@@ -631,7 +631,7 @@ test.serial('multiple modules #2', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: 'admin',
       controller: 'article',
       action: 'list'
@@ -639,7 +639,7 @@ test.serial('multiple modules #2', t => {
   });
 });
 
-test.serial('multiple modules, but rules is an Array', t => {
+test('multiple modules, but rules is an Array', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx);
   const app = helper.extend({}, defaultApp, {
@@ -658,7 +658,7 @@ test.serial('multiple modules, but rules is an Array', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: 'admin',
       controller: 'article',
       action: 'list'
@@ -666,7 +666,7 @@ test.serial('multiple modules, but rules is an Array', t => {
   });
 });
 
-test.serial('multiple modules, not match', t => {
+test('multiple modules, not match', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx);
   const app = helper.extend({}, defaultApp, {
@@ -694,7 +694,7 @@ test.serial('multiple modules, not match', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: 'admin',
       controller: 'article',
       action: 'list'
@@ -702,7 +702,7 @@ test.serial('multiple modules, not match', t => {
   });
 });
 
-test.serial('multiple modules, match and rules = null', t => {
+test('multiple modules, match and rules = null', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx);
   const app = helper.extend({}, defaultApp, {
@@ -718,7 +718,7 @@ test.serial('multiple modules, match and rules = null', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: 'admin',
       controller: 'article',
       action: 'list'
@@ -726,7 +726,7 @@ test.serial('multiple modules, match and rules = null', t => {
   });
 });
 
-test.serial('multiple modules, without match', t => {
+test('multiple modules, without match', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx);
   const app = helper.extend({}, defaultApp, {
@@ -754,7 +754,7 @@ test.serial('multiple modules, without match', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: 'admin',
       controller: 'article',
       action: 'list'
@@ -762,7 +762,7 @@ test.serial('multiple modules, without match', t => {
   });
 });
 
-test.serial('REDIRECT with statusCode', t => {
+test('REDIRECT with statusCode', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx, {
     path: '/admin/article/list/'
@@ -792,11 +792,11 @@ test.serial('REDIRECT with statusCode', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {});
+    t.assert.deepStrictEqual(RESULT, {});
   });
 });
 
-test.serial('REDIRECT without statusCode', t => {
+test('REDIRECT without statusCode', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx, {
     path: '/admin/article/list/'
@@ -820,11 +820,11 @@ test.serial('REDIRECT without statusCode', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {});
+    t.assert.deepStrictEqual(RESULT, {});
   });
 });
 
-test.serial('pathToRegexp with name is String', t => {
+test('pathToRegexp with name is String', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx, {
     path: '/admin/article/list/123456'
@@ -854,7 +854,7 @@ test.serial('pathToRegexp with name is String', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: 'admin',
       controller: 'article',
       action: 'list',
@@ -865,7 +865,7 @@ test.serial('pathToRegexp with name is String', t => {
   });
 });
 
-test.serial('pathToRegexp with name is Number', t => {
+test('pathToRegexp with name is Number', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx, {
     path: '/admin/article/list/123456/'
@@ -895,7 +895,7 @@ test.serial('pathToRegexp with name is Number', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: 'admin',
       controller: 'article',
       action: 'list'
@@ -903,7 +903,7 @@ test.serial('pathToRegexp with name is Number', t => {
   });
 });
 
-test.serial('pathToRegexp with query empty', t => {
+test('pathToRegexp with query empty', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx, {
     path: '/admin/article/list/ '
@@ -933,7 +933,7 @@ test.serial('pathToRegexp with query empty', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: 'admin',
       controller: 'article',
       action: 'list'
@@ -941,7 +941,7 @@ test.serial('pathToRegexp with query empty', t => {
   });
 });
 
-test.serial('multiple modules, pathname without /', t => {
+test('multiple modules, pathname without /', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx);
   const app = helper.extend({}, defaultApp, {
@@ -969,7 +969,7 @@ test.serial('multiple modules, pathname without /', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: 'admin',
       controller: 'defaultController',
       action: 'defaultAction'
@@ -977,7 +977,7 @@ test.serial('multiple modules, pathname without /', t => {
   });
 });
 
-test.serial('use defaultAction', t => {
+test('use defaultAction', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx, {
     path: '/admin'
@@ -994,7 +994,7 @@ test.serial('use defaultAction', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: '',
       controller: 'admin',
       action: 'defaultAction'
@@ -1002,7 +1002,7 @@ test.serial('use defaultAction', t => {
   });
 });
 
-test.serial('use defaultModule', t => {
+test('use defaultModule', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx, {
     denyModules: []
@@ -1030,7 +1030,7 @@ test.serial('use defaultModule', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: 'defaultModule',
       controller: 'admin',
       action: 'defaultAction'
@@ -1038,7 +1038,7 @@ test.serial('use defaultModule', t => {
   });
 });
 
-test.serial('multiple controllers', t => {
+test('multiple controllers', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx, {
     denyModules: []
@@ -1066,7 +1066,7 @@ test.serial('multiple controllers', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: 'admin',
       controller: 'article/list',
       action: 'defaultAction'
@@ -1074,7 +1074,7 @@ test.serial('multiple controllers', t => {
   });
 });
 
-test.serial('single controllers', t => {
+test('single controllers', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx, {
     denyModules: []
@@ -1102,7 +1102,7 @@ test.serial('single controllers', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: 'admin',
       controller: 'defaultController',
       action: 'defaultAction'
@@ -1110,7 +1110,7 @@ test.serial('single controllers', t => {
   });
 });
 
-test.serial('single controllers2', t => {
+test('single controllers2', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx, {
     denyModules: []
@@ -1131,7 +1131,7 @@ test.serial('single controllers2', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: '',
       controller: 'article/list',
       action: 'defaultAction'
@@ -1139,7 +1139,7 @@ test.serial('single controllers2', t => {
   });
 });
 
-test.serial('single controllers REST 1', t => {
+test('single controllers REST 1', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx, {
     denyModules: []
@@ -1162,7 +1162,7 @@ test.serial('single controllers REST 1', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: '',
       controller: 'article/list',
       action: 'get'
@@ -1170,7 +1170,7 @@ test.serial('single controllers REST 1', t => {
   });
 });
 
-test.serial('single controllers REST 2', t => {
+test('single controllers REST 2', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx, {
     denyModules: []
@@ -1193,7 +1193,7 @@ test.serial('single controllers REST 2', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: '',
       controller: 'admin/article',
       action: 'get'
@@ -1201,7 +1201,7 @@ test.serial('single controllers REST 2', t => {
   });
 });
 
-test.serial('single controllers REST 3', t => {
+test('single controllers REST 3', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx, {
     denyModules: [],
@@ -1221,7 +1221,7 @@ test.serial('single controllers REST 3', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: '',
       controller: 'restful/api',
       action: 'get'
@@ -1229,7 +1229,7 @@ test.serial('single controllers REST 3', t => {
   });
 });
 
-test.serial('enableDefaultRouter', t => {
+test('enableDefaultRouter', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx, {
     path: ''
@@ -1240,7 +1240,7 @@ test.serial('enableDefaultRouter', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: '',
       controller: 'defaultController',
       action: 'defaultAction'
@@ -1248,7 +1248,7 @@ test.serial('enableDefaultRouter', t => {
   });
 });
 
-test.serial('enableDefaultRouter2', t => {
+test('enableDefaultRouter2', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx, {
     path: ''
@@ -1259,7 +1259,7 @@ test.serial('enableDefaultRouter2', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: 'defaultModule',
       controller: 'defaultController',
       action: 'defaultAction'
@@ -1267,7 +1267,7 @@ test.serial('enableDefaultRouter2', t => {
   });
 });
 
-test.serial('routerChange', t => {
+test('routerChange', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx, {
     path: ''
@@ -1282,7 +1282,7 @@ test.serial('routerChange', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: 'defaultModule',
       controller: 'defaultController',
       action: 'defaultAction'
@@ -1290,7 +1290,7 @@ test.serial('routerChange', t => {
   });
 });
 
-test.serial('routerChange2', t => {
+test('routerChange2', t => {
   const options = helper.extend({}, defaultOptions);
   const ctx = helper.extend({}, defaultCtx, {
     path: ''
@@ -1316,7 +1316,7 @@ test.serial('routerChange2', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: 'defaultModule',
       controller: 'defaultController',
       action: 'defaultAction'
@@ -1324,7 +1324,7 @@ test.serial('routerChange2', t => {
   });
 });
 
-test.serial('emptycontroller', t => {
+test('emptycontroller', t => {
   const options = helper.extend({}, defaultOptions, {
     defaultController: ''
   });
@@ -1349,7 +1349,7 @@ test.serial('emptycontroller', t => {
 
   ctx.app = app;
   return parseRouter(options, app)(ctx, next).then(data => {
-    t.deepEqual(RESULT, {
+    t.assert.deepStrictEqual(RESULT, {
       module: '',
       controller: 'admin',
       action: 'article'

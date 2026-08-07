@@ -4,7 +4,7 @@
   "description": "Let think-router recognize REST router easily without custom router.",
   "main": "index.js",
   "scripts": {
-    "test": "pnpm run lint && nyc ava test",
+    "test": "pnpm run lint && node --test --test-concurrency=1 test/index.js",
     "lint": "eslint index.js",
     "lint-fix": "pnpm run lint -- --fix"
   },
@@ -25,19 +25,12 @@
   },
   "homepage": "https://github.com/thinkjs/think-router-rest#readme",
   "devDependencies": {
-    "ava": "^8.0.1",
-    "eslint": "^10.8.0",
-    "nyc": "^18.0.0"
+    "eslint": "^10.8.0"
   },
   "dependencies": {
     "debug": "^4.1.1"
   },
   "engines": {
     "node": ">=20.19.0"
-  },
-  "ava": {
-    "failWithoutAssertions": false,
-    "serial": true,
-    "timeout": "60s"
   }
 }

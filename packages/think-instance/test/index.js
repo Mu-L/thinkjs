@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const thinkInstance = require('../index.js');
 const helper = require('think-helper');
 
@@ -9,7 +9,7 @@ test('.getInstance is function', t => {
     }
   }
   cls = thinkInstance(cls);
-  t.is(helper.isFunction(cls.getInstance), true);
+  t.assert.strictEqual(helper.isFunction(cls.getInstance), true);
 });
 
 test('get same instance', t => {
@@ -21,7 +21,7 @@ test('get same instance', t => {
   cls = thinkInstance(cls);
   const instance1 = cls.getInstance({})
   const instance2 = cls.getInstance({});
-  t.is(instance1 === instance2, true);
+  t.assert.strictEqual(instance1 === instance2, true);
 });
 test('get different instance', t => {
   let cls = class {
@@ -32,7 +32,7 @@ test('get different instance', t => {
   cls = thinkInstance(cls);
   const instance1 = cls.getInstance({})
   const instance2 = cls.getInstance({name: 1});
-  t.is(instance1 === instance2, false);
+  t.assert.strictEqual(instance1 === instance2, false);
 });
 
 test('get different instance 2', t => {
@@ -45,8 +45,8 @@ test('get different instance 2', t => {
   const instance1 = cls.getInstance({})
   const instance2 = cls.getInstance({name: 1});
   const instance3 = cls.getInstance({name: 1});
-  t.is(instance1 === instance2, false);
-  t.is(instance2 === instance3, true);
+  t.assert.strictEqual(instance1 === instance2, false);
+  t.assert.strictEqual(instance2 === instance3, true);
 });
 
 test('get different instance 2 #2', t => {
@@ -58,7 +58,7 @@ test('get different instance 2 #2', t => {
   cls = thinkInstance(cls);
   const instance2 = cls.getInstance({name: 1});
   const instance3 = cls.getInstance({name: 1}, 2);
-  t.is(instance2 === instance3, false);
+  t.assert.strictEqual(instance2 === instance3, false);
 });
 
 test('get instance, set max', t => {
@@ -74,7 +74,7 @@ test('get instance, set max', t => {
   cls = thinkInstance(cls, 1, 'close');
   const instance1 = cls.getInstance({name: 1});
   const instance2 = cls.getInstance({name: 1}, 2);
-  t.is(close, true);
+  t.assert.strictEqual(close, true);
 });
 
 test('get instance, set max & close', t => {
@@ -90,7 +90,7 @@ test('get instance, set max & close', t => {
   cls = thinkInstance(cls, 1, 'close2');
   const instance1 = cls.getInstance({name: 1});
   const instance2 = cls.getInstance({name: 1}, 2);
-  t.is(close, true);
+  t.assert.strictEqual(close, true);
 });
 
 test('get instance, set max & close 2', t => {
@@ -103,7 +103,7 @@ test('get instance, set max & close 2', t => {
   cls = thinkInstance(cls, 1, 'close2');
   const instance1 = cls.getInstance({name: 1});
   const instance2 = cls.getInstance({name: 1}, 2);
-  t.is(close, false);
+  t.assert.strictEqual(close, false);
 });
 
 test('get instance, set max & close 3', t => {
@@ -120,7 +120,7 @@ test('get instance, set max & close 3', t => {
   const instance1 = cls.getInstance(2);
   const instance2 = cls.getInstance(3);
   const instance3 = cls.getInstance(4);
-  t.is(close, 5);
+  t.assert.strictEqual(close, 5);
 });
 
 
@@ -134,6 +134,6 @@ test('get instance with multi args', t => {
   }
   cls = thinkInstance(cls);
   const instance1 = cls.getInstance('name', 'thinkjs')
-  t.is(instance1.name === 'name', true);
-  t.is(instance1.value === 'thinkjs', true);
+  t.assert.strictEqual(instance1.name === 'name', true);
+  t.assert.strictEqual(instance1.value === 'thinkjs', true);
 });

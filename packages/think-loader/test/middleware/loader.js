@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const mock = require('mock-require');
 const path = require('path');
 
@@ -49,9 +49,9 @@ function createTest1(isFile, modules, path) {
 
     const result = instance.load('appPath', modules, 'app');
 
-    t.deepEqual(isFileParams, [path]);
-    t.deepEqual(params, []);
-    t.deepEqual(result, []);
+    t.assert.deepStrictEqual(isFileParams, [path]);
+    t.assert.deepStrictEqual(params, []);
+    t.assert.deepStrictEqual(result, []);
   };
 }
 test('return [] when no middleware.js, isMultiModule = true',
@@ -69,12 +69,12 @@ test('load middleware isMultiModule === true', t => {
 
   const result = instance.load('appPath', ['admin'], 'app');
 
-  t.deepEqual(params, [
+  t.assert.deepStrictEqual(params, [
     'appPath', 1,
     { value: 'MultiModuleMiddlewares' }, 'loadFiles call result', 'app'
   ]);
 
-  t.is(result, 'parse call result');
+  t.assert.strictEqual(result, 'parse call result');
 });
 
 test('load middleware isMultiModule === false', t => {
@@ -84,10 +84,10 @@ test('load middleware isMultiModule === false', t => {
 
   const result = instance.load('appPath', [], 'app');
 
-  t.deepEqual(params, [
+  t.assert.deepStrictEqual(params, [
     'appPath', 0,
     { value: 'Middlewares' }, 'loadFiles call result', 'app'
   ]);
 
-  t.is(result, 'parse call result');
+  t.assert.strictEqual(result, 'parse call result');
 });

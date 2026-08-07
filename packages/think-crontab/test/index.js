@@ -1,11 +1,11 @@
-const {default: test} = require('ava');
+const {test, after} = require('node:test');
 const mock = require('mock-require');
 const helper = require('think-helper');
 const schedule = require('node-schedule');
 
 const sleep = time => new Promise(resolve => setTimeout(resolve, time));
 
-test.after.always(() => {
+after(() => {
   Object.keys(schedule.scheduledJobs).forEach(name => schedule.cancelJob(name));
 });
 
@@ -17,8 +17,8 @@ test('test case', t => {
   let Crontab = getCrontab();
   let option = 'crontab/test';
   let cron = new Crontab(option);
-  t.deepEqual(helper.isFunction(cron.options[0].handle), true);
-  t.is(cron.options[0].type, 'one');
+  t.assert.deepStrictEqual(helper.isFunction(cron.options[0].handle), true);
+  t.assert.strictEqual(cron.options[0].type, 'one');
 });
 
 test('test case #2', t => {
@@ -28,8 +28,8 @@ test('test case #2', t => {
     type: 'one'
   };
   let cron = new Crontab(option);
-  t.deepEqual(helper.isFunction(cron.options[0].handle), true);
-  t.is(cron.options[0].type, 'one');
+  t.assert.deepStrictEqual(helper.isFunction(cron.options[0].handle), true);
+  t.assert.strictEqual(cron.options[0].type, 'one');
 });
 
 test('test case #3', t => {
@@ -42,8 +42,8 @@ test('test case #3', t => {
     enable: true
   };
   let cron = new Crontab([option]);
-  t.deepEqual(helper.isFunction(cron.options[0].handle), true);
-  t.is(cron.options[0].type, 'one');
+  t.assert.deepStrictEqual(helper.isFunction(cron.options[0].handle), true);
+  t.assert.strictEqual(cron.options[0].type, 'one');
 });
 
 test('test case #4', t => {
@@ -55,7 +55,7 @@ test('test case #4', t => {
     enable: false
   };
   let cron = new Crontab(option);
-  t.deepEqual(cron.options, []);
+  t.assert.deepStrictEqual(cron.options, []);
 });
 
 test('test case #5', async t => {
@@ -80,9 +80,9 @@ test('test case #5', async t => {
   };
   let cron = new Crontab(option, app);
   cron.runTask();
-  t.is(app.immediateExecuted, true);
+  t.assert.strictEqual(app.immediateExecuted, true);
   await sleep(3500);
-  t.is(app.executedTime, 4);
+  t.assert.strictEqual(app.executedTime, 4);
 });
 
 test('test case #6', async t => {
@@ -109,7 +109,7 @@ test('test case #6', async t => {
   };
   let cron = new Crontab(option, app);
   cron.runTask();
-  t.is(url, './task');
+  t.assert.strictEqual(url, './task');
 });
 
 test('test case #7', async t => {
@@ -126,7 +126,7 @@ test('test case #7', async t => {
   } catch (e) {
     err = e;
   }
-  t.is(err instanceof Error, true);
+  t.assert.strictEqual(err instanceof Error, true);
 });
 
 test('test case #8', async t => {
@@ -168,7 +168,7 @@ test('test case #8', async t => {
   };
   let cron = new Crontab(option, app);
   cron.runTask();
-  t.is(app.isExecuted, true);
+  t.assert.strictEqual(app.isExecuted, true);
 });
 
 

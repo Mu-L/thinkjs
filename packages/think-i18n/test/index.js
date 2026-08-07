@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const path = require('path');
 const mock = require('mock-require');
 
@@ -13,5 +13,5 @@ test('test index will return i18n.extend', t=>{
 
   const index = require('../index');
   index('options');
-  t.is(options, 'options');
+  t.assert.strictEqual(options, 'options');
 });

@@ -4,13 +4,13 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2017-04-01 16:33:19
 */
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const helper = require('think-helper');
 const path = require('path');
 const fs = require('fs');
 const Memcache = require('../index');
 
-test.serial('set key & get key & del key', async t => {
+test('set key & get key & del key', async t => {
   let key1 = 'name1', value1 = 'thinkjs';
   let key2 = 'name2', value2 = 'thinkjs';
   let key3 = 'name3', value3 = 'thinkjs';
@@ -26,10 +26,10 @@ test.serial('set key & get key & del key', async t => {
   let s4 = await memInst.set(key4, value4, 0);
   let g4 = await memInst.get(key4);
 
-  t.true(g1 === value1 && !g2 && g3 === value3 && g4 === value4)
+  t.assert.strictEqual(g1 === value1 && !g2 && g3 === value3 && g4 === value4, true)
 });
 
-test.serial('increase & decrease', async t => {
+test('increase & decrease', async t => {
   let memInst = new Memcache();
   let key5 = 'name66';
   let s1 = await memInst.set(key5, '10');
@@ -40,6 +40,6 @@ test.serial('increase & decrease', async t => {
   let d1 = await memInst.delete(key5);
   await memInst.close();
 
-  t.true(g1 === '11' && g2 === '10');
+  t.assert.strictEqual(g1 === '11' && g2 === '10', true);
 });
 

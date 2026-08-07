@@ -12,8 +12,8 @@
   "scripts": {
     "lint": "eslint lib/",
     "lint-fix": "eslint --fix lib/",
-    "test": "eslint lib/ && nyc ava test/",
-    "coverage": "nyc report --reporter=html"
+    "test": "eslint lib/ && node --test --test-concurrency=1 test/view_assign.js test/view_parse_file_path.js test/view_render.js",
+    "coverage": "node --test --test-concurrency=1 --experimental-test-coverage test/view_assign.js test/view_parse_file_path.js test/view_render.js"
   },
   "contributors": [
     {
@@ -29,12 +29,10 @@
     "think-helper": "^1.0.0"
   },
   "devDependencies": {
-    "ava": "^8.0.1",
     "babel-core": "^6.22.1",
     "coveralls": "^2.12.0",
     "eslint": "^10.8.0",
     "mock-require": "^2.0.1",
-    "nyc": "^18.0.0",
     "pre-commit": "^1.2.2"
   },
   "keywords": [],
@@ -49,10 +47,5 @@
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/thinkjs/think-view/issue"
-  },
-  "ava": {
-    "failWithoutAssertions": false,
-    "serial": true,
-    "timeout": "60s"
   }
 }

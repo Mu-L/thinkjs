@@ -4,18 +4,18 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2017-02-26 14:13:48
 */
-const {default: test} = require('ava');
+const {test, beforeEach} = require('node:test');
 const helper = require('think-helper');
 const thinkBabel = require('../index');
 const path = require('path');
 const fs = require('fs');
 
-test.serial.beforeEach(() => {
+beforeEach(() => {
   let outPath = path.join(__dirname, 'out');
   return helper.rmdir(outPath, false);
 });
 
-test.serial('thinkBabel-orginal', t => {
+test('thinkBabel-orginal', t => {
   let out = thinkBabel({
     srcPath: './test/src/a',
     outPath: './test/out',
@@ -23,11 +23,11 @@ test.serial('thinkBabel-orginal', t => {
   });
   let outFile = path.join(__dirname, 'out/b/test.js');
   let content = fs.readFileSync(outFile, 'utf8');
-  t.true(content.indexOf('map(n => n + 1)') > -1);
-  t.true(out);
+  t.assert.strictEqual(content.indexOf('map(n => n + 1)') > -1, true);
+  t.assert.strictEqual(out, true);
 });
 
-test.serial('thinkBabel-1', t => {
+test('thinkBabel-1', t => {
   let out = thinkBabel({
     srcPath: './test/src/a',
     outPath: './test/out',
@@ -38,10 +38,10 @@ test.serial('thinkBabel-1', t => {
   });
   let outFile = helper.isFile(path.join(__dirname, 'out/b/test.js'));
   let outMapFile = helper.isFile(path.join(__dirname, 'out/b/test.js.map'));
-  t.true(out && outFile && outMapFile);
+  t.assert.strictEqual(out && outFile && outMapFile, true);
 });
 
-test.serial('thinkBabel-2', t => {
+test('thinkBabel-2', t => {
   let out = thinkBabel({
     srcPath: './test/src/a',
     outPath: './test/out',
@@ -53,10 +53,10 @@ test.serial('thinkBabel-2', t => {
   });
   let outFile = helper.isFile(path.join(__dirname, 'out/b/test.js'));
   let outMapFile = helper.isFile(path.join(__dirname, 'out/b/test.js.map'));
-  t.true(out && outFile && !outMapFile);
+  t.assert.strictEqual(out && outFile && !outMapFile, true);
 });
 
-test.serial('thinkBabel-3', t => {
+test('thinkBabel-3', t => {
   let out = thinkBabel({
     srcPath: './test/src/a',
     outPath: './test/out',
@@ -68,11 +68,11 @@ test.serial('thinkBabel-3', t => {
   });
   let outFile = helper.isFile(path.join(__dirname, 'out/b/test.js2'));
   let outMapFile = helper.isFile(path.join(__dirname, 'out/b/test.js2.map'));
-  t.true(out && outFile && outMapFile);
+  t.assert.strictEqual(out && outFile && outMapFile, true);
 });
 
 let wrongSyntax = 'let a == 123;';
-test.serial('thinkBabel-4', t => {
+test('thinkBabel-4', t => {
   let testFilePath = path.join(__dirname, './src/a/b/test.es');
   fs.appendFileSync(testFilePath, wrongSyntax);
   let out = thinkBabel({
@@ -86,5 +86,5 @@ test.serial('thinkBabel-4', t => {
 
   var originData = fs.readFileSync(testFilePath, 'utf8').replace(wrongSyntax, '');
   fs.writeFileSync(testFilePath, originData);
-  t.true(helper.isError(out));
+  t.assert.strictEqual(helper.isError(out), true);
 });

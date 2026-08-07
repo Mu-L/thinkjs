@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 
 function getInstance() {
   const Config = require('../loader/config');
@@ -11,7 +11,7 @@ test('config_load_adapter will call load_config_by_name with right params', t =>
     a[b + c] = 'value';
   };
 
-  t.deepEqual(instance.loadConfig('configPaths', 'env', 'name'), {
+  t.assert.deepStrictEqual(instance.loadConfig('configPaths', 'env', 'name'), {
     'configPathsname.js': 'value',
     'configPathsname.env.js': 'value'
   });
@@ -22,7 +22,7 @@ test('config_load_adapter will call load_config_by_name with right params defaul
   instance.loadConfigByName = function(a, b, c) {
     a[b + c] = 'value';
   };
-  t.deepEqual(instance.loadConfig('configPaths', 'env'), {
+  t.assert.deepStrictEqual(instance.loadConfig('configPaths', 'env'), {
     'configPathsconfig.js': 'value',
     'configPathsconfig.env.js': 'value'
   });

@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const mock = require('mock-require');
 
 function mockAssert(assertParams = []) {
@@ -13,7 +13,7 @@ function getSession() {
   return mock.reRequire('../lib/session');
 }
 
-test.serial('instantiate Session', t => {
+test('instantiate Session', t => {
   const sessionConfig = {
     type: 'cookie',
     cookie: {
@@ -47,34 +47,21 @@ test.serial('instantiate Session', t => {
   mockAssert(assertParams);
   const Session = getSession();
   let session;
-  t.throws(() => {
+  t.assert.throws(() => {
     new Session(ctx, options);
-  }, {
-    instanceOf: Error
-  });
-  t.deepEqual(assertParams, [
+  }, Error);
+  t.assert.deepStrictEqual(assertParams, [
     false, 'session.handle must be a function'
   ]);
 });
 
-test.serial('`getSessionInstance` when handle.onlyCookie is true', t => {
+test('`getSessionInstance` when handle.onlyCookie is true', t => {
   function mockHandler(onlyCookie) {
     // eg. think-session-cookie
     class cookieSession {
       constructor(options, ctx) {
-        t.like(options, {
-          type: 'cookie',
-          // name: 'thinkjs',
-          // autoUpdateRate: 0.5,
-          // path: '/',
-          maxAge: 86400000,
-          // httpOnly: true,
-          // sameSite: false,
-          // signed: false,
-          // overwrite: false,
-          // encrypt: true,
-          // config1: 'config1'
-        });
+        t.assert.strictEqual(options.type, 'cookie');
+        t.assert.strictEqual(options.maxAge, 86400000);
       }
     }
     cookieSession.onlyCookie = onlyCookie;
@@ -112,7 +99,7 @@ test.serial('`getSessionInstance` when handle.onlyCookie is true', t => {
   const instance = session.getSessionInstance();
 });
 
-test.serial('`getSessionInstance` when ctx.cookie(name) is undefined', t => {
+test('`getSessionInstance` when ctx.cookie(name) is undefined', t => {
   function mockHelper() {
     var helper = require('think-helper');
     helper.uuid = () => {
@@ -138,7 +125,7 @@ test.serial('`getSessionInstance` when ctx.cookie(name) is undefined', t => {
     // eg. think-session-cookie
     class cookieSession {
       constructor(options, ctx) {
-        t.deepEqual(options, {
+        t.assert.deepStrictEqual(options, {
           prop1: 'prop1',
           handle,
           fresh: true,
@@ -189,17 +176,17 @@ test.serial('`getSessionInstance` when ctx.cookie(name) is undefined', t => {
   const session = new Session(ctx, options);
 
   session.getSessionInstance();
-  t.deepEqual(cookieData, {
+  t.assert.deepStrictEqual(cookieData, {
     'cookieName': 'cookie666'
   });
 });
 
-test.serial('`getSessionInstance` when ctx.cookie(name) and have maxAge setting', t => {
+test('`getSessionInstance` when ctx.cookie(name) and have maxAge setting', t => {
   let cookieData = {
     cookieName: '1111'
   };
   function cookie(key, value, options) {
-    t.is(options.maxAge, 7 * 3600 * 24000);
+    t.assert.strictEqual(options.maxAge, 7 * 3600 * 24000);
     if (key && value === undefined) return cookieData[key];
     if (key === null) {
       cookieData = {};
@@ -254,7 +241,7 @@ test.serial('`getSessionInstance` when ctx.cookie(name) and have maxAge setting'
   session.getSessionInstance();
 });
 
-test.serial('`getSessionInstance` when instance is exist and have maxAge setting', t => {
+test('`getSessionInstance` when instance is exist and have maxAge setting', t => {
   t.plan(6);
 
   const helper = require('think-helper');
@@ -270,13 +257,13 @@ test.serial('`getSessionInstance` when instance is exist and have maxAge setting
     i += 1;
     switch (i) {
       case 1:
-        t.is(value, undefined);
+        t.assert.strictEqual(value, undefined);
         break;
       case 2:
-        t.is(value, 1234);
+        t.assert.strictEqual(value, 1234);
         break;
       case 3:
-        t.is(options.maxAge, 7 * 3600 * 24000);
+        t.assert.strictEqual(options.maxAge, 7 * 3600 * 24000);
         break;
     }
 
@@ -318,12 +305,12 @@ test.serial('`getSessionInstance` when instance is exist and have maxAge setting
   const session2 = new Session(ctx, options);
   session.getSessionInstance();
   const instance = session2.getSessionInstance();
-  t.deepEqual(instance.options, session2.options);
-  t.deepEqual(instance.cookieOptions, session2.cookieOptions);
-  t.deepEqual(instance.maxAge, session2.options.maxAge);
+  t.assert.deepStrictEqual(instance.options, session2.options);
+  t.assert.deepStrictEqual(instance.cookieOptions, session2.cookieOptions);
+  t.assert.deepStrictEqual(instance.maxAge, session2.options.maxAge);
 });
 
-test.serial('`getSessionInstance` when `cookieOption.autoUpdate && cookieOptions.maxAge` is true', t => {
+test('`getSessionInstance` when `cookieOption.autoUpdate && cookieOptions.maxAge` is true', t => {
   function mockHelper() {
     var helper = require('think-helper');
 
@@ -346,7 +333,7 @@ test.serial('`getSessionInstance` when `cookieOption.autoUpdate && cookieOptions
     // eg. think-session-cookie
     class cookieSession {
       constructor(options, ctx) {
-        t.deepEqual(options, {
+        t.assert.deepStrictEqual(options, {
           prop1: 'prop1',
           handle,
           fresh: false,
@@ -398,12 +385,12 @@ test.serial('`getSessionInstance` when `cookieOption.autoUpdate && cookieOptions
   const session = new Session(ctx, options);
 
   session.getSessionInstance();
-  t.deepEqual(cookieData, {
+  t.assert.deepStrictEqual(cookieData, {
     'cookieName': 'cookie233'
   });
 });
 
-test.serial('`getSessionInstance` when `cookieOption.autoUpdate && cookieOptions.maxAge` is false', t => {
+test('`getSessionInstance` when `cookieOption.autoUpdate && cookieOptions.maxAge` is false', t => {
   function mockHelper() {
     var helper = require('think-helper');
 
@@ -426,7 +413,7 @@ test.serial('`getSessionInstance` when `cookieOption.autoUpdate && cookieOptions
     // eg. think-session-cookie
     class cookieSession {
       constructor(options, ctx) {
-        t.deepEqual(options, {
+        t.assert.deepStrictEqual(options, {
           prop1: 'prop1',
           handle,
           fresh: false,
@@ -478,7 +465,7 @@ test.serial('`getSessionInstance` when `cookieOption.autoUpdate && cookieOptions
   const session = new Session(ctx, options);
 
   const instance = session.getSessionInstance();
-  t.deepEqual(cookieData, {
+  t.assert.deepStrictEqual(cookieData, {
     'cookieName': 'cookie233'
   });
 });
@@ -536,22 +523,20 @@ test('run', async t => {
 
   await session.run(null).then((res) => {
     console.log(res);
-    t.is(res, 'delete');
+    t.assert.strictEqual(res, 'delete');
   });
   session.run('user', 'xxx').then((res) => {
-    t.is(res, 'set');
+    t.assert.strictEqual(res, 'set');
   });
   await session.run('user', undefined).then((res) => {
-    t.is(res, 'get');
+    t.assert.strictEqual(res, 'get');
   });
 
   var assertParams = [];
   mockAssert(assertParams);
-  t.throws(() => {
+  t.assert.throws(() => {
     session.run(1, 'xxx').then((res) => {
-      t.is(assertParams, 'session.name must be a string');
+      t.assert.strictEqual(assertParams, 'session.name must be a string');
     });
-  }, {
-    instanceOf: Error
-  });
+  }, Error);
 });

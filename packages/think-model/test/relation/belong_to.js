@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const Model = require('../../lib/model');
 const Relation = require('../../lib/relation/belong_to');
 
@@ -18,7 +18,7 @@ test('belong to get relation no relation where', async t => {
   });
 
   relation.parseRelationWhere = () => false;
-  t.deepEqual(
+  t.assert.deepStrictEqual(
     await relation.getRelationData(),
     [{
       id: 3,
@@ -52,7 +52,7 @@ test('belong to get relation', async t => {
   relation.parseRelationWhere = () => ({post_id: ['IN', [3, 10]]});
   relation.options.model = new Model('user', {handle: new Function()});
   relation.options.model.select = function() {
-    t.deepEqual(this.options.where, {post_id: ['IN', [3, 10]]});
+    t.assert.deepStrictEqual(this.options.where, {post_id: ['IN', [3, 10]]});
     return [
       {name: 'lizheming', post_id: 10},
       {name: 'lizheming1', post_id: 10},
@@ -60,7 +60,7 @@ test('belong to get relation', async t => {
     ];
   };
 
-  t.deepEqual(
+  t.assert.deepStrictEqual(
     await relation.getRelationData(),
     [
       {

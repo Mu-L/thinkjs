@@ -7,15 +7,10 @@
     "email": "522963130@qq.com"
   },
   "scripts": {
-    "test": "eslint index.js && nyc ava test/",
-    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
+    "test": "eslint index.js && node --test --test-concurrency=1 test/index.js",
+    "coverage": "node --test --test-concurrency=1 --experimental-test-coverage test/index.js",
     "lint": "eslint index.js",
     "lint-fix": "eslint --fix index.js"
-  },
-  "ava": {
-    "failWithoutAssertions": false,
-    "serial": true,
-    "timeout": "60s"
   },
   "contributors": [
     {
@@ -32,11 +27,9 @@
     "uuid": "^14.0.1"
   },
   "devDependencies": {
-    "ava": "^8.0.1",
     "codecov": "^3.8.3",
     "coveralls": "^3.1.1",
-    "eslint": "^10.8.0",
-    "nyc": "^18.0.0"
+    "eslint": "^10.8.0"
   },
   "keywords": [],
   "repository": {

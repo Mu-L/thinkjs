@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test, afterEach} = require('node:test');
 const mock = require('mock-require');
 const mockie = require('../lib/mockie');
 const utils = require('../lib/utils');
@@ -15,19 +15,21 @@ const defaultOption = {
   // APP_PATH: path.resolve(__dirname,'../runtime')
 }
 
-test.afterEach.always(() => {
+afterEach(() => {
   mockie.stop();
 });
 
-test.serial('normal test', t => {
+test('normal test', t => {
+  mockie.mockCluster(true);
+  mockie.mockThinkCluster();
   mockie.mockThinkMockHttp();
   const App = getApplication();
   let app = new App(defaultOption);
   app.run();
-  t.is(think.isCli, undefined)
+  t.assert.strictEqual(think.isCli, undefined)
 })
 
-test.serial('runInMaster', t => {
+test('runInMaster', t => {
   mockie.mockCluster(true);
   mockie.mockThinkCluster();
   mockie.mockThinkMockHttp();
@@ -36,7 +38,7 @@ test.serial('runInMaster', t => {
   app.parseArgv = ()=>{return {}}
   app.run();
   console.log('app.masterInstance', app.masterInstance)
-  t.is(app.masterInstance instanceof require('think-cluster').Master,false)
+  t.assert.strictEqual(app.masterInstance instanceof require('think-cluster').Master,false)
 })
 
 // test.serial('runInAgent', t => {
@@ -50,7 +52,7 @@ test.serial('runInMaster', t => {
 //   t.is(require('think-cluster').createdServer,true)
 // })
 
-test.serial('runInWorker', async t => {
+test('runInWorker', async t => {
   mockie.mockCluster(false);
   mockie.mockThinkCluster({isFirstWorker:()=>{return true}});
   const App = getApplication();
@@ -63,10 +65,10 @@ test.serial('runInWorker', async t => {
   process.env.NODE_ENV = nodeEnv;
   await utils.sleep(1000)
   // console.log(think.Controller.toString());
-  t.is(require('think-cluster').capturedEvents,true)
+  t.assert.strictEqual(require('think-cluster').capturedEvents,true)
 })
 
-test.serial('runInWorker with createServerFn ', async t => {
+test('runInWorker with createServerFn ', async t => {
   mockie.mockCluster(false);
   mockie.mockThinkCluster({isFirstWorker:()=>{return true}});
   const App = getApplication();
@@ -78,10 +80,10 @@ test.serial('runInWorker with createServerFn ', async t => {
   app.run();
   process.env.NODE_ENV = nodeEnv;
   await utils.sleep(1000)
-  t.is(require('think-cluster').capturedEvents,true)
+  t.assert.strictEqual(require('think-cluster').capturedEvents,true)
 })
 
-test.serial('runInWorker with non-first worker', async t => {
+test('runInWorker with non-first worker', async t => {
   mockie.mockCluster(false);
   mockie.mockThinkCluster({isFirstWorker:()=>{return false}});
   const App = getApplication();
@@ -92,10 +94,12 @@ test.serial('runInWorker with non-first worker', async t => {
   app.run();
   process.env.NODE_ENV = nodeEnv;
   await utils.sleep(1000)
-  t.is(require('think-cluster').capturedEvents,true)
+  t.assert.strictEqual(require('think-cluster').capturedEvents,true)
 })
 
-test.serial('watcher', t => {
+test('watcher', t => {
+  mockie.mockCluster(true);
+  mockie.mockThinkCluster();
   mockie.mockThinkMockHttp();
   const App = getApplication();
   const watcher = class Watcher {
@@ -111,10 +115,10 @@ test.serial('watcher', t => {
   const option = Object.assign({}, defaultOption, {watcher});
   let app = new App(option);
   app.run();
-  t.is(think.isCli, undefined)
+  t.assert.strictEqual(think.isCli, undefined)
 })
 
-test.serial('_watcherCallBack', t => {
+test('_watcherCallBack', t => {
   const App = getApplication();
   const babel = (options)=> {};
   const option = Object.assign({}, defaultOption, {
@@ -126,7 +130,7 @@ test.serial('_watcherCallBack', t => {
   app._watcherCallBack({path:'/',file:'tests.js'});
 })
 
-test.serial('_watcherCallBack with non-logger', t => {
+test('_watcherCallBack with non-logger', t => {
   const App = getApplication();
   const babel = (options)=> {};
   think.logger = null;
@@ -139,7 +143,7 @@ test.serial('_watcherCallBack with non-logger', t => {
   app._watcherCallBack({path:'/',file:'tests.js'});
 })
 
-test.serial('_watcherCallBack with non-array transpiler and throw error', t => {
+test('_watcherCallBack with non-array transpiler and throw error', t => {
   const App = getApplication();
   const babel = (options)=> {
     return new Error('test error')
@@ -150,10 +154,10 @@ test.serial('_watcherCallBack with non-array transpiler and throw error', t => {
   let app = new App(option);
   let result = app._watcherCallBack({path: '/', file: 'tests.js'});
 
-  t.is(result, false);
+  t.assert.strictEqual(result, false);
 })
 
-test.serial('notifier', t => {
+test('notifier', t => {
   const App = getApplication();
   let result = null;
   let construct = (data)=>{
@@ -170,10 +174,10 @@ test.serial('notifier', t => {
   let app = new App(option);
   const err = new Error('test error');
   app.notifier(err);
-  t.is(result.message,'test error');
+  t.assert.strictEqual(result.message,'test error');
 })
 
-test.serial('notifier with non-array options', t => {
+test('notifier with non-array options', t => {
   const App = getApplication();
   let result = null;
   let construct = (data)=>{
@@ -185,10 +189,10 @@ test.serial('notifier with non-array options', t => {
   let app = new App(option);
   const err = new Error('test error');
   app.notifier(err);
-  t.is(result.message,'test error');
+  t.assert.strictEqual(result.message,'test error');
 })
 
-test.serial('_watcherCallBack with masterInstance', t => {
+test('_watcherCallBack with masterInstance', t => {
   mockie.mockCluster(true);
   mockie.mockThinkCluster();
   mockie.mockThinkMockHttp();
@@ -201,10 +205,10 @@ test.serial('_watcherCallBack with masterInstance', t => {
   app.parseArgv = ()=>{return {}};
   app.run();
   app._watcherCallBack({path:'/',file:'tests.js'});
-  t.is(app.masterInstance instanceof require('think-cluster').Master, false);
+  t.assert.strictEqual(app.masterInstance instanceof require('think-cluster').Master, false);
 })
 
-test.serial('run with pm2 cluster mode', t => {
+test('run with pm2 cluster mode', t => {
   mockie.mockThinkPm2({isClusterMode:true});
   const App = getApplication();
   const app = new App(defaultOption);
@@ -214,7 +218,7 @@ test.serial('run with pm2 cluster mode', t => {
   }catch(e){
     err = e;
   }
-  t.is(err instanceof Error,true);
+  t.assert.strictEqual(err instanceof Error,true);
 })
 
 // test.serial('run with exception', t => {
@@ -227,18 +231,18 @@ test.serial('run with pm2 cluster mode', t => {
 //   app.run();
 // })
 
-test.serial('parseArgv with empty args', t => {
+test('parseArgv with empty args', t => {
   const App = getApplication();
   let app = new App(defaultOption);
   process.argv[2] = '';
   const result = app.parseArgv();
-  t.deepEqual(result,{});
+  t.assert.deepStrictEqual(result,{});
 })
 
-test.serial('run with port args', t => {
+test('run with port args', t => {
   const App = getApplication();
   let app = new App(defaultOption);
   process.argv[2] = '8360';
   const result = app.parseArgv();
-  t.deepEqual(result,{port:'8360'});
+  t.assert.deepStrictEqual(result,{port:'8360'});
 })

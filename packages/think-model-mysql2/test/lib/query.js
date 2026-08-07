@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const helper = require('think-helper');
 const Base = require('../../lib/query');
 const Parser = require('../../lib/parser');
@@ -8,8 +8,8 @@ test('select jsonFormat false', t => {
 
   const instance = new Base();
   instance.__proto__.__proto__.select = function(options, cache) {
-    t.is(options, 1);
-    t.is(cache, 2);
+    t.assert.strictEqual(options, 1);
+    t.assert.strictEqual(cache, 2);
   }
   instance.select(1, 2);
 })
@@ -37,26 +37,26 @@ test('select jsonFormat true', async t => {
     return {title: 'hello', content: 'world', json: JSON.stringify([1,2,3,4])};
   }
   const data = await instance.select();
-  t.deepEqual(data, {title: 'hello', content: 'world', json: [1,2,3,4]});
+  t.assert.deepStrictEqual(data, {title: 'hello', content: 'world', json: [1,2,3,4]});
 
 
   instance.__proto__.__proto__.select = function() {
     return [{title: 'hello', content: 'world', json: JSON.stringify([1,2,3,4])}];
   }
   const data2 = await instance.select();
-  t.deepEqual(data2, [{title: 'hello', content: 'world', json: [1,2,3,4]}]);
+  t.assert.deepStrictEqual(data2, [{title: 'hello', content: 'world', json: [1,2,3,4]}]);
 });
 
 test('socket is function', t => {
   const instance = new Base();
-  t.true(helper.isFunction(instance.socket));
+  t.assert.strictEqual(helper.isFunction(instance.socket), true);
 });
 
 test('parser is getter', t => {
   const instance = new Base();
   instance.parser = new Parser();
   const parser = instance.parser;
-  t.true(parser instanceof Parser);
+  t.assert.strictEqual(parser instanceof Parser, true);
 });
 
 test('parser is getter 2', t => {
@@ -64,8 +64,8 @@ test('parser is getter 2', t => {
   instance.parser = new Parser();
   const parser = instance.parser;
   const parser2 = instance.parser;
-  t.true(parser instanceof Parser);
-  t.true(parser === parser2);
+  t.assert.strictEqual(parser instanceof Parser, true);
+  t.assert.strictEqual(parser === parser2, true);
 });
 
 test('query', async t => {
@@ -80,8 +80,8 @@ test('query', async t => {
     };
   };
   const data = await instance.query('SELECT * FROM think_user');
-  t.is(data, 'SELECT * FROM think_user');
-  t.is(instance.lastSql, 'SELECT * FROM think_user');
+  t.assert.strictEqual(data, 'SELECT * FROM think_user');
+  t.assert.strictEqual(instance.lastSql, 'SELECT * FROM think_user');
 });
 
 test('execute', async t => {
@@ -99,8 +99,8 @@ test('execute', async t => {
     };
   };
   const data = await instance.execute('DELETE FROM think_user');
-  t.is(data, 10);
-  t.is(instance.lastInsertId, 1000);
+  t.assert.strictEqual(data, 10);
+  t.assert.strictEqual(instance.lastInsertId, 1000);
 });
 
 test('execute, empty return', async t => {
@@ -116,8 +116,8 @@ test('execute, empty return', async t => {
     };
   };
   const data = await instance.execute('DELETE FROM think_user');
-  t.is(data, 0);
-  t.is(instance.lastInsertId, 0);
+  t.assert.strictEqual(data, 0);
+  t.assert.strictEqual(instance.lastInsertId, 0);
 });
 
 // test('close', t => {

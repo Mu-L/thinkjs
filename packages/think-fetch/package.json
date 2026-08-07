@@ -8,13 +8,11 @@
     "node-fetch": "^1.6.3"
   },
   "devDependencies": {
-    "ava": "^8.0.1",
     "coveralls": "^2.13.0",
-    "eslint": "^10.8.0",
-    "nyc": "^18.0.0"
+    "eslint": "^10.8.0"
   },
   "scripts": {
-    "test": "eslint index.js && nyc ava test/index.js",
+    "test": "eslint index.js && node --test --test-concurrency=1 test/index.js",
     "lint": "eslint index.js",
     "lint-fix": "eslint --fix index.js"
   },
@@ -36,10 +34,5 @@
   "homepage": "https://github.com/thinkjs/think-fetch#readme",
   "engines": {
     "node": ">=20.19.0"
-  },
-  "ava": {
-    "failWithoutAssertions": false,
-    "serial": true,
-    "timeout": "60s"
   }
 }

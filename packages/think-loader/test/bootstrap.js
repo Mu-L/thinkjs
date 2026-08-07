@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const path = require('path');
 
 test('bootstrapPath when isMultiModule is true', t => {
@@ -14,7 +14,7 @@ test('bootstrapPath when isMultiModule is true', t => {
   };
 
   var modules = bootstrap('app', ['admin'], 'worker');
-  t.is(modules.__name, 'ajs');
+  t.assert.strictEqual(modules.__name, 'ajs');
 });
 
 test('bootstrapPath when isMultiModule is false', t => {
@@ -30,5 +30,5 @@ test('bootstrapPath when isMultiModule is false', t => {
   };
 
   var modules = bootstrap('app', [], 'master');
-  t.is(modules.__name, 'master');
+  t.assert.strictEqual(modules.__name, 'master');
 });

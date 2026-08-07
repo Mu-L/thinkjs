@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "test": "pnpm run lint && pnpm run test-cov",
-    "test-cov": "nyc ava test/ && nyc report --reporter=html",
+    "test-cov": "node --test --test-concurrency=1 --experimental-test-coverage test/index.js test/lib/util.js",
     "lint": "eslint ./lib/ index.js",
     "prepublish": "pnpm test"
   },
@@ -29,11 +29,9 @@
     "think-instance": "^1.0.2"
   },
   "devDependencies": {
-    "ava": "^8.0.1",
     "eslint": "^10.8.0",
     "mkdirp": "^0.5.1",
     "mock-require": "^3.0.2",
-    "nyc": "^18.0.0",
     "pre-commit": "^1.2.2"
   },
   "keywords": [
@@ -51,10 +49,5 @@
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/thinkjs/think-mongoose/issues"
-  },
-  "ava": {
-    "failWithoutAssertions": false,
-    "serial": true,
-    "timeout": "60s"
   }
 }

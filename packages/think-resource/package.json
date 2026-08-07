@@ -4,7 +4,7 @@
   "description": "Resource for ThinkJS 3.x ",
   "main": "index.js",
   "scripts": {
-    "test": "eslint index.js && nyc ava test/index.js && nyc report --reporter=html"
+    "test": "eslint index.js && node --test --test-concurrency=1 test/index.js"
   },
   "repository": {
     "type": "git",
@@ -32,12 +32,10 @@
     "think-helper": "^1.1.5"
   },
   "devDependencies": {
-    "ava": "^8.0.1",
     "babel-preset-think-node": "^1.0.1",
     "coveralls": "^2.13.0",
     "eslint": "^10.8.0",
     "koa": "^2.2.0",
-    "nyc": "^18.0.0",
     "supertest": "^3.0.0",
     "think-helper": "^1.1.5"
   },
@@ -46,10 +44,5 @@
     "presets": [
       "think-node"
     ]
-  },
-  "ava": {
-    "failWithoutAssertions": false,
-    "serial": true,
-    "timeout": "60s"
   }
 }

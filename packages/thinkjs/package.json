@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "test": "pnpm run lint && pnpm run test-cov",
-    "test-cov": "nyc ava test/case/ && nyc report --reporter=html",
+    "test-cov": "node --test --test-concurrency=1 --experimental-test-coverage test/case/application.js test/case/extend/context.js test/case/extend/controller.js test/case/extend/logic.js test/case/loader.js test/case/think.js",
     "lint": "eslint ./lib/",
     "prepublish": "pnpm test"
   },
@@ -63,11 +63,9 @@
     "think-validator": "^1.7.0"
   },
   "devDependencies": {
-    "ava": "^8.0.1",
     "eslint": "^10.8.0",
     "mkdirp": "^0.5.1",
     "mock-require": "^2.0.1",
-    "nyc": "^18.0.0",
     "pre-commit": "^1.2.2"
   },
   "keywords": [
@@ -99,10 +97,5 @@
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/thinkjs/thinkjs/issues"
-  },
-  "ava": {
-    "failWithoutAssertions": false,
-    "serial": true,
-    "timeout": "60s"
   }
 }

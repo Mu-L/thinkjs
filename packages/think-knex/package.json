@@ -4,7 +4,7 @@
   "description": "knex for thinkJS 3.X",
   "main": "index.js",
   "scripts": {
-    "test": "eslint index.js && nyc ava test/index.js"
+    "test": "eslint index.js && node --test --test-concurrency=1 test/index.js"
   },
   "repository": {
     "type": "git",
@@ -28,17 +28,10 @@
     "think-helper": "^1.1.3"
   },
   "devDependencies": {
-    "ava": "^8.0.1",
     "coveralls": "^3.0.2",
-    "eslint": "^10.8.0",
-    "nyc": "^18.0.0"
+    "eslint": "^10.8.0"
   },
   "engines": {
     "node": ">=20.19.0"
-  },
-  "ava": {
-    "failWithoutAssertions": false,
-    "serial": true,
-    "timeout": "60s"
   }
 }

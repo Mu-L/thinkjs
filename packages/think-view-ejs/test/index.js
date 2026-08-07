@@ -1,8 +1,8 @@
-const {default: test} = require('ava');
+const {test, beforeEach, afterEach} = require('node:test');
 const ejs = require('ejs');
 
 
-test.beforeEach(t => {
+beforeEach(t => {
   ejs.___renderFile = ejs.renderFile;
 });
 
@@ -35,7 +35,7 @@ test('ejs render with beforeRender', async t => {
   
   mockRenderFile();
   const rendered = await callEjsView(filename, viewData, config);
-  t.is(rendered, result);
+  t.assert.strictEqual(rendered, result);
 });
 test('ejs render without beforeRender', async t => {
   const filename = '/file/path/../x.ejs';
@@ -55,7 +55,7 @@ test('ejs render without beforeRender', async t => {
   
   mockRenderFile();
   const rendered = await callEjsView(filename, viewData, config);
-  t.is(rendered, result);
+  t.assert.strictEqual(rendered, result);
 });
 test('ejs render error', async t => {
   const filename = '/file/path/../x.ejs';
@@ -75,8 +75,8 @@ test('ejs render error', async t => {
   }
   
   mockRenderFile();
-  await t.throwsAsync(callEjsView(filename, viewData, config), {message: errmsg});
+  await t.assert.rejects(callEjsView(filename, viewData, config), {message: errmsg});
 });
-test.afterEach.always(t => {
+afterEach(t => {
   ejs.renderFile = ejs.___renderFile;
 });

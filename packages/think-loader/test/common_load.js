@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const path = require('path');
 // const mock = require('mock-require');
 
@@ -25,18 +25,18 @@ test('common loader when isMultiModule is true', t => {
 
   var cache = common.load('appPath', 'type', ['user', 'admin', 'other']);
 
-  t.deepEqual(params, [
+  t.assert.deepStrictEqual(params, [
     path.join('appPath', 'user', 'type'),
     path.join('appPath', 'admin', 'type'),
     path.join('appPath', 'other', 'type')
   ]);
 
-  t.is(cache.user.a, 1);
-  t.is(cache.user.b, 2);
-  t.is(cache.admin.a, 1);
-  t.is(cache.admin.b, 2);
-  t.is(cache.other.a, 1);
-  t.is(cache.other.b, 2);
+  t.assert.strictEqual(cache.user.a, 1);
+  t.assert.strictEqual(cache.user.b, 2);
+  t.assert.strictEqual(cache.admin.a, 1);
+  t.assert.strictEqual(cache.admin.b, 2);
+  t.assert.strictEqual(cache.other.a, 1);
+  t.assert.strictEqual(cache.other.b, 2);
 });
 
 test('common.load when isMultiModule is false', t => {
@@ -45,9 +45,9 @@ test('common.load when isMultiModule is false', t => {
 
   var cache = common.load('appPath', 'type', []);
 
-  t.deepEqual(params, [
+  t.assert.deepStrictEqual(params, [
     path.join('appPath', 'type')
   ]);
 
-  t.deepEqual(cache, {a: 1, b: 2});
+  t.assert.deepStrictEqual(cache, {a: 1, b: 2});
 });

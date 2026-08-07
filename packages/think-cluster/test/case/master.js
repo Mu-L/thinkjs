@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test, afterEach} = require('node:test');
 const mock = require('mock-require');
 const cluster = require('cluster');
 const http = require('http');
@@ -11,7 +11,7 @@ const helper = require('think-helper');
 const interval = 5000;
 
 let masterProcess = null;
-test.afterEach.always(() => {
+afterEach(() => {
   if (masterProcess) {
     masterProcess.kill();
   }
@@ -33,7 +33,7 @@ function executeProcess(fileName, options, funcName, callback) {
   return masterProcess;
 }
 
-test.serial('normal case', async t => {
+test('normal case', async t => {
   try {
     const result = {};
     const options = {
@@ -43,13 +43,13 @@ test.serial('normal case', async t => {
       Object.assign(result, output);
     });
     await sleep(interval);
-    t.is(result.isForked, true);
-    t.is(result.options.workers, 1);
+    t.assert.strictEqual(result.isForked, true);
+    t.assert.strictEqual(result.options.workers, 1);
   } catch (e) {
   }
 });
 
-test.serial('options.workers >= 2 && enableAgent is true', async t => {
+test('options.workers >= 2 && enableAgent is true', async t => {
   try {
     const result = {};
     const options = {
@@ -61,13 +61,13 @@ test.serial('options.workers >= 2 && enableAgent is true', async t => {
       Object.assign(result, output);
     });
     await sleep(interval);
-    t.is(result.isForked, true);
-    t.is(result.options.enableAgent, true);
+    t.assert.strictEqual(result.isForked, true);
+    t.assert.strictEqual(result.options.enableAgent, true);
   } catch (e) {
   }
 });
 
-test.serial('if options.workers < 2,enableAgent is false', async t => {
+test('if options.workers < 2,enableAgent is false', async t => {
   try {
     const result = {};
     const options = {
@@ -79,14 +79,14 @@ test.serial('if options.workers < 2,enableAgent is false', async t => {
       Object.assign(result, output);
     });
     await sleep(interval);
-    t.is(result.isForked, true);
+    t.assert.strictEqual(result.isForked, true);
     // if workers < 2, set enableAgent false
-    t.is(result.options.enableAgent, false);
+    t.assert.strictEqual(result.options.enableAgent, false);
   } catch (e) {
   }
 });
 
-test.serial('reloadWorkers', async t => {
+test('reloadWorkers', async t => {
   try {
     const result = {};
     executeProcess('master.js', {workers: 4}, 'reloadWorkers', (output) => {
@@ -94,12 +94,12 @@ test.serial('reloadWorkers', async t => {
     });
     await sleep(interval * 2);
     // console.log(result);
-    t.notDeepEqual(result.beforeWorkers, result.afterWorkers);
+    t.assert.notDeepStrictEqual(result.beforeWorkers, result.afterWorkers);
   } catch (e) {
   }
 });
 
-test.serial('trigger SIGUSR2 signal', async t => {
+test('trigger SIGUSR2 signal', async t => {
   try {
     const result = {};
     const options = {
@@ -109,7 +109,7 @@ test.serial('trigger SIGUSR2 signal', async t => {
       Object.assign(result, output);
     });
     await sleep(interval);
-    t.is(result.isForked, true);
+    t.assert.strictEqual(result.isForked, true);
     console.log(`master process id is ${masterProcess.pid}`);
     await sleep(interval);
 
@@ -125,7 +125,7 @@ test.serial('trigger SIGUSR2 signal', async t => {
   }
 });
 
-test.serial('trigger worker unHandleRejection ', async t => {
+test('trigger worker unHandleRejection ', async t => {
   try {
     const result = {};
     const options = {
@@ -136,12 +136,12 @@ test.serial('trigger worker unHandleRejection ', async t => {
       console.log(result);
     });
     await sleep(interval);
-    t.is(result.message.indexOf('onUnhandledRejection') != -1, true);
+    t.assert.strictEqual(result.message.indexOf('onUnhandledRejection') != -1, true);
   } catch (e) {
   }
 });
 
-test.serial('trigger worker unCaughtException', async t => {
+test('trigger worker unCaughtException', async t => {
   try {
     const result = {};
     const options = {
@@ -152,7 +152,7 @@ test.serial('trigger worker unCaughtException', async t => {
       console.log(result);
     });
     await sleep(interval);
-    t.is(result.message.indexOf('onUncaughtException') != -1, true);
+    t.assert.strictEqual(result.message.indexOf('onUncaughtException') != -1, true);
   } catch (e) {
   }
 });

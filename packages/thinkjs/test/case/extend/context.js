@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const fs = require('fs');
 const helper = require('think-helper');
 const config = require('../../../lib/config/config');
@@ -80,175 +80,175 @@ Object.assign(context, mockContext);
 
 global.think = Object.assign({}, mockThink);
 
-test.serial('get userAgent', async t => {
-  t.is(context.userAgent, mockContext.header['user-agent'])
+test('get userAgent', async t => {
+  t.assert.strictEqual(context.userAgent, mockContext.header['user-agent'])
 });
 
-test.serial('referer', async t => {
-  t.is(context.referer(), mockContext.header['referer']);
-  t.is(context.referer(true), 'github.com');
+test('referer', async t => {
+  t.assert.strictEqual(context.referer(), mockContext.header['referer']);
+  t.assert.strictEqual(context.referer(true), 'github.com');
 });
 
-test.serial('isGet', async t => {
-  t.is(context.isGet, true)
+test('isGet', async t => {
+  t.assert.strictEqual(context.isGet, true)
 });
 
-test.serial('isPost', async t => {
-  t.is(context.isPost, false)
+test('isPost', async t => {
+  t.assert.strictEqual(context.isPost, false)
 });
 
-test.serial('isMethod', async t => {
-  t.is(context.isMethod('GET'), true);
-  t.is(context.isMethod('POST'), false);
+test('isMethod', async t => {
+  t.assert.strictEqual(context.isMethod('GET'), true);
+  t.assert.strictEqual(context.isMethod('POST'), false);
 });
 
-test.serial('isMethod #2', async t => {
-  t.is(context.isMethod('GET'), true);
-  t.is(context.isMethod('POST'), false);
+test('isMethod #2', async t => {
+  t.assert.strictEqual(context.isMethod('GET'), true);
+  t.assert.strictEqual(context.isMethod('POST'), false);
 });
 
-test.serial('get isCli', async t => {
-  t.is(context.isCli, false);
+test('get isCli', async t => {
+  t.assert.strictEqual(context.isCli, false);
 });
 
-test.serial('isAjax', async t => {
-  t.is(context.isAjax('GET'),true)
-  t.is(context.isAjax('POST'),false)
+test('isAjax', async t => {
+  t.assert.strictEqual(context.isAjax('GET'),true)
+  t.assert.strictEqual(context.isAjax('POST'),false)
 });
 
-test.serial('isJsonp', async t => {
+test('isJsonp', async t => {
   context.param('_callback','test')
-  t.is(context.isJsonp(),true)
-  t.is(context.isJsonp('_callback'),true)
+  t.assert.strictEqual(context.isJsonp(),true)
+  t.assert.strictEqual(context.isJsonp('_callback'),true)
 });
 
-test.serial('jsonp', async t => {
-  context.param('_callback','test')
-  context.jsonp({name:'thinkjs'})
-  t.is(context.body,'test({"name":"thinkjs"})');
-});
-
-test.serial('jsonp #2', async t => {
+test('jsonp', async t => {
   context.param('_callback','test')
   context.jsonp({name:'thinkjs'})
-  t.is(context.body,'test({"name":"thinkjs"})');
+  t.assert.strictEqual(context.body,'test({"name":"thinkjs"})');
 });
 
-test.serial('jsonp empty fields', async t => {
+test('jsonp #2', async t => {
+  context.param('_callback','test')
+  context.jsonp({name:'thinkjs'})
+  t.assert.strictEqual(context.body,'test({"name":"thinkjs"})');
+});
+
+test('jsonp empty fields', async t => {
   context.jsonp('test','empty');
-  t.is(context.body,'test');
+  t.assert.strictEqual(context.body,'test');
 });
 
-test.serial('json', async t => {
+test('json', async t => {
   context.json(JSON.stringify({name:'thinkjs'}));
-  t.is(context.body,JSON.stringify({name:'thinkjs'}));
+  t.assert.strictEqual(context.body,JSON.stringify({name:'thinkjs'}));
 });
 
-test.serial('success', async t => {
+test('success', async t => {
   context.success([],'success');
-  t.deepEqual(context.body,{errno:0,errmsg:'success',data:[]});
+  t.assert.deepStrictEqual(context.body,{errno:0,errmsg:'success',data:[]});
 });
 
-test.serial('success #2', async t => {
+test('success #2', async t => {
   let errObj = {errno:404,errmsg:'fail',data:[]};
   context.fail(errObj);
-  t.deepEqual(context.body,errObj);
+  t.assert.deepStrictEqual(context.body,errObj);
 
   context.fail(404,'fail',[]);
-  t.deepEqual(context.body,{errno:404,errmsg:'fail',data:[]});
+  t.assert.deepStrictEqual(context.body,{errno:404,errmsg:'fail',data:[]});
 
   context.fail('fail',[]);
-  t.deepEqual(context.body,{errno:10010,errmsg:'fail',data:[]});
+  t.assert.deepStrictEqual(context.body,{errno:10010,errmsg:'fail',data:[]});
 
   context.fail('fail');
-  t.deepEqual(context.body,{errno:10010,errmsg:'fail'});
+  t.assert.deepStrictEqual(context.body,{errno:10010,errmsg:'fail'});
 
   context.fail('TEST_RULE')
-  t.deepEqual(context.body,{errno:1000,errmsg:'test'});
+  t.assert.deepStrictEqual(context.body,{errno:1000,errmsg:'test'});
 
   context.fail('TEST_NON_ARRAY_RULE')
-  t.deepEqual(context.body,{ errno: 10010, errmsg: 'TEST_NON_ARRAY_RULE' });
+  t.assert.deepStrictEqual(context.body,{ errno: 10010, errmsg: 'TEST_NON_ARRAY_RULE' });
 
 });
 
-test.serial('expires', async t => {
+test('expires', async t => {
   context.expires('1d');
-  t.deepEqual(context.data['Cache-Control'],'max-age=86400000');
+  t.assert.deepStrictEqual(context.data['Cache-Control'],'max-age=86400000');
 });
 
-test.serial('config', async t => {
-  t.is(context.config('defaultErrno'),10010);
+test('config', async t => {
+  t.assert.strictEqual(context.config('defaultErrno'),10010);
 });
 
-test.serial('post', async t => {
+test('post', async t => {
   let result = context.post('name');
   result = context.post('name');
-  t.is(result, 'thinkjs');
+  t.assert.strictEqual(result, 'thinkjs');
   result = context.post();
-  t.deepEqual(result, mockContext.request.body.post)
+  t.assert.deepStrictEqual(result, mockContext.request.body.post)
   let add = {age: 3};
   context.post(add)
   result = context.post();
-  t.deepEqual(result, Object.assign({},add,mockContext.request.body.post));
+  t.assert.deepStrictEqual(result, Object.assign({},add,mockContext.request.body.post));
   result = context.post('name,age');
-  t.deepEqual(result, {name:'thinkjs',age:3});
+  t.assert.deepStrictEqual(result, {name:'thinkjs',age:3});
   context.post('age',4);
   result = context.post('age');
-  t.deepEqual(result, 4);
+  t.assert.deepStrictEqual(result, 4);
 });
 
-test.serial('param', async t => {
+test('param', async t => {
   context.param('name','thinkjs');
-  t.is(context.param('name'),'thinkjs');
-  t.is(context.param().name,'thinkjs');
+  t.assert.strictEqual(context.param('name'),'thinkjs');
+  t.assert.strictEqual(context.param().name,'thinkjs');
   context.param({age:3});
-  t.is(context.param().age,3);
-  t.is(context.param('name,age').name,'thinkjs')
-  t.is(context.param('name,age').age,3)
+  t.assert.strictEqual(context.param().age,3);
+  t.assert.strictEqual(context.param('name,age').name,'thinkjs')
+  t.assert.strictEqual(context.param('name,age').age,3)
 });
 
-test.serial('param array', async t => {
+test('param array', async t => {
   context.param('name','thinkjs');
-  t.is(context.param('name'),'thinkjs');
-  t.is(context.param().name,'thinkjs');
+  t.assert.strictEqual(context.param('name'),'thinkjs');
+  t.assert.strictEqual(context.param().name,'thinkjs');
   context.param({age:3});
-  t.is(context.param().age,3);
-  t.is(context.param(['name','age']).name,'thinkjs');
-  t.is(context.param(['name','age']).age,3)
-  t.is(Object.keys(context.param(['name','age', 'test'])).length,2)
+  t.assert.strictEqual(context.param().age,3);
+  t.assert.strictEqual(context.param(['name','age']).name,'thinkjs');
+  t.assert.strictEqual(context.param(['name','age']).age,3)
+  t.assert.strictEqual(Object.keys(context.param(['name','age', 'test'])).length,2)
 });
 
-test.serial('post array', async t => {
+test('post array', async t => {
   context.post('name','thinkjs');
-  t.is(context.post('name'),'thinkjs');
-  t.is(context.post().name,'thinkjs');
+  t.assert.strictEqual(context.post('name'),'thinkjs');
+  t.assert.strictEqual(context.post().name,'thinkjs');
   context.post({age:3});
-  t.is(context.post().age,3);
-  t.is(context.post(['name','age']).name,'thinkjs');
-  t.is(context.post(['name','age']).age,3)
-  t.is(Object.keys(context.post(['name','age', 'test'])).length,2)
+  t.assert.strictEqual(context.post().age,3);
+  t.assert.strictEqual(context.post(['name','age']).name,'thinkjs');
+  t.assert.strictEqual(context.post(['name','age']).age,3)
+  t.assert.strictEqual(Object.keys(context.post(['name','age', 'test'])).length,2)
 });
 
 
 
-test.serial('file', async t => {
+test('file', async t => {
   let result = context.file('name');
-  t.is(result,mockContext.request.body.file.name);
+  t.assert.strictEqual(result,mockContext.request.body.file.name);
   result = context.file();
-  t.deepEqual(result,mockContext.request.body.file);
+  t.assert.deepStrictEqual(result,mockContext.request.body.file);
   let file = {filename:'a.jpg'};
   context.file(file);
   result = context.file();
-  t.deepEqual(result,Object.assign({},file,mockContext.request.body.file))
+  t.assert.deepStrictEqual(result,Object.assign({},file,mockContext.request.body.file))
   context.file('Content-Type','image/png');
-  t.is(context.file('Content-Type'),'image/png')
+  t.assert.strictEqual(context.file('Content-Type'),'image/png')
 });
 
-test.serial('cookie', async t => {
+test('cookie', async t => {
   context.cookie('username', 'think');
-  t.is(context.cookie('username'), 'think');
+  t.assert.strictEqual(context.cookie('username'), 'think');
   context.cookie('username', null);
-  t.is(context.cookie('username'), '');
+  t.assert.strictEqual(context.cookie('username'), '');
   let overLength = null;
   context.app = {
     emit() {
@@ -257,24 +257,24 @@ test.serial('cookie', async t => {
   };
   let str = new Array(5000).join('|');
   context.cookie('username', str);
-  t.is(overLength,true);
+  t.assert.strictEqual(overLength,true);
 });
 
-test.serial('controller / service', async t => {
+test('controller / service', async t => {
   context.service();
 });
 
-test.serial('config.onUnhandledRejection/onUncaughtException', async t => {
-  t.is('onUnhandledRejection',config.onUnhandledRejection('onUnhandledRejection'));
-  t.is('onUncaughtException',config.onUncaughtException('onUncaughtException'));
+test('config.onUnhandledRejection/onUncaughtException', async t => {
+  t.assert.strictEqual('onUnhandledRejection',config.onUnhandledRejection('onUnhandledRejection'));
+  t.assert.strictEqual('onUncaughtException',config.onUncaughtException('onUncaughtException'));
 });
 
-test.serial('download', async t => {
+test('download', async t => {
   context.download(__dirname + '/controller.js');
-  t.is(context.body instanceof fs.ReadStream,true)
+  t.assert.strictEqual(context.body instanceof fs.ReadStream,true)
 });
 
-test.serial('download with content-type and disposition', async t => {
+test('download with content-type and disposition', async t => {
   context.response.get = (key)=>{
     if(key === 'Content-Type'){
       return 'application/json'
@@ -283,5 +283,5 @@ test.serial('download with content-type and disposition', async t => {
     }
   }
   context.download(__dirname + '/controller.js');
-  t.is(context.body instanceof fs.ReadStream,true)
+  t.assert.strictEqual(context.body instanceof fs.ReadStream,true)
 });

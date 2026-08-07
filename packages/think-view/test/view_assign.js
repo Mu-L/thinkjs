@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const View = require('../lib/view');
 
 class TestView extends View {
@@ -11,7 +11,7 @@ class TestView extends View {
 test('assign function -- both name and value are string type', t=> {
   const view = new TestView();
   view.assign('test', 'test');
-  t.is(view.viewData['test'], 'test');
+  t.assert.strictEqual(view.viewData['test'], 'test');
 });
 
 test('assign function -- string name with object value', t=> {
@@ -25,14 +25,14 @@ test('assign function -- string name with object value', t=> {
     ]
   };
   view.assign('test', model);
-  t.deepEqual(view.viewData['test'], model);
+  t.assert.deepStrictEqual(view.viewData['test'], model);
 });
 
 test('assign function -- undefined name with string value', t=> {
   const view = new TestView();
   const originViewData = Object.assign(view.viewData, {});
   view.assign(undefined, 'test');
-  t.deepEqual(originViewData, view.viewData);
+  t.assert.deepStrictEqual(originViewData, view.viewData);
 });
 
 test('assign function -- string name with undefined value', t=> {
@@ -40,7 +40,7 @@ test('assign function -- string name with undefined value', t=> {
   const assignStr = 'hello thinkjs';
   view.assign('test', assignStr);
   let value = view.assign('test');
-  t.is(value, assignStr);
+  t.assert.strictEqual(value, assignStr);
 });
 
 test('assign function -- object name with undefined value', t=> {
@@ -52,5 +52,5 @@ test('assign function -- object name with undefined value', t=> {
     version: 3
   };
   view.assign(name);
-  t.deepEqual(view.viewData, name);
+  t.assert.deepStrictEqual(view.viewData, name);
 });

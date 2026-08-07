@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const Model = require('think-model/lib/model');
 const SQLite = require('../');
 
@@ -23,10 +23,10 @@ test('socket execute & query with better-sqlite3', async t => {
     const insert2 = await socket.execute("INSERT INTO user(name) VALUES ('bob')");
     const rows = await socket.query('SELECT id, name FROM user ORDER BY id ASC');
 
-    t.true(insert1.insertId > 0);
-    t.is(insert1.affectedRows, 1);
-    t.is(insert2.affectedRows, 1);
-    t.deepEqual(rows, [
+    t.assert.strictEqual(insert1.insertId > 0, true);
+    t.assert.strictEqual(insert1.affectedRows, 1);
+    t.assert.strictEqual(insert2.affectedRows, 1);
+    t.assert.deepStrictEqual(rows, [
       {id: 1, name: 'alice'},
       {id: 2, name: 'bob'}
     ]);
@@ -41,16 +41,20 @@ test('transaction rollback should keep data unchanged', async t => {
   try {
     await socket.execute('CREATE TABLE item (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)');
 
-    const err = await t.throwsAsync(async () => {
+    let err;
+    await t.assert.rejects(async () => {
       await socket.transaction(async connection => {
         await socket.execute("INSERT INTO item(name) VALUES ('rollback-me')", connection);
         throw new Error('mock failure');
       });
+    }, caughtError => {
+      err = caughtError;
+      return true;
     });
 
     const rows = await socket.query('SELECT COUNT(1) AS cnt FROM item');
-    t.is(err.message, 'mock failure');
-    t.is(rows[0].cnt, 0);
+    t.assert.strictEqual(err.message, 'mock failure');
+    t.assert.strictEqual(rows[0].cnt, 0);
   } finally {
     await socket.close();
   }
@@ -71,9 +75,9 @@ test('think-model integration', async t => {
   const insert2 = await userModel.add({name: 'bob'});
   const rows = await userModel.select();
 
-  t.is(insert1, 1);
-  t.is(insert2, 2);
-  t.deepEqual(rows, [
+  t.assert.strictEqual(insert1, 1);
+  t.assert.strictEqual(insert2, 2);
+  t.assert.deepStrictEqual(rows, [
     {id: 1, name: 'alice'},
     {id: 2, name: 'bob'}
   ]);

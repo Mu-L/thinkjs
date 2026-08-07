@@ -5,7 +5,7 @@
 * @Last Modified time: 2017-03-27 16:58:34
 */
 
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const helper = require('think-helper');
 const path = require('path');
 const fs = require('fs');
@@ -20,37 +20,37 @@ let viewBasePath = path.join(__dirname, 'views');
 let viewData = {name: 'thinkjs'};
 
 
-test.serial('pug render', async t => {
+test('pug render', async t => {
   let viewFile = path.join(__dirname, '/views/home.jade');
   let config = helper.extend({}, defaultOptions, viewData, {viewPath: viewBasePath});
   let originOut = pugOrigin.renderFile(viewFile, config);
   let pugInst = new Pug(viewFile, viewData, config);
-  t.is(originOut, await pugInst.render());
+  t.assert.strictEqual(originOut, await pugInst.render());
 });
 
-test.serial('pug render err when file is not exsit', async t => {
+test('pug render err when file is not exsit', async t => {
   let config = helper.extend({}, defaultOptions, viewData, {viewPath: viewBasePath});
   try {
     let pugInst = new Pug('noExit.jade', viewData, config);
     await pugInst.render()
   }
   catch(e) {
-    t.pass();
+    t.assert.ok(true);
   }
 });
 
-test.serial('pug render with absolute path', async t => {
+test('pug render with absolute path', async t => {
   let config = helper.extend({}, defaultOptions, viewData, {viewPath: viewBasePath});
   try {
     let pugInst = new Pug(path.join(__dirname, '/views/home.jade'), viewData, config);
     await pugInst.render()
   }
   catch(e) {
-    t.pass();
+    t.assert.ok(true);
   }
 });
 
-test.serial('pug render with beforeRender', async t => {
+test('pug render with beforeRender', async t => {
   let filterFn = (text, options) => {
     if (options.addStart) text = 'Start\n' + text;
     if (options.addEnd)   text = text + '\nEnd';
@@ -66,7 +66,7 @@ test.serial('pug render with beforeRender', async t => {
   pugOrigin.filters['my-own-filter'] = filterFn;
   let originOut = pugOrigin.renderFile( path.join(viewBasePath, '/filter.jade'), helper.extend({}, defaultOptions, {viewPath: viewBasePath}));
 
-  t.is(originOut, await pugInst.render());
+  t.assert.strictEqual(originOut, await pugInst.render());
 });
 
 

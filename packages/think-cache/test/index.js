@@ -4,7 +4,7 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2017-09-13 11:49:47
 */
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const helper = require('think-helper');
 const path = require('path');
 const fs = require('fs');
@@ -47,18 +47,18 @@ function getConfig() {
 
 test('delete by cache name', async t => {
   let ret = await cacheDB.apply(thisConfig, ['name', null, getConfig()]);
-  t.is(1, ret);
+  t.assert.strictEqual(1, ret);
 });
 
 
 test('get by cache name', async t => {
   let ret = await cacheDB.apply(thisConfig, ['name', undefined, getConfig()]);
-  t.is('thinkjs', ret);
+  t.assert.strictEqual('thinkjs', ret);
 });
 
 test('set cache ', async t => {
   let ret = await cacheDB.apply(thisConfig, ['name', 'thinkjs', getConfig()]);
-  t.true(ret);
+  t.assert.strictEqual(ret, true);
 });
 
 test('set cache 2', async t => {
@@ -71,7 +71,7 @@ test('set cache 2', async t => {
     }
   }
   let ret = await cacheDB.apply(this_Config, ['name', 'thinkjs']);
-  t.true(ret);
+  t.assert.strictEqual(ret, true);
 });
 
 
@@ -84,7 +84,7 @@ test('get cache when value is function and function return undefined', async t =
     },
     getConfig()
   ]);
-  t.is(argName, ret);
+  t.assert.strictEqual(argName, ret);
 });
 
 test('get cache when value is function and function return value', async t => {
@@ -96,5 +96,5 @@ test('get cache when value is function and function return value', async t => {
     },
     getConfig()
   ]);
-  t.is('thinkjs', ret);
+  t.assert.strictEqual('thinkjs', ret);
 });

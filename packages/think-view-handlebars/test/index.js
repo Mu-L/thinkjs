@@ -4,7 +4,7 @@
 * @Last Modified by:   lushijie
 * @Last Modified time: 2017-07-19 12:25:57
 */
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const helper = require('think-helper');
 const path = require('path');
 const fs = require('fs');
@@ -22,44 +22,44 @@ let defaultOptions = {
 let viewData = {title: 'Thinkjs'};
 
 // test case
-test.serial('handlebars default render', async t => {
+test('handlebars default render', async t => {
   let viewFile = path.join(viewBasePath, './home.tpl');
   let config = helper.extend({}, defaultOptions, {viewPath: viewBasePath});
   let handlebars = new Handlebars(viewFile, viewData, config);
   let fileContent = fs.readFileSync(path.join(viewBasePath, 'home.tpl')).toString();
   let originResp = handlebarsOrigin.compile(fileContent)(viewData);
 
-  t.is(originResp, await handlebars.render())
+  t.assert.strictEqual(originResp, await handlebars.render())
 });
 
-test.serial('handlebars with absolute path', async t => {
+test('handlebars with absolute path', async t => {
   let config = helper.extend({}, defaultOptions, {viewPath: viewBasePath});
   let handlebars = new Handlebars(path.join(viewBasePath, './home.tpl'), viewData, config);
   let fileContent = fs.readFileSync(path.join(viewBasePath, 'home.tpl')).toString();
   let originResp = handlebarsOrigin.compile(fileContent)(viewData);
 
-  t.is(originResp, await handlebars.render());
+  t.assert.strictEqual(originResp, await handlebars.render());
 });
 
-test.serial('get content err', async t => {
+test('get content err', async t => {
   let config = helper.extend({}, defaultOptions, {viewPath: viewBasePath});
   let handlebars = new Handlebars(path.join(viewBasePath, './noExit.tpl'), viewData, config);
   try {
     let ret = await handlebars.render();
     console.log(ret);
   }catch(e) {
-    t.pass();
+    t.assert.ok(true);
   }
 });
 
-test.serial('handlebars with cache', async t => {
+test('handlebars with cache', async t => {
   let config = helper.extend({}, defaultOptions, {viewPath: viewBasePath, options: {cache: true}});
   let handlebars = new Handlebars(path.join(viewBasePath, './home.tpl'), viewData, config);
 
-  t.is(await handlebars.render(), await handlebars.render());
+  t.assert.strictEqual(await handlebars.render(), await handlebars.render());
 });
 
-test.serial('handlebars with registerHelper', async t => {
+test('handlebars with registerHelper', async t => {
   let shortenFn = str => {
     return str.slice(0, 5);
   };
@@ -76,6 +76,6 @@ test.serial('handlebars with registerHelper', async t => {
   let originResp = handlebarsOrigin.compile(fileContent)(viewData);
   handlebarsOrigin.unregisterHelper('shorten');
 
-  t.is(originResp, await handlebars.render());
+  t.assert.strictEqual(originResp, await handlebars.render());
 });
 

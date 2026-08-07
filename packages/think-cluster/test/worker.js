@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test, afterEach} = require('node:test');
 const mock = require('mock-require');
 const cluster = require('cluster');
 const http = require('http');
@@ -11,7 +11,7 @@ const helper = require('think-helper');
 const interval = 5000;
 
 let masterProcess = null;
-test.afterEach.always(() => {
+afterEach(() => {
   if (masterProcess) {
     masterProcess.kill();
   }
@@ -33,7 +33,7 @@ function executeProcess(fileName, options, funcName, callback) {
   return masterProcess;
 }
 
-test.serial('normal case', async t => {
+test('normal case', async t => {
   console.log('worker');
   try {
     const result = {};
@@ -44,8 +44,8 @@ test.serial('normal case', async t => {
       Object.assign(result, output);
     });
     await sleep(interval);
-    t.is(result.isForked, true);
-    t.is(result.options.workers, 4);
+    t.assert.strictEqual(result.isForked, true);
+    t.assert.strictEqual(result.options.workers, 4);
   } catch (e) {
   }
 });

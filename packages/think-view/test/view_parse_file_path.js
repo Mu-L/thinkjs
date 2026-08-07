@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const mock = require('mock-require');
 
 const ctx = {
@@ -27,28 +27,28 @@ test('parseFilePath function -- normal scene', t => {
   const View = getView();
   const view = new View(ctx);
   let file = view.parseFilePath('index.html', config);
-  t.is(file, '/www/static/index.html');
+  t.assert.strictEqual(file, '/www/static/index.html');
 });
 
 test('parseFilePath function -- path without extension name', t => {
   const View = getView();
   const view = new View(ctx);
   let file = view.parseFilePath('index', config);
-  t.is(file, '/www/static/index.html');
+  t.assert.strictEqual(file, '/www/static/index.html');
 });
 
 test('parseFilePath function -- undefined path', t => {
   const View = getView();
   const view = new View(ctx);
   let file = view.parseFilePath(undefined, config);
-  t.is(file, '/www/static/admin/user/index.html');
+  t.assert.strictEqual(file, '/www/static/admin/user/index.html');
 });
 
 test('parseFilePath function -- absolute path', t => {
   const View = getView();
   const view = new View(ctx);
   let file = view.parseFilePath('/index.html', config);
-  t.is(file, '/index.html');
+  t.assert.strictEqual(file, '/index.html');
 });
 
 test('parseFilePath function -- ctx.module undefined', t => {
@@ -61,10 +61,10 @@ test('parseFilePath function -- ctx.module undefined', t => {
   };
   const view = new View(errCtx);
   let file = undefined;
-  t.throws(() => {
+  t.assert.throws(() => {
     file = view.parseFilePath(file, config);
-  }, {instanceOf: Error});
-  t.deepEqual(
+  }, Error);
+  t.assert.deepStrictEqual(
     assertCallParams,
     [
       'user',
@@ -88,7 +88,7 @@ test('parseFilePath function -- ctx.controller undefined', t => {
   const view = new View(errCtx);
   let file = undefined;
   view.parseFilePath(file, config);
-  t.deepEqual(
+  t.assert.deepStrictEqual(
     assertCallParams,
     [
       undefined,
@@ -116,7 +116,7 @@ test('parseFilePath function -- ctx.action undefined', t => {
   const view = new View(errCtx);
   let file = undefined;
   view.parseFilePath(file, config);
-  t.deepEqual(
+  t.assert.deepStrictEqual(
     assertCallParams,
     [
       'index',
@@ -139,10 +139,10 @@ test('parseFilePath function -- empty config ', t => {
   const View = getView();
   const view = new View(ctx);
   let file = undefined;
-  t.throws(() => {
+  t.assert.throws(() => {
     file = view.parseFilePath(file);
-  }, {instanceOf: Error});
-  t.deepEqual(
+  }, Error);
+  t.assert.deepStrictEqual(
     assertCallParams,
     [
       'user',

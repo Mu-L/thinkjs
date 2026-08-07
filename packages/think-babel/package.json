@@ -5,16 +5,8 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint index.js",
-    "test": "pnpm run lint && nyc ava test/index.js",
-    "coverage": "pnpm test && nyc report --reporter=html"
-  },
-  "ava": {
-    "files": [
-      "test/*.js"
-    ],
-    "failWithoutAssertions": false,
-    "serial": true,
-    "timeout": "60s"
+    "test": "pnpm run lint && node --test --test-concurrency=1 test/index.js",
+    "coverage": "node --test --test-concurrency=1 --experimental-test-coverage test/index.js"
   },
   "repository": {
     "type": "git",
@@ -41,10 +33,8 @@
   "homepage": "https://github.com/thinkjs/think-babel#readme",
   "devDependencies": {
     "@babel/preset-env": "^7.4.3",
-    "ava": "^8.0.1",
     "coveralls": "~2.11.16",
-    "eslint": "^10.8.0",
-    "nyc": "^18.0.0"
+    "eslint": "^10.8.0"
   },
   "dependencies": {
     "@babel/core": "^7.4.3",

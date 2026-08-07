@@ -4,7 +4,7 @@
   "description": "SQLite adapter for ThinkJS 3.x",
   "scripts": {
     "test": "pnpm run eslint && pnpm run test-cov",
-    "test-cov": "nyc ava test/ && nyc report --reporter=html",
+    "test-cov": "node --test --test-concurrency=1 --experimental-test-coverage test/index.js",
     "eslint": "eslint ./lib index.js",
     "prepublish": "pnpm test"
   },
@@ -35,18 +35,11 @@
     "think-model-abstract": "^1.6.5"
   },
   "devDependencies": {
-    "ava": "^8.0.1",
     "eslint": "^10.8.0",
     "muk": "^0.5.3",
-    "nyc": "^18.0.0",
     "think-model": "^1.5.4"
   },
   "engines": {
     "node": ">=20.19.0"
-  },
-  "ava": {
-    "failWithoutAssertions": false,
-    "serial": true,
-    "timeout": "60s"
   }
 }

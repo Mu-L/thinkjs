@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const mock = require('mock-require');
 // const mockie = require('../lib/mockie');
 // const utils = require('../lib/utils');
@@ -17,7 +17,7 @@ mock('think-crontab',class Crontab{
   }
 })
 
-test.serial('normal test', t => {
+test('normal test', t => {
   const Loader = getLoader();
   let options = {
     env:'development',
@@ -26,12 +26,12 @@ test.serial('normal test', t => {
 
   let loader = new Loader(options);
   loader.initPath();
-  t.is(think.env, options.env);
-  t.is(think.app.env,options.env);
-  t.is(think.app.proxy,options.proxy)
+  t.assert.strictEqual(think.env, options.env);
+  t.assert.strictEqual(think.app.env,options.env);
+  t.assert.strictEqual(think.app.proxy,options.proxy)
 })
 
-test.serial('loadMiddleware', t => {
+test('loadMiddleware', t => {
   think.loader = {
     loadMiddleware:()=>{
       let [fn1,fn2] = [()=>{},()=>{}];
@@ -47,5 +47,5 @@ test.serial('loadMiddleware', t => {
   const Loader = getLoader();
   let loader = new Loader();
   loader.loadMiddleware();
-  t.is(think.app.middleware.length,2);
+  t.assert.strictEqual(think.app.middleware.length,2);
 })

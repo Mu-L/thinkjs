@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const mock = require('mock-require');
 
 var assertCallParams;
@@ -26,7 +26,7 @@ test('middleware of type string', t => {
     return handle;
   }});
 
-  t.is(result[0], handle);
+  t.assert.strictEqual(result[0], handle);
 });
 
 test('assert middleware is a function', t => {
@@ -34,11 +34,11 @@ test('assert middleware is a function', t => {
   const instance = getInstance();
 
   // const handle = () => {};
-  t.throws(() => {
+  t.assert.throws(() => {
     instance.parse(['handler'], {handler: {}});
-  }, {instanceOf: Error});
+  }, Error);
 
-  t.deepEqual(assertCallParams, [false, 'handle must be a function']);
+  t.assert.deepStrictEqual(assertCallParams, [false, 'handle must be a function']);
 });
 
 test('assert middleware must return a function', t => {
@@ -47,7 +47,7 @@ test('assert middleware must return a function', t => {
 
   // const handle = () => {};
   instance.parse(['handler'], {handler: () => {}});
-  t.deepEqual(assertCallParams, [true, 'handle must be a function', false, 'handle must return a function']);
+  t.assert.deepStrictEqual(assertCallParams, [true, 'handle must be a function', false, 'handle must return a function']);
 });
 
 test('middleware will be filter when !!enable is false', t => {
@@ -75,7 +75,7 @@ test('middleware will be filter when !!enable is false', t => {
     }
   });
 
-  t.deepEqual(result, [handle1]);
+  t.assert.deepStrictEqual(result, [handle1]);
 });
 
 test('middleware will pass options', t => {
@@ -104,8 +104,8 @@ test('middleware will pass options', t => {
     }
   });
 
-  t.is(params[0], 'options not filter2');
-  t.deepEqual(params[1], {});
+  t.assert.strictEqual(params[0], 'options not filter2');
+  t.assert.deepStrictEqual(params[1], {});
 });
 
 test('middleware set match and ignore', t => {
@@ -137,21 +137,21 @@ test('middleware set match and ignore', t => {
   };
 
   var result = middleware({path: '/admin'}, createNext(1));
-  t.is(result, 'result');
+  t.assert.strictEqual(result, 'result');
 
   result = middleware({path: '/admin/b'}, createNext(2));
-  t.is(result, 'result');
+  t.assert.strictEqual(result, 'result');
 
   result = middleware({path: '/admin/a'}, createNext(3));
-  t.is(result, 'next3');
+  t.assert.strictEqual(result, 'next3');
 
   result = middleware({path: '/user'}, createNext(4));
-  t.is(result, 'next4');
+  t.assert.strictEqual(result, 'next4');
 
   result = middleware({path: '/user/a'}, createNext(5));
-  t.is(result, 'next5');
+  t.assert.strictEqual(result, 'next5');
 
-  t.deepEqual(params, [
+  t.assert.deepStrictEqual(params, [
     {path: '/admin'}, 'next1',
     {path: '/admin/b'}, 'next2',
     'next3',
@@ -180,7 +180,7 @@ test('middleware will call path-to-regexp with right params', t => {
     return handle;
   }});
 
-  t.deepEqual(params, [
+  t.assert.deepStrictEqual(params, [
     '/admin/:name?',
     '/admin/a'
   ]);

@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const mock = require('mock-require');
 const Schema = require('../lib/schema');
 
@@ -18,7 +18,7 @@ test('_getItemSchemaValidate', t => {
 
   t.plan(data.length);
   data.forEach(([params, except]) =>
-    t.deepEqual(schema._getItemSchemaValidate(params), except)
+    t.assert.deepStrictEqual(schema._getItemSchemaValidate(params), except)
   );
 });
 
@@ -45,7 +45,7 @@ test('_parseItemSchema', t => {
 
   t.plan(data.length);
   data.forEach(([params, except]) =>
-    t.deepEqual(schema._parseItemSchema(params), except)
+    t.assert.deepStrictEqual(schema._parseItemSchema(params), except)
   );
 });
 
@@ -67,7 +67,7 @@ test('parseType', t => {
 
   t.plan(data.length);
   data.forEach(([params, except]) =>
-    t.deepEqual(schema.parseType(...params), except)
+    t.assert.deepStrictEqual(schema.parseType(...params), except)
   );
 });
 
@@ -78,8 +78,8 @@ test('getSchema with error index', async t => {
 
   mock('think-debounce', class {
     debounce(key, fn) {
-      t.is(key, `getTable${table}Schema`);
-      t.true(typeof fn === 'function');
+      t.assert.strictEqual(key, `getTable${table}Schema`);
+      t.assert.strictEqual(typeof fn === 'function', true);
       return Promise.resolve().then(fn);
     }
   });
@@ -88,7 +88,7 @@ test('getSchema with error index', async t => {
   schema.query = {
     query(sql) {
       if (sql.includes('column')) {
-        t.is(sql, `SELECT column_name,is_nullable,data_type FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name='${table}'`);
+        t.assert.strictEqual(sql, `SELECT column_name,is_nullable,data_type FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name='${table}'`);
         return Promise.resolve([
           {
             column_name: 'id',
@@ -101,7 +101,7 @@ test('getSchema with error index', async t => {
           }
         ]);
       } else {
-        t.is(sql, `SELECT indexname,indexdef FROM pg_indexes WHERE tablename='${table}'`);
+        t.assert.strictEqual(sql, `SELECT indexname,indexdef FROM pg_indexes WHERE tablename='${table}'`);
         return new Promise((resolve, reject) => {
           reject(new Error('error check'));
         });
@@ -115,7 +115,7 @@ test('getSchema with error index', async t => {
     a: 1
   };
   const ret = await schema.getSchema(table);
-  t.deepEqual(ret, {
+  t.assert.deepStrictEqual(ret, {
     a: 1,
     id: {
       name: 'id',
@@ -146,8 +146,8 @@ test('getSchema', async t => {
 
   mock('think-debounce', class {
     debounce(key, fn) {
-      t.is(key, `getTable${table}Schema`);
-      t.true(typeof fn === 'function');
+      t.assert.strictEqual(key, `getTable${table}Schema`);
+      t.assert.strictEqual(typeof fn === 'function', true);
       return Promise.resolve().then(fn);
     }
   });
@@ -157,7 +157,7 @@ test('getSchema', async t => {
   schema.query = {
     query(sql) {
       if (sql.includes('column')) {
-        t.is(sql, `SELECT column_name,is_nullable,data_type FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name='${table}'`);
+        t.assert.strictEqual(sql, `SELECT column_name,is_nullable,data_type FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name='${table}'`);
         return Promise.resolve([
           {
             column_name: 'id',
@@ -170,7 +170,7 @@ test('getSchema', async t => {
           }
         ]);
       } else {
-        t.is(sql, `SELECT indexname,indexdef FROM pg_indexes WHERE tablename='${table}'`);
+        t.assert.strictEqual(sql, `SELECT indexname,indexdef FROM pg_indexes WHERE tablename='${table}'`);
         return Promise.resolve([
           { indexdef: '(id) pkey ', indexname: 'id' },
           { indexdef: '(name)', indexname: 'name' },
@@ -180,11 +180,11 @@ test('getSchema', async t => {
     }
   };
   schema._parseItemSchema = function(key) {
-    t.true(key.name === 'id' || key.name === 'name');
+    t.assert.strictEqual(key.name === 'id' || key.name === 'name', true);
     return key;
   };
   const ret = await schema.getSchema(table);
-  t.deepEqual(ret, {
+  t.assert.deepStrictEqual(ret, {
     id: {
       name: 'id',
       type: 'int',
@@ -210,7 +210,7 @@ test('getSchema', async t => {
     b: 2
   };
   const ret2 = await schema.getSchema();
-  t.deepEqual(ret2, {
+  t.assert.deepStrictEqual(ret2, {
     id: {
       name: 'id',
       type: 'int',

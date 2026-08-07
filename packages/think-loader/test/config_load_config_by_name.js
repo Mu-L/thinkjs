@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const path = require('path');
 
 function mockHelper(isFile) {
@@ -29,7 +29,7 @@ test('foreach configPaths load all file and merge into config object', t => {
   var config = {};
   instance.loadConfigByName(config, ['path1', 'path2', 'path3'], 'config');
 
-  t.deepEqual(config, {a: 1, b: 2, c: 3});
+  t.assert.deepStrictEqual(config, {a: 1, b: 2, c: 3});
 });
 
 test('if isFile === false, load nothing', t => {
@@ -41,5 +41,5 @@ test('if isFile === false, load nothing', t => {
 
   instance.loadConfigByName(config, ['path1', 'path2', 'path3'], 'config');
 
-  t.deepEqual(config, {});
+  t.assert.deepStrictEqual(config, {});
 });

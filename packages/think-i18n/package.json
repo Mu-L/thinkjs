@@ -5,10 +5,10 @@
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
-    "test": "eslint index.js && eslint src/ && nyc ava test/",
+    "test": "eslint index.js && eslint src/ && node --test --test-concurrency=1 test/i18n.js test/i18n_extend.js test/index.js",
     "lint": "eslint index.js src/",
     "lint-fix": "eslint --fix index.js src/",
-    "coverage": "nyc ava test/ && nyc report --reporter=html"
+    "coverage": "node --test --test-concurrency=1 --experimental-test-coverage test/i18n.js test/i18n_extend.js test/index.js"
   },
   "bundledDependencies": [
     "numeral",
@@ -22,12 +22,10 @@
     "think-helper": "^1.1.3"
   },
   "devDependencies": {
-    "ava": "^8.0.1",
     "babel-core": "^6.22.1",
     "coveralls": "~2.11.16",
     "eslint": "^10.8.0",
-    "mock-require": "^2.0.1",
-    "nyc": "^18.0.0"
+    "mock-require": "^2.0.1"
   },
   "repository": {
     "type": "git",
@@ -48,10 +46,5 @@
   "homepage": "https://github.com/thinkjs/think-i18n#readme",
   "engines": {
     "node": ">=20.19.0"
-  },
-  "ava": {
-    "failWithoutAssertions": false,
-    "serial": true,
-    "timeout": "60s"
   }
 }

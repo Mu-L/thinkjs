@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 
 var assertCallParams;
 function mockAssert() {
@@ -27,10 +27,10 @@ test('formatAdapter will assert adapter config must have type field', t => {
     name1: {type: 'I have a type'},
     name2: {/* I don't have a type, wil be ignore */}
   });
-  t.is(assertCallParams[0], true);
-  t.is(assertCallParams[2], 'I have a type');
-  t.is(assertCallParams[4], true);
-  t.is(!!assertCallParams[6], false);
+  t.assert.strictEqual(assertCallParams[0], true);
+  t.assert.strictEqual(assertCallParams[2], 'I have a type');
+  t.assert.strictEqual(assertCallParams[4], true);
+  t.assert.strictEqual(!!assertCallParams[6], false);
 });
 
 test('formatAdapter will assert common field be an object', t => {
@@ -40,15 +40,15 @@ test('formatAdapter will assert common field be an object', t => {
   instance.formatAdapter({
     name1: {type: 'I have a type', common: 'sdklfjdk'}
   });
-  t.is(assertCallParams[4], false);
-  t.is(assertCallParams[5], 'adapter.name1.common must be an object');
+  t.assert.strictEqual(assertCallParams[4], false);
+  t.assert.strictEqual(assertCallParams[5], 'adapter.name1.common must be an object');
 });
 
 test('formatAdapter will return the same instance if pass {}', t => {
   var config = {};
   var instance = getInstance();
   var formatConfig = instance.formatAdapter(config);
-  t.is(config, formatConfig);
+  t.assert.strictEqual(config, formatConfig);
 });
 
 test('formatAdapter will merge common field to item,(also will ignore type field)', t => {
@@ -90,17 +90,17 @@ test('formatAdapter will merge common field to item,(also will ignore type field
   const instance = getInstance();
   var fc = instance.formatAdapter(config, adapter);
 
-  t.is(fc.db.type, 'xxx');
-  t.is(fc.session.type, 'yyy');
+  t.assert.strictEqual(fc.db.type, 'xxx');
+  t.assert.strictEqual(fc.session.type, 'yyy');
 
-  t.is(fc.db.common, undefined);
-  t.is(fc.session.common, undefined);
+  t.assert.strictEqual(fc.db.common, undefined);
+  t.assert.strictEqual(fc.session.common, undefined);
 
   var {db, session} = fc;
 
-  t.deepEqual(db.xxx, {a: 2, b: 3, d: 33, handle: adapter.db.xxx});
-  t.deepEqual(db.yyy, {a: 1, b: 4, d: 33});
+  t.assert.deepStrictEqual(db.xxx, {a: 2, b: 3, d: 33, handle: adapter.db.xxx});
+  t.assert.deepStrictEqual(db.yyy, {a: 1, b: 4, d: 33});
 
-  t.deepEqual(session.xxx, {a: 1, d: 33});
-  t.deepEqual(session.yyy, {a: 2, d: 33});
+  t.assert.deepStrictEqual(session.xxx, {a: 1, d: 33});
+  t.assert.deepStrictEqual(session.yyy, {a: 2, d: 33});
 });

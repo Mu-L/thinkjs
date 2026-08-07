@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const helper = require('think-helper');
 const websocket = require('../index.js');
 
@@ -72,5 +72,5 @@ test('websocket', t => {
   result.controller.ctx.res.statusCode = '';
   let cc6 = result.controller.wsCallback;
 
-  t.true(c1 && c11 && c2 && c3 && c4 && c5 && cc1 && cc11 && cc2 && cc3 && cc4 && cc5 && !cc6);
+  t.assert.strictEqual(c1 && c11 && c2 && c3 && c4 && c5 && cc1 && cc11 && cc2 && cc3 && cc4 && cc5 && !cc6, true);
 });

@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const mock = require('mock-require');
 const sleep = time => new Promise(resolve => setTimeout(resolve, time));
 
@@ -66,7 +66,7 @@ test('runInOne case', async t => {
 
   m.runInOne(fn);
   await sleep(5000);
-  t.is(flag, true);
+  t.assert.strictEqual(flag, true);
 });
 
 test('runInOne case 2', async t => {
@@ -78,7 +78,7 @@ test('runInOne case 2', async t => {
 
   m.runInOne(() => {});
   await sleep(5000);
-  t.is(flag, false);
+  t.assert.strictEqual(flag, false);
 });
 
 test('broadcast case 8', async t => {
@@ -125,7 +125,7 @@ test('bindEvent case 5', async t => {
     target: 'one'
   };
   process.trigger('message', message);
-  t.is(process['ismessage'], true);
+  t.assert.strictEqual(process['ismessage'], true);
 });
 
 test('bindEvent case 4', async t => {
@@ -141,7 +141,7 @@ test('bindEvent case 4', async t => {
     target: 'one'
   };
   process.trigger('message', message);
-  t.is(process['ismessage'], true);
+  t.assert.strictEqual(process['ismessage'], true);
 });
 
 test('bindEvent case 2', async t => {
@@ -154,7 +154,7 @@ test('bindEvent case 2', async t => {
     target: 'all'
   };
   cluster.trigger('message', message, {});
-  t.is(cluster.receiveSignal, true);
+  t.assert.strictEqual(cluster.receiveSignal, true);
 });
 
 test('bindEvent case 3', async t => {
@@ -167,7 +167,7 @@ test('bindEvent case 3', async t => {
     target: 'all'
   };
   cluster.trigger('message', message, {});
-  t.is(cluster.receiveSignal, true);
+  t.assert.strictEqual(cluster.receiveSignal, true);
 });
 
 test('bindEvent case 3 #2', async t => {
@@ -180,7 +180,7 @@ test('bindEvent case 3 #2', async t => {
     target: 'all'
   };
   cluster.trigger('message', message, {});
-  t.is(cluster.receiveSignal, true);
+  t.assert.strictEqual(cluster.receiveSignal, true);
 });
 
 test('bindEvent case', async t => {
@@ -192,5 +192,5 @@ test('bindEvent case', async t => {
     act: 'think-messenger'
   };
   cluster.trigger('message', message, {});
-  t.is(cluster.receiveSignal, true);
+  t.assert.strictEqual(cluster.receiveSignal, true);
 });

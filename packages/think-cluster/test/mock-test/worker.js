@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const mock = require('mock-require');
 const path = require('path');
 const helper = require('think-helper');
@@ -118,7 +118,7 @@ function mockAssert(assertCallParams = []) {
   });
 }
 
-test.serial('normal case 7', async t => {
+test('normal case 7', async t => {
   let unhandledRejectionDid = false;
   const config = {
     server: {
@@ -133,23 +133,12 @@ test.serial('normal case 7', async t => {
   const instance = new Worker(config);
   instance.captureEvents();
 
-  let myp;
-
-  setTimeout(function() {
-    myp = new Promise(function(resolve, reject) {
-      setTimeout(reject, 100, new Error('Silence me'));
-    });
-  }, 100);
-  setTimeout(function() {
-    myp.catch(function(err) {
-      t.is(unhandledRejectionDid, true);
-    });
-  }, 300);
-
-  await sleep(2000);
+  const handler = process.listeners('unhandledRejection').at(-1);
+  handler(new Error('Silence me'));
+  t.assert.strictEqual(unhandledRejectionDid, true);
 });
 
-test.serial('normal case 8', async t => {
+test('normal case 8', async t => {
   mockCluster();
 
   const config = {
@@ -185,10 +174,10 @@ test.serial('normal case 8', async t => {
   cluster.trigger('message', 'think-graceful-fork');
   config.server.trigger('request');
 
-  t.is(config.server.res.Connection, 'close');
+  t.assert.strictEqual(config.server.res.Connection, 'close');
 });
 
-test.serial('normal case 3', async t => {
+test('normal case 3', async t => {
   mockProcess();
   mockCluster();
 
@@ -225,7 +214,7 @@ test.serial('normal case 3', async t => {
   instance.disconnectWorker(false);
 });
 
-test.serial('normal case 2', async t => {
+test('normal case 2', async t => {
   mockCluster();
 
   const config = {
@@ -257,10 +246,10 @@ test.serial('normal case 2', async t => {
   const instance = new Worker(config);
   cluster.fork();
   process.env.THINK_WORKERS = 1;
-  t.is(+instance.getWorkers(), 1);
+  t.assert.strictEqual(+instance.getWorkers(), 1);
 });
 
-test.serial('onUncaughtException case', async t => {
+test('onUncaughtException case', async t => {
   mockCluster();
   mockProcess();
   // let triggerException = false;
@@ -294,10 +283,10 @@ test.serial('onUncaughtException case', async t => {
   instance.captureEvents();
 
   process.trigger('uncaughtException');
-  t.is(process['isuncaughtException'], true);
+  t.assert.strictEqual(process['isuncaughtException'], true);
 });
 
-test.serial('onUncaughtException case #2', async t => {
+test('onUncaughtException case #2', async t => {
   mockCluster();
   mockProcess();
   const config = {
@@ -330,10 +319,10 @@ test.serial('onUncaughtException case #2', async t => {
   instance.captureEvents();
 
   process.trigger('uncaughtException');
-  t.is(process['isuncaughtException'], true);
+  t.assert.strictEqual(process['isuncaughtException'], true);
 });
 
-test.serial('captureReloadSignal case', async t => {
+test('captureReloadSignal case', async t => {
   mockCluster();
   mockProcess();
   const config = {
@@ -366,10 +355,10 @@ test.serial('captureReloadSignal case', async t => {
 
   process.trigger('message', 'think-reload-signal');
   process.trigger('message', 'something');
-  t.is(process['ismessage'], true);
+  t.assert.strictEqual(process['ismessage'], true);
 });
 
-test.serial('closeServer case 1', async t => {
+test('closeServer case 1', async t => {
   mockCluster();
   mockProcess();
   const config = {
@@ -401,10 +390,10 @@ test.serial('closeServer case 1', async t => {
 
   await sleep(1000);
 
-  t.is(process.isKilled, undefined);
+  t.assert.strictEqual(process.isKilled, undefined);
 });
 
-test.serial('closeServer case 4', async t => {
+test('closeServer case 4', async t => {
   mockCluster();
   mockProcess();
   const config = {
@@ -437,10 +426,10 @@ test.serial('closeServer case 4', async t => {
 
   await sleep(1000);
 
-  t.is(process.isKilled, true);
+  t.assert.strictEqual(process.isKilled, true);
 });
 
-test.serial('closeServer case 2', async t => {
+test('closeServer case 2', async t => {
   mockCluster();
   mockProcess();
   const config = {
@@ -473,10 +462,10 @@ test.serial('closeServer case 2', async t => {
 
   await sleep(1000);
 
-  t.is(process.isKilled, true);
+  t.assert.strictEqual(process.isKilled, true);
 });
 
-test.serial('closeServer case 3', async t => {
+test('closeServer case 3', async t => {
   mockCluster();
   mockProcess();
   const config = {
@@ -509,10 +498,10 @@ test.serial('closeServer case 3', async t => {
   instance.closeServer();
 
   cluster.worker.trigger('disconnect');
-  t.is(process.isKilled, true);
+  t.assert.strictEqual(process.isKilled, true);
 });
 
-test.serial('closeServer case 5', async t => {
+test('closeServer case 5', async t => {
   mockCluster();
   mockProcess();
   const config = {

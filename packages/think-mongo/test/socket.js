@@ -1,32 +1,32 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const Socket = require('../src/socket');
 
 const defaultConfig = {
   database: 'think_db'
 };
 
-test.serial('release', async t => {
+test('release', async t => {
   const socket = Socket.getInstance(defaultConfig);
   const pool = await socket.pool;
-  t.is(!!pool, true);
+  t.assert.strictEqual(!!pool, true);
   const connection = await socket.getConnection();
-  t.is(!!connection, true);
+  t.assert.strictEqual(!!connection, true);
   await socket.release(connection);
 });
 
-test.serial('close', async t => {
+test('close', async t => {
   const socket = Socket.getInstance(defaultConfig);
   const pool = await socket.pool;
-  t.is(!!pool, true);
+  t.assert.strictEqual(!!pool, true);
   const connection = await socket.getConnection();
-  t.is(!!connection, true);
+  t.assert.strictEqual(!!connection, true);
   const ret = await socket.close(connection);
 });
 
-test.serial('default value of pool size is 5', async t => {
+test('default value of pool size is 5', async t => {
   const socket = Socket.getInstance(defaultConfig);
   const pool = await socket.pool;
-  t.is(pool.max, 5);
+  t.assert.strictEqual(pool.max, 5);
 });
 
 const connectionLimitConfig = {
@@ -38,10 +38,10 @@ const connectionLimitConfig = {
   }
 };
 
-test.serial('pool size is config.connectionLimitConfig', async t => {
+test('pool size is config.connectionLimitConfig', async t => {
   const socket = Socket.getInstance(connectionLimitConfig);
   const pool = await socket.pool;
-  t.is(pool.max, 10);
+  t.assert.strictEqual(pool.max, 10);
 });
 
 const maxPoolSizeConfig = {
@@ -51,10 +51,10 @@ const maxPoolSizeConfig = {
   }
 };
 
-test.serial('pool size is config.options.maxPoolSize', async t => {
+test('pool size is config.options.maxPoolSize', async t => {
   const socket = Socket.getInstance(maxPoolSizeConfig);
   const pool = await socket.pool;
-  t.is(pool.max, 15);
+  t.assert.strictEqual(pool.max, 15);
 });
 
 const poolSizeConfig = {
@@ -64,8 +64,8 @@ const poolSizeConfig = {
     poolSize: 20
   }
 };
-test.serial('pool size is config.options.poolSize', async t => {
+test('pool size is config.options.poolSize', async t => {
   const socket = Socket.getInstance(poolSizeConfig);
   const pool = await socket.pool;
-  t.is(pool.max, 20);
+  t.assert.strictEqual(pool.max, 20);
 });

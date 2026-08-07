@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const helper = require('think-helper');
 const invokeLogic = require('../index.js');
 
@@ -6,24 +6,36 @@ test('ctx.module required in multi module', t => {
   const fn = invokeLogic(undefined, {
     modules: [1]
   });
-  const error = t.throws(() => fn({}));
-  t.is(true, helper.isError(error));
+  let error;
+  t.assert.throws(() => fn({}), caughtError => {
+    error = caughtError;
+    return true;
+  });
+  t.assert.strictEqual(true, helper.isError(error));
 });
 
 test('ctx.controller required', t => {
   const fn = invokeLogic(undefined, {
     modules: []
   });
-  const error = t.throws(() => fn({}));
-  t.is(true, helper.isError(error));
+  let error;
+  t.assert.throws(() => fn({}), caughtError => {
+    error = caughtError;
+    return true;
+  });
+  t.assert.strictEqual(true, helper.isError(error));
 });
 
 test('ctx.action required', t => {
   const fn = invokeLogic(undefined, {
     modules: []
   });
-  const error = t.throws(() => fn({controller: {}}));
-  t.is(true, helper.isError(error));
+  let error;
+  t.assert.throws(() => fn({controller: {}}), caughtError => {
+    error = caughtError;
+    return true;
+  });
+  t.assert.strictEqual(true, helper.isError(error));
 });
 
 test('empty logics', t => {
@@ -36,7 +48,7 @@ test('empty logics', t => {
   });
   fn1({controller: 'foo', action: 'bar'}, plus);
   expected++;
-  t.is(recieved, expected);
+  t.assert.strictEqual(recieved, expected);
   /**
    * @throws {ReferenceError} If multi module and no logics and with ctx.module
    */
@@ -45,7 +57,7 @@ test('empty logics', t => {
   });
   fn2({controller: 'foo', action: 'bar', module: 'baz'}, plus);
   expected++;
-  t.is(recieved, expected)
+  t.assert.strictEqual(recieved, expected)
   // multi module but no specific controller
   const fn3 = invokeLogic(undefined, {
     modules: ['baz'],
@@ -53,7 +65,7 @@ test('empty logics', t => {
   });
   fn3({module: 'baz', controller: 'foo', action: 'bar'}, plus);
   expected++;
-  t.is(recieved, expected)
+  t.assert.strictEqual(recieved, expected)
 });
 
 test('logic not exist', t => {
@@ -66,14 +78,14 @@ test('logic not exist', t => {
     logics: {'foo': true}
   });
   fn1({controller: 'bar', action: 'baz'}, plus);
-  t.is(recieved, ++expected);
+  t.assert.strictEqual(recieved, ++expected);
   // multi module but no corresponding logics
   const fn2 = invokeLogic(undefined, {
     modules: [1],
     logics: {'foo': {'foo': {}}}
   })
   fn2({controller: 'bar', action: 'baz', module: 'foo'}, plus);
-  t.is(recieved, ++expected);
+  t.assert.strictEqual(recieved, ++expected);
 });
 
 test('__before', async t => {
@@ -93,21 +105,21 @@ test('__before', async t => {
   // sync && normal
   const fn1 = getFn(() => {});
   await fn1(...args);
-  t.is(recieved, ++expected);
+  t.assert.strictEqual(recieved, ++expected);
   // sync && return false
   const fn2 = getFn(() => false);
   const ans2 = await fn2(...args);
-  t.is(ans2, undefined);
-  t.is(recieved, expected);
+  t.assert.strictEqual(ans2, undefined);
+  t.assert.strictEqual(recieved, expected);
   // async && resolve
   const fn3 = getFn(() => Promise.resolve());
   await fn3(...args);
-  t.is(recieved, ++expected);
+  t.assert.strictEqual(recieved, ++expected);
   // async && resolve false
   const fn4 = getFn(() => Promise.resolve(false));
   const ans4 = await fn4(...args);
-  t.is(ans4, undefined);
-  t.is(recieved, expected);
+  t.assert.strictEqual(ans4, undefined);
+  t.assert.strictEqual(recieved, expected);
 });
 
 test('action', async t => {
@@ -129,11 +141,11 @@ test('action', async t => {
     }
   });
   await fn({controller: 'foo', action: 'bar'}, () => {});
-  t.is(barRecieved, ++barExpected);
-  t.is(callRecieved, callExpected);
+  t.assert.strictEqual(barRecieved, ++barExpected);
+  t.assert.strictEqual(callRecieved, callExpected);
   await fn({controller: 'foo', action: 'baz'}, () => {});
-  t.is(barRecieved, barExpected);
-  t.is(callRecieved, ++callExpected);
+  t.assert.strictEqual(barRecieved, barExpected);
+  t.assert.strictEqual(callRecieved, ++callExpected);
 });
 
 test('after', async t => {
@@ -150,7 +162,7 @@ test('after', async t => {
     }
   });
   await fn({controller: 'foo', action: 'bar'}, () => {});
-  t.is(recieved, ++expected);
+  t.assert.strictEqual(recieved, ++expected);
 });
 
 test('allowMethods', async t => {
@@ -180,7 +192,7 @@ test('allowMethods', async t => {
   }, (res) => res];
   const fn1 = getFn('GET');
   await fn1(...args);
-  t.is(err, 0);
+  t.assert.strictEqual(err, 0);
 });
 
 test('allowMethods2', async t => {
@@ -217,6 +229,6 @@ test('allowMethods2', async t => {
   }, (res) => res];
   const fn1 = getFn(['GET,PUT']);
   await fn1(...args);
-  t.is(err, 1)
+  t.assert.strictEqual(err, 1)
 });
 

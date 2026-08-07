@@ -1,4 +1,4 @@
-const {default: test} = require('ava');
+const {test} = require('node:test');
 const qs = require('../index.js');
 
 const next = () => {
@@ -7,7 +7,7 @@ const next = () => {
 
 test('init', t => {
   const fn = qs();
-  t.is(typeof fn === 'function', true);
+  t.assert.strictEqual(typeof fn === 'function', true);
 });
 
 test('query', async t => {
@@ -18,7 +18,7 @@ test('query', async t => {
     }
   };
   await fn(ctx, next);
-  t.deepEqual(ctx.request._query, {});
+  t.assert.deepStrictEqual(ctx.request._query, {});
 });
 
 test('query 2', async t => {
@@ -29,7 +29,7 @@ test('query 2', async t => {
     }
   };
   await fn(ctx, next);
-  t.deepEqual(ctx.request._query, {name: 'value'});
+  t.assert.deepStrictEqual(ctx.request._query, {name: 'value'});
 });
 
 test('query 3', async t => {
@@ -40,7 +40,7 @@ test('query 3', async t => {
     }
   };
   await fn(ctx, next);
-  t.deepEqual(ctx.request._query, {name: ['value', 'value2']});
+  t.assert.deepStrictEqual(ctx.request._query, {name: ['value', 'value2']});
 });
 
 test('query 4', async t => {
@@ -51,7 +51,7 @@ test('query 4', async t => {
     }
   };
   await fn(ctx, next);
-  t.deepEqual(ctx.request._query, {name: ['value', 'value2']});
+  t.assert.deepStrictEqual(ctx.request._query, {name: ['value', 'value2']});
 });
 
 test('query 5', async t => {
@@ -62,7 +62,7 @@ test('query 5', async t => {
     }
   };
   await fn(ctx, next);
-  t.deepEqual(ctx.request._query, {name: {ww: 'value', ss: 'value2'}});
+  t.assert.deepStrictEqual(ctx.request._query, {name: {ww: 'value', ss: 'value2'}});
 });
 
 test('query 6, not enable', async t => {
@@ -73,7 +73,7 @@ test('query 6, not enable', async t => {
     }
   };
   await fn(ctx, next);
-  t.deepEqual(ctx.request._query, undefined);
+  t.assert.deepStrictEqual(ctx.request._query, undefined);
 });
 
 test('post 1, not enable', async t => {
@@ -86,7 +86,7 @@ test('post 1, not enable', async t => {
     }
   };
   await fn(ctx, next);
-  t.deepEqual(ctx.request.body.post, {});
+  t.assert.deepStrictEqual(ctx.request.body.post, {});
 });
 test('post 2, not enable', async t => {
   const fn = qs({post: false});
@@ -100,7 +100,7 @@ test('post 2, not enable', async t => {
     }
   };
   await fn(ctx, next);
-  t.deepEqual(ctx.request.body.post, {'www[]': 'sss'});
+  t.assert.deepStrictEqual(ctx.request.body.post, {'www[]': 'sss'});
 });
 test('post 2, not enable #2', async t => {
   const fn = qs({});
@@ -114,7 +114,7 @@ test('post 2, not enable #2', async t => {
     }
   };
   await fn(ctx, next);
-  t.deepEqual(ctx.request.body.post, {'www': ['sss']});
+  t.assert.deepStrictEqual(ctx.request.body.post, {'www': ['sss']});
 });
 
 test('post 3', async t => {
@@ -129,7 +129,7 @@ test('post 3', async t => {
     }
   };
   await fn(ctx, next);
-  t.deepEqual(ctx.request.body.post, {'www': {'www': 'sss'}});
+  t.assert.deepStrictEqual(ctx.request.body.post, {'www': {'www': 'sss'}});
 });
 
 test('post 4', async t => {
@@ -144,5 +144,5 @@ test('post 4', async t => {
     }
   };
   await fn(ctx, next);
-  t.deepEqual(ctx.request.body.post, {'www': 'sss'});
+  t.assert.deepStrictEqual(ctx.request.body.post, {'www': 'sss'});
 });
