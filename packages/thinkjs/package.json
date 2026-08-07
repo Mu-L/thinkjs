@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "test": "pnpm run lint && pnpm run test-cov",
-    "test-cov": "node --test --test-concurrency=1 --experimental-test-coverage test/case/application.js test/case/extend/context.js test/case/extend/controller.js test/case/extend/logic.js test/case/loader.js test/case/think.js",
+    "test-cov": "NODE_ENV=test node --test --test-concurrency=1 --experimental-test-coverage test/case/application.js test/case/extend/context.js test/case/extend/controller.js test/case/extend/logic.js test/case/loader.js test/case/think.js",
     "lint": "eslint ./lib/",
     "prepublish": "pnpm test"
   },
