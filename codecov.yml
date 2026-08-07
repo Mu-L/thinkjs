@@ -1,0 +1,324 @@
+coverage:
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 1%
+        informational: true
+    patch:
+      default:
+        target: 80%
+        informational: true
+
+comment:
+  layout: "header, diff, components, files"
+  behavior: default
+  require_changes: false
+  require_base: false
+  require_head: true
+  hide_project_coverage: false
+
+component_management:
+  default_rules:
+    statuses:
+      - type: project
+        target: auto
+        threshold: 1%
+        informational: true
+  individual_components:
+    - component_id: think-apollo-graphql
+      name: think-apollo-graphql
+      paths:
+        - "packages/think-apollo-graphql/**"
+    - component_id: think-awesome
+      name: think-awesome
+      paths:
+        - "packages/think-awesome/**"
+    - component_id: think-babel
+      name: think-babel
+      paths:
+        - "packages/think-babel/**"
+    - component_id: think-cache
+      name: think-cache
+      paths:
+        - "packages/think-cache/**"
+    - component_id: think-cache-file
+      name: think-cache-file
+      paths:
+        - "packages/think-cache-file/**"
+    - component_id: think-cache-memcache
+      name: think-cache-memcache
+      paths:
+        - "packages/think-cache-memcache/**"
+    - component_id: think-cache-redis
+      name: think-cache-redis
+      paths:
+        - "packages/think-cache-redis/**"
+    - component_id: think-cli
+      name: think-cli
+      paths:
+        - "packages/think-cli/**"
+    - component_id: think-cluster
+      name: think-cluster
+      paths:
+        - "packages/think-cluster/**"
+    - component_id: think-config
+      name: think-config
+      paths:
+        - "packages/think-config/**"
+    - component_id: think-controller
+      name: think-controller
+      paths:
+        - "packages/think-controller/**"
+    - component_id: think-crontab
+      name: think-crontab
+      paths:
+        - "packages/think-crontab/**"
+    - component_id: think-csrf
+      name: think-csrf
+      paths:
+        - "packages/think-csrf/**"
+    - component_id: think-debounce
+      name: think-debounce
+      paths:
+        - "packages/think-debounce/**"
+    - component_id: think-demo
+      name: think-demo
+      paths:
+        - "packages/think-demo/**"
+    - component_id: think-email
+      name: think-email
+      paths:
+        - "packages/think-email/**"
+    - component_id: think-fetch
+      name: think-fetch
+      paths:
+        - "packages/think-fetch/**"
+    - component_id: think-gc
+      name: think-gc
+      paths:
+        - "packages/think-gc/**"
+    - component_id: think-helmet
+      name: think-helmet
+      paths:
+        - "packages/think-helmet/**"
+    - component_id: think-helper
+      name: think-helper
+      paths:
+        - "packages/think-helper/**"
+    - component_id: think-i18n
+      name: think-i18n
+      paths:
+        - "packages/think-i18n/**"
+    - component_id: think-inspect
+      name: think-inspect
+      paths:
+        - "packages/think-inspect/**"
+    - component_id: think-instance
+      name: think-instance
+      paths:
+        - "packages/think-instance/**"
+    - component_id: think-knex
+      name: think-knex
+      paths:
+        - "packages/think-knex/**"
+    - component_id: think-loader
+      name: think-loader
+      paths:
+        - "packages/think-loader/**"
+    - component_id: think-logger
+      name: think-logger
+      paths:
+        - "packages/think-logger/**"
+    - component_id: think-logger3
+      name: think-logger3
+      paths:
+        - "packages/think-logger3/**"
+    - component_id: think-logic
+      name: think-logic
+      paths:
+        - "packages/think-logic/**"
+    - component_id: think-memcache
+      name: think-memcache
+      paths:
+        - "packages/think-memcache/**"
+    - component_id: think-meta
+      name: think-meta
+      paths:
+        - "packages/think-meta/**"
+    - component_id: think-mock
+      name: think-mock
+      paths:
+        - "packages/think-mock/**"
+    - component_id: think-mock-http
+      name: think-mock-http
+      paths:
+        - "packages/think-mock-http/**"
+    - component_id: think-model
+      name: think-model
+      paths:
+        - "packages/think-model/**"
+    - component_id: think-model-abstract
+      name: think-model-abstract
+      paths:
+        - "packages/think-model-abstract/**"
+    - component_id: think-model-mysql
+      name: think-model-mysql
+      paths:
+        - "packages/think-model-mysql/**"
+    - component_id: think-model-mysql2
+      name: think-model-mysql2
+      paths:
+        - "packages/think-model-mysql2/**"
+    - component_id: think-model-postgresql
+      name: think-model-postgresql
+      paths:
+        - "packages/think-model-postgresql/**"
+    - component_id: think-model-sqlite
+      name: think-model-sqlite
+      paths:
+        - "packages/think-model-sqlite/**"
+    - component_id: think-mongo
+      name: think-mongo
+      paths:
+        - "packages/think-mongo/**"
+    - component_id: think-mongoose
+      name: think-mongoose
+      paths:
+        - "packages/think-mongoose/**"
+    - component_id: think-mysql
+      name: think-mysql
+      paths:
+        - "packages/think-mysql/**"
+    - component_id: think-mysql2
+      name: think-mysql2
+      paths:
+        - "packages/think-mysql2/**"
+    - component_id: think-pagination
+      name: think-pagination
+      paths:
+        - "packages/think-pagination/**"
+    - component_id: think-payload
+      name: think-payload
+      paths:
+        - "packages/think-payload/**"
+    - component_id: think-pm2
+      name: think-pm2
+      paths:
+        - "packages/think-pm2/**"
+    - component_id: think-proxy
+      name: think-proxy
+      paths:
+        - "packages/think-proxy/**"
+    - component_id: think-qs
+      name: think-qs
+      paths:
+        - "packages/think-qs/**"
+    - component_id: think-ratelimiter
+      name: think-ratelimiter
+      paths:
+        - "packages/think-ratelimiter/**"
+    - component_id: think-redis
+      name: think-redis
+      paths:
+        - "packages/think-redis/**"
+    - component_id: think-resource
+      name: think-resource
+      paths:
+        - "packages/think-resource/**"
+    - component_id: think-router
+      name: think-router
+      paths:
+        - "packages/think-router/**"
+    - component_id: think-router-rest
+      name: think-router-rest
+      paths:
+        - "packages/think-router-rest/**"
+    - component_id: think-sequelize
+      name: think-sequelize
+      paths:
+        - "packages/think-sequelize/**"
+    - component_id: think-session
+      name: think-session
+      paths:
+        - "packages/think-session/**"
+    - component_id: think-session-cookie
+      name: think-session-cookie
+      paths:
+        - "packages/think-session-cookie/**"
+    - component_id: think-session-file
+      name: think-session-file
+      paths:
+        - "packages/think-session-file/**"
+    - component_id: think-session-jwt
+      name: think-session-jwt
+      paths:
+        - "packages/think-session-jwt/**"
+    - component_id: think-session-mysql
+      name: think-session-mysql
+      paths:
+        - "packages/think-session-mysql/**"
+    - component_id: think-session-redis
+      name: think-session-redis
+      paths:
+        - "packages/think-session-redis/**"
+    - component_id: think-store-file
+      name: think-store-file
+      paths:
+        - "packages/think-store-file/**"
+    - component_id: think-svg-captcha
+      name: think-svg-captcha
+      paths:
+        - "packages/think-svg-captcha/**"
+    - component_id: think-trace
+      name: think-trace
+      paths:
+        - "packages/think-trace/**"
+    - component_id: think-typescript
+      name: think-typescript
+      paths:
+        - "packages/think-typescript/**"
+    - component_id: think-validator
+      name: think-validator
+      paths:
+        - "packages/think-validator/**"
+    - component_id: think-view
+      name: think-view
+      paths:
+        - "packages/think-view/**"
+    - component_id: think-view-ejs
+      name: think-view-ejs
+      paths:
+        - "packages/think-view-ejs/**"
+    - component_id: think-view-handlebars
+      name: think-view-handlebars
+      paths:
+        - "packages/think-view-handlebars/**"
+    - component_id: think-view-nunjucks
+      name: think-view-nunjucks
+      paths:
+        - "packages/think-view-nunjucks/**"
+    - component_id: think-view-pug
+      name: think-view-pug
+      paths:
+        - "packages/think-view-pug/**"
+    - component_id: think-watcher
+      name: think-watcher
+      paths:
+        - "packages/think-watcher/**"
+    - component_id: think-websocket
+      name: think-websocket
+      paths:
+        - "packages/think-websocket/**"
+    - component_id: think-websocket-socket.io
+      name: think-websocket-socket.io
+      paths:
+        - "packages/think-websocket-socket.io/**"
+    - component_id: think-websocket-ws
+      name: think-websocket-ws
+      paths:
+        - "packages/think-websocket-ws/**"
+    - component_id: thinkjs
+      name: thinkjs
+      paths:
+        - "packages/thinkjs/**"

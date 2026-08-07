@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write
 
 jobs:
   test:
@@ -51,4 +52,17 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run tests
+        if: matrix.node-version != '24.x'
         run: pnpm lint && pnpm test
+
+      - name: Run tests with coverage
+        if: matrix.node-version == '24.x'
+        run: pnpm lint && pnpm coverage
+
+      - name: Upload coverage to Codecov
+        if: matrix.node-version == '24.x'
+        uses: codecov/codecov-action@v5
+        with:
+          files: ./coverage/lcov.info
+          use_oidc: true
+          fail_ci_if_error: false
