@@ -19,10 +19,17 @@ jobs:
         with:
           fetch-depth: 2
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.6.0
+          run_install: false
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
+          cache: pnpm
           registry-url: https://registry.npmjs.org
 
       - name: Find packages with version changes
@@ -56,6 +63,14 @@ jobs:
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
 
+      - name: Install dependencies
+        if: ${{ steps.changed_packages.outputs.packages != '' }}
+        run: pnpm install --frozen-lockfile
+
+      - name: Run checks
+        if: ${{ steps.changed_packages.outputs.packages != '' }}
+        run: pnpm lint && pnpm test
+
       - name: Publish changed packages
         if: ${{ steps.changed_packages.outputs.packages != '' }}
         shell: bash
@@ -63,8 +78,42 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           set -euo pipefail
+          pack_dir="${RUNNER_TEMP}/npm-packages"
+          mkdir -p "$pack_dir"
+
           while IFS= read -r pkg; do
             [ -z "$pkg" ] && continue
-            echo "Publishing $pkg"
-            (cd "$pkg" && npm publish --provenance)
+            echo "Packing $pkg"
+            pack_json=$(cd "$pkg" && npm pack --json --pack-destination "$pack_dir")
+            tarball=$(printf '%s' "$pack_json" | node -e '
+              let input = "";
+              process.stdin.on("data", chunk => input += chunk);
+              process.stdin.on("end", () => {
+                const result = JSON.parse(input);
+                if (!result[0]?.filename) process.exit(1);
+                process.stdout.write(result[0].filename);
+              });
+            ')
+            tarball_path="${pack_dir}/${tarball}"
+
+            tar -xOf "$tarball_path" package/package.json | node -e '
+              let input = "";
+              process.stdin.on("data", chunk => input += chunk);
+              process.stdin.on("end", () => {
+                const manifest = JSON.parse(input);
+                const fields = ["dependencies", "devDependencies", "optionalDependencies", "peerDependencies"];
+                const invalid = fields.flatMap(field =>
+                  Object.entries(manifest[field] || {})
+                    .filter(([, spec]) => /^(workspace:|file:)|^\.?\.\//.test(spec))
+                    .map(([name, spec]) => `${field}.${name}: ${spec}`)
+                );
+                if (invalid.length) {
+                  console.error(`Local dependency specs found in ${manifest.name}:\n${invalid.join("\n")}`);
+                  process.exit(1);
+                }
+              });
+            '
+
+            echo "Publishing $tarball"
+            npm publish "$tarball_path" --provenance
           done <<< "${{ steps.changed_packages.outputs.packages }}"
