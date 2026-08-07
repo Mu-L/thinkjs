@@ -4,6 +4,7 @@
     "packages/**/*.js"
   ],
   "exclude": [
+    "packages/think-model/src/**",
     "packages/**/test/**",
     "packages/**/*.test.js",
     "packages/**/eslint.config.js",
