@@ -12,8 +12,8 @@
     <a href="https://travis-ci.org/thinkjs/thinkjs">
       <img src="https://img.shields.io/travis/thinkjs/thinkjs.svg?style=flat-square" alt="travis-ci" />
     </a>
-    <a href="https://coveralls.io/github/thinkjs/thinkjs">
-      <img src="https://img.shields.io/coveralls/thinkjs/thinkjs.svg?style=flat-square" alt="Coverage Status" />
+    <a href="https://codecov.io/gh/thinkjs/thinkjs">
+      <img src="https://codecov.io/gh/thinkjs/thinkjs/branch/master/graph/badge.svg" alt="Coverage Status" />
     </a>
     <a href="https://david-dm.org/thinkjs/thinkjs">
       <img src="https://img.shields.io/david/thinkjs/thinkjs.svg?style=flat-square" alt="Dependency Status" />
