@@ -3,7 +3,7 @@ const path = require('path');
 const crypto = require('crypto');
 const net = require('net');
 const cluster = require('cluster');
-const uuid = require('uuid');
+const UUID = require('pure-uuid');
 const ms = require('ms');
 const {
   isArray,
@@ -270,8 +270,8 @@ exports.datetime = datetime;
  * @return {String}         []
  */
 exports.uuid = function(version) {
-  if (version === 'v1') return uuid.v1();
-  return uuid.v4();
+  if (version === 'v1') return new UUID(1).format();
+  return crypto.randomUUID();
 };
 
 /**

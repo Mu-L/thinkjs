@@ -253,10 +253,11 @@ test('rmdir 2', async(t) => {
 });
 
 test('uuid', t => {
-  var uuid1 = uuid('v1');
-  t.assert.strictEqual(uuid1.length > 1, true);
-  var uuid2 = uuid();
-  t.assert.strictEqual(uuid2.length > 1, true);
+  const uuid1 = uuid('v1');
+  t.assert.match(uuid1, /^[0-9a-f]{8}-[0-9a-f]{4}-1[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/);
+
+  const uuid2 = uuid();
+  t.assert.match(uuid2, /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/);
 });
 
 test('ms 1200', t => {
